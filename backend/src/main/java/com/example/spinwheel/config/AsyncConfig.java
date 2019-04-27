@@ -19,9 +19,7 @@ public class AsyncConfig implements AsyncConfigurer {
         taskExecutor.setCorePoolSize(5);//线程池核心线程数，控制每次开启子线程数量
         taskExecutor.setMaxPoolSize(10);//线程池维护线程的最大数量
         taskExecutor.setQueueCapacity(25);//线程池所使用的缓冲队列
-        taskExecutor.setKeepAliveSeconds(1000
-
-                00);//线程池维护线程所允许的空闲时间
+        taskExecutor.setKeepAliveSeconds(100000);//线程池维护线程所允许的空闲时间
         taskExecutor.initialize();
         return taskExecutor;
     }

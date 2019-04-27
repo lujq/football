@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.spinwheel.base.dao.CompanyMapper">
+  <resultMap id="BaseResultMap" type="com.example.spinwheel.base.domain.Company">
+    <id column="CompanyID" jdbcType="SMALLINT" property="companyID" />
+    <result column="Name_Cn" jdbcType="CHAR" property="name_Cn" />
+    <result column="isLetgoal" jdbcType="BIT" property="isLetgoal" />
+    <result column="isTotalScore" jdbcType="BIT" property="isTotalScore" />
+    <result column="IsStandard" jdbcType="BIT" property="isStandard" />
+    <result column="AsianOrder" jdbcType="TINYINT" property="asianOrder" />
+    <result column="OverDownOrder" jdbcType="TINYINT" property="overDownOrder" />
+    <result column="StandardOrder" jdbcType="TINYINT" property="standardOrder" />
+    <result column="isHalf" jdbcType="BIT" property="isHalf" />
+    <result column="IsRun" jdbcType="INTEGER" property="isRun" />
+    <result column="IsSpecial" jdbcType="INTEGER" property="isSpecial" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    CompanyID, Name_Cn, isLetgoal, isTotalScore, IsStandard, AsianOrder, OverDownOrder, 
+    StandardOrder, isHalf, IsRun, IsSpecial
+  </sql>
+  <select id="selectByExample" parameterType="com.example.spinwheel.base.domain.CompanyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from Company
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Short" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from Company
+    where CompanyID = #{companyID,jdbcType=SMALLINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short">
+    delete from Company
+    where CompanyID = #{companyID,jdbcType=SMALLINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.spinwheel.base.domain.CompanyExample">
+    delete from Company
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.spinwheel.base.domain.Company">
+    insert into Company (CompanyID, Name_Cn, isLetgoal, 
+      isTotalScore, IsStandard, AsianOrder, 
+      OverDownOrder, StandardOrder, isHalf, 
+      IsRun, IsSpecial)
+    values (#{companyID,jdbcType=SMALLINT}, #{name_Cn,jdbcType=CHAR}, #{isLetgoal,jdbcType=BIT}, 
+      #{isTotalScore,jdbcType=BIT}, #{isStandard,jdbcType=BIT}, #{asianOrder,jdbcType=TINYINT}, 
+      #{overDownOrder,jdbcType=TINYINT}, #{standardOrder,jdbcType=TINYINT}, #{isHalf,jdbcType=BIT}, 
+      #{isRun,jdbcType=INTEGER}, #{isSpecial,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.spinwheel.base.domain.Company">
+    insert into Company
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="companyID != null">
+        CompanyID,
+      </if>
+      <if test="name_Cn != null">
+        Name_Cn,
+      </if>
+      <if test="isLetgoal != null">
+        isLetgoal,
+      </if>
+      <if test="isTotalScore != null">
+        isTotalScore,
+      </if>
+      <if test="isStandard != null">
+        IsStandard,
+      </if>
+      <if test="asianOrder != null">
+        AsianOrder,
+      </if>
+      <if test="overDownOrder != null">
+        OverDownOrder,
+      </if>
+      <if test="standardOrder != null">
+        StandardOrder,
+      </if>
+      <if test="isHalf != null">
+        isHalf,
+      </if>
+      <if test="isRun != null">
+        IsRun,
+      </if>
+      <if test="isSpecial != null">
+        IsSpecial,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="companyID != null">
+        #{companyID,jdbcType=SMALLINT},
+      </if>
+      <if test="name_Cn != null">
+        #{name_Cn,jdbcType=CHAR},
+      </if>
+      <if test="isLetgoal != null">
+        #{isLetgoal,jdbcType=BIT},
+      </if>
+      <if test="isTotalScore != null">
+        #{isTotalScore,jdbcType=BIT},
+      </if>
+      <if test="isStandard != null">
+        #{isStandard,jdbcType=BIT},
+      </if>
+      <if test="asianOrder != null">
+        #{asianOrder,jdbcType=TINYINT},
+      </if>
+      <if test="overDownOrder != null">
+        #{overDownOrder,jdbcType=TINYINT},
+      </if>
+      <if test="standardOrder != null">
+        #{standardOrder,jdbcType=TINYINT},
+      </if>
+      <if test="isHalf != null">
+        #{isHalf,jdbcType=BIT},
+      </if>
+      <if test="isRun != null">
+        #{isRun,jdbcType=INTEGER},
+      </if>
+      <if test="isSpecial != null">
+        #{isSpecial,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.spinwheel.base.domain.CompanyExample" resultType="java.lang.Long">
+    select count(*) from Company
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update Company
+    <set>
+      <if test="record.companyID != null">
+        CompanyID = #{record.companyID,jdbcType=SMALLINT},
+      </if>
+      <if test="record.name_Cn != null">
+        Name_Cn = #{record.name_Cn,jdbcType=CHAR},
+      </if>
+      <if test="record.isLetgoal != null">
+        isLetgoal = #{record.isLetgoal,jdbcType=BIT},
+      </if>
+      <if test="record.isTotalScore != null">
+        isTotalScore = #{record.isTotalScore,jdbcType=BIT},
+      </if>
+      <if test="record.isStandard != null">
+        IsStandard = #{record.isStandard,jdbcType=BIT},
+      </if>
+      <if test="record.asianOrder != null">
+        AsianOrder = #{record.asianOrder,jdbcType=TINYINT},
+      </if>
+      <if test="record.overDownOrder != null">
+        OverDownOrder = #{record.overDownOrder,jdbcType=TINYINT},
+      </if>
+      <if test="record.standardOrder != null">
+        StandardOrder = #{record.standardOrder,jdbcType=TINYINT},
+      </if>
+      <if test="record.isHalf != null">
+        isHalf = #{record.isHalf,jdbcType=BIT},
+      </if>
+      <if test="record.isRun != null">
+        IsRun = #{record.isRun,jdbcType=INTEGER},
+      </if>
+      <if test="record.isSpecial != null">
+        IsSpecial = #{record.isSpecial,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update Company
+    set CompanyID = #{record.companyID,jdbcType=SMALLINT},
+      Name_Cn = #{record.name_Cn,jdbcType=CHAR},
+      isLetgoal = #{record.isLetgoal,jdbcType=BIT},
+      isTotalScore = #{record.isTotalScore,jdbcType=BIT},
+      IsStandard = #{record.isStandard,jdbcType=BIT},
+      AsianOrder = #{record.asianOrder,jdbcType=TINYINT},
+      OverDownOrder = #{record.overDownOrder,jdbcType=TINYINT},
+      StandardOrder = #{record.standardOrder,jdbcType=TINYINT},
+      isHalf = #{record.isHalf,jdbcType=BIT},
+      IsRun = #{record.isRun,jdbcType=INTEGER},
+      IsSpecial = #{record.isSpecial,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.spinwheel.base.domain.Company">
+    update Company
+    <set>
+      <if test="name_Cn != null">
+        Name_Cn = #{name_Cn,jdbcType=CHAR},
+      </if>
+      <if test="isLetgoal != null">
+        isLetgoal = #{isLetgoal,jdbcType=BIT},
+      </if>
+      <if test="isTotalScore != null">
+        isTotalScore = #{isTotalScore,jdbcType=BIT},
+      </if>
+      <if test="isStandard != null">
+        IsStandard = #{isStandard,jdbcType=BIT},
+      </if>
+      <if test="asianOrder != null">
+        AsianOrder = #{asianOrder,jdbcType=TINYINT},
+      </if>
+      <if test="overDownOrder != null">
+        OverDownOrder = #{overDownOrder,jdbcType=TINYINT},
+      </if>
+      <if test="standardOrder != null">
+        StandardOrder = #{standardOrder,jdbcType=TINYINT},
+      </if>
+      <if test="isHalf != null">
+        isHalf = #{isHalf,jdbcType=BIT},
+      </if>
+      <if test="isRun != null">
+        IsRun = #{isRun,jdbcType=INTEGER},
+      </if>
+      <if test="isSpecial != null">
+        IsSpecial = #{isSpecial,jdbcType=INTEGER},
+      </if>
+    </set>
+    where CompanyID = #{companyID,jdbcType=SMALLINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.spinwheel.base.domain.Company">
+    update Company
+    set Name_Cn = #{name_Cn,jdbcType=CHAR},
+      isLetgoal = #{isLetgoal,jdbcType=BIT},
+      isTotalScore = #{isTotalScore,jdbcType=BIT},
+      IsStandard = #{isStandard,jdbcType=BIT},
+      AsianOrder = #{asianOrder,jdbcType=TINYINT},
+      OverDownOrder = #{overDownOrder,jdbcType=TINYINT},
+      StandardOrder = #{standardOrder,jdbcType=TINYINT},
+      isHalf = #{isHalf,jdbcType=BIT},
+      IsRun = #{isRun,jdbcType=INTEGER},
+      IsSpecial = #{isSpecial,jdbcType=INTEGER}
+    where CompanyID = #{companyID,jdbcType=SMALLINT}
+  </update>
+</mapper>

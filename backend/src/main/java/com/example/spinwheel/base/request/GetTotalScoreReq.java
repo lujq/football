@@ -5,5 +5,15 @@ import lombok.Data;
 @Data
 public class GetTotalScoreReq {
 
-    private String goal;
+    private Integer sclass;
+
+    private Integer homeScore;
+
+    private Integer guestScore;
+
+    private Float firstGoal;
+
+    private Float goal;
+
+
 }
