@@ -1,0 +1,714 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.spinwheel.base.dao.SclassMapper">
+  <resultMap id="BaseResultMap" type="com.example.spinwheel.base.domain.Sclass">
+    <id column="sclassID" jdbcType="INTEGER" property="sclassID" />
+    <result column="Color" jdbcType="CHAR" property="color" />
+    <result column="Name_J" jdbcType="CHAR" property="name_J" />
+    <result column="Name_F" jdbcType="CHAR" property="name_F" />
+    <result column="Name_E" jdbcType="CHAR" property="name_E" />
+    <result column="Name_JS" jdbcType="CHAR" property="name_JS" />
+    <result column="Name_FS" jdbcType="CHAR" property="name_FS" />
+    <result column="Name_ES" jdbcType="CHAR" property="name_ES" />
+    <result column="Name_S" jdbcType="CHAR" property="name_S" />
+    <result column="Kind" jdbcType="SMALLINT" property="kind" />
+    <result column="Mode" jdbcType="SMALLINT" property="mode" />
+    <result column="count_round" jdbcType="SMALLINT" property="count_round" />
+    <result column="curr_round" jdbcType="SMALLINT" property="curr_round" />
+    <result column="Curr_matchSeason" jdbcType="CHAR" property="curr_matchSeason" />
+    <result column="Sclass_pic" jdbcType="VARCHAR" property="sclass_pic" />
+    <result column="ifstop" jdbcType="TINYINT" property="ifstop" />
+    <result column="Sclass_type" jdbcType="TINYINT" property="sclass_type" />
+    <result column="count_group" jdbcType="SMALLINT" property="count_group" />
+    <result column="Bf_simply_disp" jdbcType="TINYINT" property="bf_simply_disp" />
+    <result column="sclass_sequence" jdbcType="SMALLINT" property="sclass_sequence" />
+    <result column="InfoID" jdbcType="SMALLINT" property="infoID" />
+    <result column="Bf_IfDisp" jdbcType="TINYINT" property="bf_IfDisp" />
+    <result column="ModifyTime" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="BeginSeason" jdbcType="VARCHAR" property="beginSeason" />
+    <result column="subSclassID" jdbcType="INTEGER" property="subSclassID" />
+    <result column="ifHaveSub" jdbcType="BIT" property="ifHaveSub" />
+    <result column="ifSort" jdbcType="BIT" property="ifSort" />
+    <result column="ifHavePaper" jdbcType="BIT" property="ifHavePaper" />
+    <result column="ifShowScore" jdbcType="BIT" property="ifShowScore" />
+    <result column="rank_matchSeason" jdbcType="CHAR" property="rank_matchSeason" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.spinwheel.base.domain.Sclass">
+    <result column="sclass_rule" jdbcType="CLOB" property="sclass_rule" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    sclassID, Color, Name_J, Name_F, Name_E, Name_JS, Name_FS, Name_ES, Name_S, Kind, 
+    Mode, count_round, curr_round, Curr_matchSeason, Sclass_pic, ifstop, Sclass_type, 
+    count_group, Bf_simply_disp, sclass_sequence, InfoID, Bf_IfDisp, ModifyTime, BeginSeason, 
+    subSclassID, ifHaveSub, ifSort, ifHavePaper, ifShowScore, rank_matchSeason
+  </sql>
+  <sql id="Blob_Column_List">
+    sclass_rule
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.example.spinwheel.base.domain.SclassExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from Sclass
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.example.spinwheel.base.domain.SclassExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from Sclass
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from Sclass
+    where sclassID = #{sclassID,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from Sclass
+    where sclassID = #{sclassID,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.spinwheel.base.domain.SclassExample">
+    delete from Sclass
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.spinwheel.base.domain.Sclass">
+    insert into Sclass (sclassID, Color, Name_J, 
+      Name_F, Name_E, Name_JS, Name_FS, 
+      Name_ES, Name_S, Kind, Mode, 
+      count_round, curr_round, Curr_matchSeason, 
+      Sclass_pic, ifstop, Sclass_type, 
+      count_group, Bf_simply_disp, sclass_sequence, 
+      InfoID, Bf_IfDisp, ModifyTime, 
+      BeginSeason, subSclassID, ifHaveSub, 
+      ifSort, ifHavePaper, ifShowScore, 
+      rank_matchSeason, sclass_rule)
+    values (#{sclassID,jdbcType=INTEGER}, #{color,jdbcType=CHAR}, #{name_J,jdbcType=CHAR}, 
+      #{name_F,jdbcType=CHAR}, #{name_E,jdbcType=CHAR}, #{name_JS,jdbcType=CHAR}, #{name_FS,jdbcType=CHAR}, 
+      #{name_ES,jdbcType=CHAR}, #{name_S,jdbcType=CHAR}, #{kind,jdbcType=SMALLINT}, #{mode,jdbcType=SMALLINT}, 
+      #{count_round,jdbcType=SMALLINT}, #{curr_round,jdbcType=SMALLINT}, #{curr_matchSeason,jdbcType=CHAR}, 
+      #{sclass_pic,jdbcType=VARCHAR}, #{ifstop,jdbcType=TINYINT}, #{sclass_type,jdbcType=TINYINT}, 
+      #{count_group,jdbcType=SMALLINT}, #{bf_simply_disp,jdbcType=TINYINT}, #{sclass_sequence,jdbcType=SMALLINT}, 
+      #{infoID,jdbcType=SMALLINT}, #{bf_IfDisp,jdbcType=TINYINT}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{beginSeason,jdbcType=VARCHAR}, #{subSclassID,jdbcType=INTEGER}, #{ifHaveSub,jdbcType=BIT}, 
+      #{ifSort,jdbcType=BIT}, #{ifHavePaper,jdbcType=BIT}, #{ifShowScore,jdbcType=BIT}, 
+      #{rank_matchSeason,jdbcType=CHAR}, #{sclass_rule,jdbcType=CLOB})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.spinwheel.base.domain.Sclass">
+    insert into Sclass
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sclassID != null">
+        sclassID,
+      </if>
+      <if test="color != null">
+        Color,
+      </if>
+      <if test="name_J != null">
+        Name_J,
+      </if>
+      <if test="name_F != null">
+        Name_F,
+      </if>
+      <if test="name_E != null">
+        Name_E,
+      </if>
+      <if test="name_JS != null">
+        Name_JS,
+      </if>
+      <if test="name_FS != null">
+        Name_FS,
+      </if>
+      <if test="name_ES != null">
+        Name_ES,
+      </if>
+      <if test="name_S != null">
+        Name_S,
+      </if>
+      <if test="kind != null">
+        Kind,
+      </if>
+      <if test="mode != null">
+        Mode,
+      </if>
+      <if test="count_round != null">
+        count_round,
+      </if>
+      <if test="curr_round != null">
+        curr_round,
+      </if>
+      <if test="curr_matchSeason != null">
+        Curr_matchSeason,
+      </if>
+      <if test="sclass_pic != null">
+        Sclass_pic,
+      </if>
+      <if test="ifstop != null">
+        ifstop,
+      </if>
+      <if test="sclass_type != null">
+        Sclass_type,
+      </if>
+      <if test="count_group != null">
+        count_group,
+      </if>
+      <if test="bf_simply_disp != null">
+        Bf_simply_disp,
+      </if>
+      <if test="sclass_sequence != null">
+        sclass_sequence,
+      </if>
+      <if test="infoID != null">
+        InfoID,
+      </if>
+      <if test="bf_IfDisp != null">
+        Bf_IfDisp,
+      </if>
+      <if test="modifyTime != null">
+        ModifyTime,
+      </if>
+      <if test="beginSeason != null">
+        BeginSeason,
+      </if>
+      <if test="subSclassID != null">
+        subSclassID,
+      </if>
+      <if test="ifHaveSub != null">
+        ifHaveSub,
+      </if>
+      <if test="ifSort != null">
+        ifSort,
+      </if>
+      <if test="ifHavePaper != null">
+        ifHavePaper,
+      </if>
+      <if test="ifShowScore != null">
+        ifShowScore,
+      </if>
+      <if test="rank_matchSeason != null">
+        rank_matchSeason,
+      </if>
+      <if test="sclass_rule != null">
+        sclass_rule,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sclassID != null">
+        #{sclassID,jdbcType=INTEGER},
+      </if>
+      <if test="color != null">
+        #{color,jdbcType=CHAR},
+      </if>
+      <if test="name_J != null">
+        #{name_J,jdbcType=CHAR},
+      </if>
+      <if test="name_F != null">
+        #{name_F,jdbcType=CHAR},
+      </if>
+      <if test="name_E != null">
+        #{name_E,jdbcType=CHAR},
+      </if>
+      <if test="name_JS != null">
+        #{name_JS,jdbcType=CHAR},
+      </if>
+      <if test="name_FS != null">
+        #{name_FS,jdbcType=CHAR},
+      </if>
+      <if test="name_ES != null">
+        #{name_ES,jdbcType=CHAR},
+      </if>
+      <if test="name_S != null">
+        #{name_S,jdbcType=CHAR},
+      </if>
+      <if test="kind != null">
+        #{kind,jdbcType=SMALLINT},
+      </if>
+      <if test="mode != null">
+        #{mode,jdbcType=SMALLINT},
+      </if>
+      <if test="count_round != null">
+        #{count_round,jdbcType=SMALLINT},
+      </if>
+      <if test="curr_round != null">
+        #{curr_round,jdbcType=SMALLINT},
+      </if>
+      <if test="curr_matchSeason != null">
+        #{curr_matchSeason,jdbcType=CHAR},
+      </if>
+      <if test="sclass_pic != null">
+        #{sclass_pic,jdbcType=VARCHAR},
+      </if>
+      <if test="ifstop != null">
+        #{ifstop,jdbcType=TINYINT},
+      </if>
+      <if test="sclass_type != null">
+        #{sclass_type,jdbcType=TINYINT},
+      </if>
+      <if test="count_group != null">
+        #{count_group,jdbcType=SMALLINT},
+      </if>
+      <if test="bf_simply_disp != null">
+        #{bf_simply_disp,jdbcType=TINYINT},
+      </if>
+      <if test="sclass_sequence != null">
+        #{sclass_sequence,jdbcType=SMALLINT},
+      </if>
+      <if test="infoID != null">
+        #{infoID,jdbcType=SMALLINT},
+      </if>
+      <if test="bf_IfDisp != null">
+        #{bf_IfDisp,jdbcType=TINYINT},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="beginSeason != null">
+        #{beginSeason,jdbcType=VARCHAR},
+      </if>
+      <if test="subSclassID != null">
+        #{subSclassID,jdbcType=INTEGER},
+      </if>
+      <if test="ifHaveSub != null">
+        #{ifHaveSub,jdbcType=BIT},
+      </if>
+      <if test="ifSort != null">
+        #{ifSort,jdbcType=BIT},
+      </if>
+      <if test="ifHavePaper != null">
+        #{ifHavePaper,jdbcType=BIT},
+      </if>
+      <if test="ifShowScore != null">
+        #{ifShowScore,jdbcType=BIT},
+      </if>
+      <if test="rank_matchSeason != null">
+        #{rank_matchSeason,jdbcType=CHAR},
+      </if>
+      <if test="sclass_rule != null">
+        #{sclass_rule,jdbcType=CLOB},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.spinwheel.base.domain.SclassExample" resultType="java.lang.Long">
+    select count(*) from Sclass
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update Sclass
+    <set>
+      <if test="record.sclassID != null">
+        sclassID = #{record.sclassID,jdbcType=INTEGER},
+      </if>
+      <if test="record.color != null">
+        Color = #{record.color,jdbcType=CHAR},
+      </if>
+      <if test="record.name_J != null">
+        Name_J = #{record.name_J,jdbcType=CHAR},
+      </if>
+      <if test="record.name_F != null">
+        Name_F = #{record.name_F,jdbcType=CHAR},
+      </if>
+      <if test="record.name_E != null">
+        Name_E = #{record.name_E,jdbcType=CHAR},
+      </if>
+      <if test="record.name_JS != null">
+        Name_JS = #{record.name_JS,jdbcType=CHAR},
+      </if>
+      <if test="record.name_FS != null">
+        Name_FS = #{record.name_FS,jdbcType=CHAR},
+      </if>
+      <if test="record.name_ES != null">
+        Name_ES = #{record.name_ES,jdbcType=CHAR},
+      </if>
+      <if test="record.name_S != null">
+        Name_S = #{record.name_S,jdbcType=CHAR},
+      </if>
+      <if test="record.kind != null">
+        Kind = #{record.kind,jdbcType=SMALLINT},
+      </if>
+      <if test="record.mode != null">
+        Mode = #{record.mode,jdbcType=SMALLINT},
+      </if>
+      <if test="record.count_round != null">
+        count_round = #{record.count_round,jdbcType=SMALLINT},
+      </if>
+      <if test="record.curr_round != null">
+        curr_round = #{record.curr_round,jdbcType=SMALLINT},
+      </if>
+      <if test="record.curr_matchSeason != null">
+        Curr_matchSeason = #{record.curr_matchSeason,jdbcType=CHAR},
+      </if>
+      <if test="record.sclass_pic != null">
+        Sclass_pic = #{record.sclass_pic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ifstop != null">
+        ifstop = #{record.ifstop,jdbcType=TINYINT},
+      </if>
+      <if test="record.sclass_type != null">
+        Sclass_type = #{record.sclass_type,jdbcType=TINYINT},
+      </if>
+      <if test="record.count_group != null">
+        count_group = #{record.count_group,jdbcType=SMALLINT},
+      </if>
+      <if test="record.bf_simply_disp != null">
+        Bf_simply_disp = #{record.bf_simply_disp,jdbcType=TINYINT},
+      </if>
+      <if test="record.sclass_sequence != null">
+        sclass_sequence = #{record.sclass_sequence,jdbcType=SMALLINT},
+      </if>
+      <if test="record.infoID != null">
+        InfoID = #{record.infoID,jdbcType=SMALLINT},
+      </if>
+      <if test="record.bf_IfDisp != null">
+        Bf_IfDisp = #{record.bf_IfDisp,jdbcType=TINYINT},
+      </if>
+      <if test="record.modifyTime != null">
+        ModifyTime = #{record.modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.beginSeason != null">
+        BeginSeason = #{record.beginSeason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subSclassID != null">
+        subSclassID = #{record.subSclassID,jdbcType=INTEGER},
+      </if>
+      <if test="record.ifHaveSub != null">
+        ifHaveSub = #{record.ifHaveSub,jdbcType=BIT},
+      </if>
+      <if test="record.ifSort != null">
+        ifSort = #{record.ifSort,jdbcType=BIT},
+      </if>
+      <if test="record.ifHavePaper != null">
+        ifHavePaper = #{record.ifHavePaper,jdbcType=BIT},
+      </if>
+      <if test="record.ifShowScore != null">
+        ifShowScore = #{record.ifShowScore,jdbcType=BIT},
+      </if>
+      <if test="record.rank_matchSeason != null">
+        rank_matchSeason = #{record.rank_matchSeason,jdbcType=CHAR},
+      </if>
+      <if test="record.sclass_rule != null">
+        sclass_rule = #{record.sclass_rule,jdbcType=CLOB},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update Sclass
+    set sclassID = #{record.sclassID,jdbcType=INTEGER},
+      Color = #{record.color,jdbcType=CHAR},
+      Name_J = #{record.name_J,jdbcType=CHAR},
+      Name_F = #{record.name_F,jdbcType=CHAR},
+      Name_E = #{record.name_E,jdbcType=CHAR},
+      Name_JS = #{record.name_JS,jdbcType=CHAR},
+      Name_FS = #{record.name_FS,jdbcType=CHAR},
+      Name_ES = #{record.name_ES,jdbcType=CHAR},
+      Name_S = #{record.name_S,jdbcType=CHAR},
+      Kind = #{record.kind,jdbcType=SMALLINT},
+      Mode = #{record.mode,jdbcType=SMALLINT},
+      count_round = #{record.count_round,jdbcType=SMALLINT},
+      curr_round = #{record.curr_round,jdbcType=SMALLINT},
+      Curr_matchSeason = #{record.curr_matchSeason,jdbcType=CHAR},
+      Sclass_pic = #{record.sclass_pic,jdbcType=VARCHAR},
+      ifstop = #{record.ifstop,jdbcType=TINYINT},
+      Sclass_type = #{record.sclass_type,jdbcType=TINYINT},
+      count_group = #{record.count_group,jdbcType=SMALLINT},
+      Bf_simply_disp = #{record.bf_simply_disp,jdbcType=TINYINT},
+      sclass_sequence = #{record.sclass_sequence,jdbcType=SMALLINT},
+      InfoID = #{record.infoID,jdbcType=SMALLINT},
+      Bf_IfDisp = #{record.bf_IfDisp,jdbcType=TINYINT},
+      ModifyTime = #{record.modifyTime,jdbcType=TIMESTAMP},
+      BeginSeason = #{record.beginSeason,jdbcType=VARCHAR},
+      subSclassID = #{record.subSclassID,jdbcType=INTEGER},
+      ifHaveSub = #{record.ifHaveSub,jdbcType=BIT},
+      ifSort = #{record.ifSort,jdbcType=BIT},
+      ifHavePaper = #{record.ifHavePaper,jdbcType=BIT},
+      ifShowScore = #{record.ifShowScore,jdbcType=BIT},
+      rank_matchSeason = #{record.rank_matchSeason,jdbcType=CHAR},
+      sclass_rule = #{record.sclass_rule,jdbcType=CLOB}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update Sclass
+    set sclassID = #{record.sclassID,jdbcType=INTEGER},
+      Color = #{record.color,jdbcType=CHAR},
+      Name_J = #{record.name_J,jdbcType=CHAR},
+      Name_F = #{record.name_F,jdbcType=CHAR},
+      Name_E = #{record.name_E,jdbcType=CHAR},
+      Name_JS = #{record.name_JS,jdbcType=CHAR},
+      Name_FS = #{record.name_FS,jdbcType=CHAR},
+      Name_ES = #{record.name_ES,jdbcType=CHAR},
+      Name_S = #{record.name_S,jdbcType=CHAR},
+      Kind = #{record.kind,jdbcType=SMALLINT},
+      Mode = #{record.mode,jdbcType=SMALLINT},
+      count_round = #{record.count_round,jdbcType=SMALLINT},
+      curr_round = #{record.curr_round,jdbcType=SMALLINT},
+      Curr_matchSeason = #{record.curr_matchSeason,jdbcType=CHAR},
+      Sclass_pic = #{record.sclass_pic,jdbcType=VARCHAR},
+      ifstop = #{record.ifstop,jdbcType=TINYINT},
+      Sclass_type = #{record.sclass_type,jdbcType=TINYINT},
+      count_group = #{record.count_group,jdbcType=SMALLINT},
+      Bf_simply_disp = #{record.bf_simply_disp,jdbcType=TINYINT},
+      sclass_sequence = #{record.sclass_sequence,jdbcType=SMALLINT},
+      InfoID = #{record.infoID,jdbcType=SMALLINT},
+      Bf_IfDisp = #{record.bf_IfDisp,jdbcType=TINYINT},
+      ModifyTime = #{record.modifyTime,jdbcType=TIMESTAMP},
+      BeginSeason = #{record.beginSeason,jdbcType=VARCHAR},
+      subSclassID = #{record.subSclassID,jdbcType=INTEGER},
+      ifHaveSub = #{record.ifHaveSub,jdbcType=BIT},
+      ifSort = #{record.ifSort,jdbcType=BIT},
+      ifHavePaper = #{record.ifHavePaper,jdbcType=BIT},
+      ifShowScore = #{record.ifShowScore,jdbcType=BIT},
+      rank_matchSeason = #{record.rank_matchSeason,jdbcType=CHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.spinwheel.base.domain.Sclass">
+    update Sclass
+    <set>
+      <if test="color != null">
+        Color = #{color,jdbcType=CHAR},
+      </if>
+      <if test="name_J != null">
+        Name_J = #{name_J,jdbcType=CHAR},
+      </if>
+      <if test="name_F != null">
+        Name_F = #{name_F,jdbcType=CHAR},
+      </if>
+      <if test="name_E != null">
+        Name_E = #{name_E,jdbcType=CHAR},
+      </if>
+      <if test="name_JS != null">
+        Name_JS = #{name_JS,jdbcType=CHAR},
+      </if>
+      <if test="name_FS != null">
+        Name_FS = #{name_FS,jdbcType=CHAR},
+      </if>
+      <if test="name_ES != null">
+        Name_ES = #{name_ES,jdbcType=CHAR},
+      </if>
+      <if test="name_S != null">
+        Name_S = #{name_S,jdbcType=CHAR},
+      </if>
+      <if test="kind != null">
+        Kind = #{kind,jdbcType=SMALLINT},
+      </if>
+      <if test="mode != null">
+        Mode = #{mode,jdbcType=SMALLINT},
+      </if>
+      <if test="count_round != null">
+        count_round = #{count_round,jdbcType=SMALLINT},
+      </if>
+      <if test="curr_round != null">
+        curr_round = #{curr_round,jdbcType=SMALLINT},
+      </if>
+      <if test="curr_matchSeason != null">
+        Curr_matchSeason = #{curr_matchSeason,jdbcType=CHAR},
+      </if>
+      <if test="sclass_pic != null">
+        Sclass_pic = #{sclass_pic,jdbcType=VARCHAR},
+      </if>
+      <if test="ifstop != null">
+        ifstop = #{ifstop,jdbcType=TINYINT},
+      </if>
+      <if test="sclass_type != null">
+        Sclass_type = #{sclass_type,jdbcType=TINYINT},
+      </if>
+      <if test="count_group != null">
+        count_group = #{count_group,jdbcType=SMALLINT},
+      </if>
+      <if test="bf_simply_disp != null">
+        Bf_simply_disp = #{bf_simply_disp,jdbcType=TINYINT},
+      </if>
+      <if test="sclass_sequence != null">
+        sclass_sequence = #{sclass_sequence,jdbcType=SMALLINT},
+      </if>
+      <if test="infoID != null">
+        InfoID = #{infoID,jdbcType=SMALLINT},
+      </if>
+      <if test="bf_IfDisp != null">
+        Bf_IfDisp = #{bf_IfDisp,jdbcType=TINYINT},
+      </if>
+      <if test="modifyTime != null">
+        ModifyTime = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="beginSeason != null">
+        BeginSeason = #{beginSeason,jdbcType=VARCHAR},
+      </if>
+      <if test="subSclassID != null">
+        subSclassID = #{subSclassID,jdbcType=INTEGER},
+      </if>
+      <if test="ifHaveSub != null">
+        ifHaveSub = #{ifHaveSub,jdbcType=BIT},
+      </if>
+      <if test="ifSort != null">
+        ifSort = #{ifSort,jdbcType=BIT},
+      </if>
+      <if test="ifHavePaper != null">
+        ifHavePaper = #{ifHavePaper,jdbcType=BIT},
+      </if>
+      <if test="ifShowScore != null">
+        ifShowScore = #{ifShowScore,jdbcType=BIT},
+      </if>
+      <if test="rank_matchSeason != null">
+        rank_matchSeason = #{rank_matchSeason,jdbcType=CHAR},
+      </if>
+      <if test="sclass_rule != null">
+        sclass_rule = #{sclass_rule,jdbcType=CLOB},
+      </if>
+    </set>
+    where sclassID = #{sclassID,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.spinwheel.base.domain.Sclass">
+    update Sclass
+    set Color = #{color,jdbcType=CHAR},
+      Name_J = #{name_J,jdbcType=CHAR},
+      Name_F = #{name_F,jdbcType=CHAR},
+      Name_E = #{name_E,jdbcType=CHAR},
+      Name_JS = #{name_JS,jdbcType=CHAR},
+      Name_FS = #{name_FS,jdbcType=CHAR},
+      Name_ES = #{name_ES,jdbcType=CHAR},
+      Name_S = #{name_S,jdbcType=CHAR},
+      Kind = #{kind,jdbcType=SMALLINT},
+      Mode = #{mode,jdbcType=SMALLINT},
+      count_round = #{count_round,jdbcType=SMALLINT},
+      curr_round = #{curr_round,jdbcType=SMALLINT},
+      Curr_matchSeason = #{curr_matchSeason,jdbcType=CHAR},
+      Sclass_pic = #{sclass_pic,jdbcType=VARCHAR},
+      ifstop = #{ifstop,jdbcType=TINYINT},
+      Sclass_type = #{sclass_type,jdbcType=TINYINT},
+      count_group = #{count_group,jdbcType=SMALLINT},
+      Bf_simply_disp = #{bf_simply_disp,jdbcType=TINYINT},
+      sclass_sequence = #{sclass_sequence,jdbcType=SMALLINT},
+      InfoID = #{infoID,jdbcType=SMALLINT},
+      Bf_IfDisp = #{bf_IfDisp,jdbcType=TINYINT},
+      ModifyTime = #{modifyTime,jdbcType=TIMESTAMP},
+      BeginSeason = #{beginSeason,jdbcType=VARCHAR},
+      subSclassID = #{subSclassID,jdbcType=INTEGER},
+      ifHaveSub = #{ifHaveSub,jdbcType=BIT},
+      ifSort = #{ifSort,jdbcType=BIT},
+      ifHavePaper = #{ifHavePaper,jdbcType=BIT},
+      ifShowScore = #{ifShowScore,jdbcType=BIT},
+      rank_matchSeason = #{rank_matchSeason,jdbcType=CHAR},
+      sclass_rule = #{sclass_rule,jdbcType=CLOB}
+    where sclassID = #{sclassID,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.spinwheel.base.domain.Sclass">
+    update Sclass
+    set Color = #{color,jdbcType=CHAR},
+      Name_J = #{name_J,jdbcType=CHAR},
+      Name_F = #{name_F,jdbcType=CHAR},
+      Name_E = #{name_E,jdbcType=CHAR},
+      Name_JS = #{name_JS,jdbcType=CHAR},
+      Name_FS = #{name_FS,jdbcType=CHAR},
+      Name_ES = #{name_ES,jdbcType=CHAR},
+      Name_S = #{name_S,jdbcType=CHAR},
+      Kind = #{kind,jdbcType=SMALLINT},
+      Mode = #{mode,jdbcType=SMALLINT},
+      count_round = #{count_round,jdbcType=SMALLINT},
+      curr_round = #{curr_round,jdbcType=SMALLINT},
+      Curr_matchSeason = #{curr_matchSeason,jdbcType=CHAR},
+      Sclass_pic = #{sclass_pic,jdbcType=VARCHAR},
+      ifstop = #{ifstop,jdbcType=TINYINT},
+      Sclass_type = #{sclass_type,jdbcType=TINYINT},
+      count_group = #{count_group,jdbcType=SMALLINT},
+      Bf_simply_disp = #{bf_simply_disp,jdbcType=TINYINT},
+      sclass_sequence = #{sclass_sequence,jdbcType=SMALLINT},
+      InfoID = #{infoID,jdbcType=SMALLINT},
+      Bf_IfDisp = #{bf_IfDisp,jdbcType=TINYINT},
+      ModifyTime = #{modifyTime,jdbcType=TIMESTAMP},
+      BeginSeason = #{beginSeason,jdbcType=VARCHAR},
+      subSclassID = #{subSclassID,jdbcType=INTEGER},
+      ifHaveSub = #{ifHaveSub,jdbcType=BIT},
+      ifSort = #{ifSort,jdbcType=BIT},
+      ifHavePaper = #{ifHavePaper,jdbcType=BIT},
+      ifShowScore = #{ifShowScore,jdbcType=BIT},
+      rank_matchSeason = #{rank_matchSeason,jdbcType=CHAR}
+    where sclassID = #{sclassID,jdbcType=INTEGER}
+  </update>
+</mapper>
