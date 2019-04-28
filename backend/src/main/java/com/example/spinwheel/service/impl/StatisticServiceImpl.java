@@ -97,6 +97,7 @@ public class StatisticServiceImpl implements StatisticService{
                 Sclass sclass = sclassMapper.selectByPrimaryKey(classId);
                 dto.setClassId(classId);
                 dto.setClassName(sclass.getName_J());
+                dto.setRate(statisticBo.sumRate(tempList));
                 dtoList.add(dto);
             }
             Collections.sort(dtoList, new Comparator<ResultDto>() {
@@ -136,6 +137,7 @@ public class StatisticServiceImpl implements StatisticService{
             Sclass sclass = sclassMapper.selectByPrimaryKey(req.getSclass());
             dto.setClassId(req.getSclass());
             dto.setClassName(sclass.getName_J());
+            dto.setRate(statisticBo.sumRate(reals));
             List<ResultDto> dtoList = new ArrayList<>();
             dtoList.add(dto);
             rsp.setResultList(dtoList);

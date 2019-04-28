@@ -36,7 +36,14 @@ public class SpinwheelController {
         Map<String, String> logTags = GenLogTagTool.genlogTag("SpinwheelController", "getTotalScoreStatistic");
         SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0);
         long id = idWorker.nextId();
-        GetTotalScoreRsp rsp = statisticService.getTotalScoreStatistic(req);
+        GetTotalScoreRsp rsp = new GetTotalScoreRsp();
+        try {
+            rsp = statisticService.getTotalScoreStatistic(req);
+        } catch (Exception e) {
+            logger.info("getTotalScoreStatistic error. Exception is :" + e.getMessage());
+            rsp.setCode("FAILURE");
+            rsp.setMessage("系统内部错误");
+        }
         rsp.setCode("SUCCESS");
         rsp.setMessage("成功");
         return rsp;
@@ -49,7 +56,14 @@ public class SpinwheelController {
         Map<String, String> logTags = GenLogTagTool.genlogTag("SpinwheelController", "getTotalScoreStatistic");
         SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0);
         long id = idWorker.nextId();
-        GetTotalScoreDetailRsp rsp = statisticService.getTotalScoreDetail(req);
+        GetTotalScoreDetailRsp rsp = new GetTotalScoreDetailRsp();
+        try {
+            rsp = statisticService.getTotalScoreDetail(req);
+        } catch (Exception e) {
+            logger.info("getTotalScoreDetail error. Exception is :" + e.getMessage());
+            rsp.setCode("FAILURE");
+            rsp.setMessage("系统内部错误");
+        }
         rsp.setCode("SUCCESS");
         rsp.setMessage("成功");
         return rsp;
