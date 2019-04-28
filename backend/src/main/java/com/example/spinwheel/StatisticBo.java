@@ -44,11 +44,11 @@ public class StatisticBo {
                     continue;
                 }
                 if (odds == -0.25) {
-                    result += (1F + real.getGoal()/2);
+                    result += (1F + real.getDown_odds()/2);
                     continue;
                 }
                 if (odds < -0.25) {
-                    result += (1F + real.getGoal());
+                    result += (1F + real.getDown_odds());
                     continue;
                 }
             }
