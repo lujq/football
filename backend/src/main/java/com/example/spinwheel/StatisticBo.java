@@ -11,7 +11,7 @@ import java.util.List;
 public class StatisticBo {
     private static LoggerManager logger = LoggerManager.getLogger(StatisticBo.class);
 
-    public List<TotalScoreReal>  checkTotalScore(List<TotalScoreReal> list) {
+    public List<TotalScoreReal> checkTotalScore(List<TotalScoreReal> list) {
         List<TotalScoreReal> result = new ArrayList<>();
         for (TotalScoreReal real: list) {
             Float interval = real.getGoal() - real.getHalf_score();

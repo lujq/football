@@ -144,6 +144,11 @@ public class StatisticServiceImpl implements StatisticService{
         return rsp;
     }
 
+    /**
+     * 查询大小球详细信息
+     * @param req
+     * @return
+     */
     @Override
     public GetTotalScoreDetailRsp getTotalScoreDetail(GetTotalScoreDetailReq req) {
         GetTotalScoreDetailRsp rsp = new GetTotalScoreDetailRsp();

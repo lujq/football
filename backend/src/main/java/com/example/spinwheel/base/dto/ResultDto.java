@@ -14,4 +14,6 @@ public class ResultDto{
 
     private Integer classId;
 
+    private Float rate;
+
 }
