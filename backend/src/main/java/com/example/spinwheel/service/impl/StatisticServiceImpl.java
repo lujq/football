@@ -3,11 +3,13 @@ package com.example.spinwheel.service.impl;
 import com.example.spinwheel.StatisticBo;
 import com.example.spinwheel.base.dao.*;
 import com.example.spinwheel.base.domain.*;
+import com.example.spinwheel.base.dto.CommonListDto;
 import com.example.spinwheel.base.dto.ResultDto;
 import com.example.spinwheel.base.request.GetFileUrlReq;
 import com.example.spinwheel.base.request.GetTotalScoreDetailReq;
 import com.example.spinwheel.base.request.GetTotalScoreReq;
 import com.example.spinwheel.base.response.GetFileUrlRsp;
+import com.example.spinwheel.base.response.GetSeasonsRsp;
 import com.example.spinwheel.base.response.GetTotalScoreDetailRsp;
 import com.example.spinwheel.base.response.GetTotalScoreRsp;
 import com.example.spinwheel.service.StatisticService;
@@ -19,7 +21,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
 import java.util.*;
+
+import static java.lang.Float.NaN;
 
 @Service
 public class StatisticServiceImpl implements StatisticService{
@@ -98,13 +103,25 @@ public class StatisticServiceImpl implements StatisticService{
                 dto.setClassId(classId);
                 dto.setClassName(sclass.getName_J());
                 dto.setRate(statisticBo.sumRate(tempList));
+                if (dto.getTotal().equals(0)) {
+                    dto.setWinRate(0F);
+                } else {
+                    BigDecimal b = new BigDecimal(Float.parseFloat(dto.getResult().toString()) / dto.getTotal());
+                    dto.setWinRate(b.setScale(4, BigDecimal.ROUND_HALF_UP).floatValue());
+                }
                 dtoList.add(dto);
             }
             Collections.sort(dtoList, new Comparator<ResultDto>() {
                 @Override
                 public int compare(ResultDto o1, ResultDto o2) {
                     float percent1 = (float)(o1.getResult())/ o1.getTotal();
+                    if (percent1 == NaN) {
+                        percent1 = 0F;
+                    }
                     float percent2 = (float)(o2.getResult())/ o2.getTotal();
+                    if (percent2 == NaN) {
+                        percent2 = 0F;
+                    }
                     if (percent2 > percent1) {
                         return 1;
                     } else if (percent2 < percent1) {
@@ -138,6 +155,12 @@ public class StatisticServiceImpl implements StatisticService{
             dto.setClassId(req.getSclass());
             dto.setClassName(sclass.getName_J());
             dto.setRate(statisticBo.sumRate(reals));
+            if (dto.getTotal().equals(0)) {
+                dto.setWinRate(0F);
+            } else {
+                BigDecimal b = new BigDecimal(Float.parseFloat(dto.getResult().toString())/dto.getTotal());
+                dto.setWinRate(b.setScale(4, BigDecimal.ROUND_HALF_UP).floatValue());
+            }
             List<ResultDto> dtoList = new ArrayList<>();
             dtoList.add(dto);
             rsp.setResultList(dtoList);
@@ -170,6 +193,22 @@ public class StatisticServiceImpl implements StatisticService{
         }
         List<TotalScoreReal> reals = realMapper.selectByExample(example);
         rsp.setResultList(reals);
+        return rsp;
+    }
+
+    /**
+     * 查询赛季
+     * @return
+     */
+    @Override
+    public GetSeasonsRsp getSeasons() {
+        GetSeasonsRsp rsp = new GetSeasonsRsp();
+        List<CommonListDto> list = realMapper.selectSeasons();
+        rsp.setSeasons(list);
+        rsp.setHomeHalfScores(realMapper.selectHomeHalfScores());
+        rsp.setGuestHalfScores(realMapper.selectGuestHalfScores());
+        rsp.setFirstGoals(realMapper.selectFirstGoals());
+        rsp.setGoals(realMapper.selectGoals());
         return rsp;
     }
 

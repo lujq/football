@@ -1,6 +1,5 @@
 package com.example.spinwheel.base.dto;
 
-import io.swagger.models.auth.In;
 import lombok.Data;
 
 @Data
@@ -16,4 +15,5 @@ public class ResultDto{
 
     private Float rate;
 
+    private Float winRate;
 }

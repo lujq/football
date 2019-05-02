@@ -26,6 +26,10 @@
     <result column="down_odds" jdbcType="REAL" property="down_odds" />
     <result column="schedule_id" jdbcType="INTEGER" property="schedule_id" />
   </resultMap>
+  <resultMap id="ResultMap4Season" type="com.example.spinwheel.base.dto.CommonListDto">
+    <result column="class_id" property="value" jdbcType="INTEGER" />
+    <result column="Name_J" property="label" jdbcType="VARCHAR" />
+  </resultMap>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -496,5 +500,20 @@
   </update>
   <select id="selectClassId" resultType="java.lang.Integer">
     select class_id from t_totalscore group by class_id
+  </select>
+  <select id="selectSeasons" resultMap="ResultMap4Season">
+    select DISTINCT t.class_id, c.Name_J from t_totalscore t LEFT JOIN Sclass c ON t.class_id = c.sclassID;
+  </select>
+  <select id="selectHomeHalfScores" resultType="java.lang.Integer">
+    select DISTINCT home_half_score from t_totalscore order by home_half_score asc
+  </select>
+  <select id="selectGuestHalfScores" resultType="java.lang.Integer">
+    select DISTINCT guest_half_score from t_totalscore order by guest_half_score asc
+  </select>
+  <select id="selectFirstGoals" resultType="java.lang.Float">
+    select DISTINCT first_goal from t_totalscore order by first_goal asc
+  </select>
+  <select id="selectGoals" resultType="java.lang.Float">
+    select DISTINCT goal from t_totalscore order by goal asc
   </select>
 </mapper>

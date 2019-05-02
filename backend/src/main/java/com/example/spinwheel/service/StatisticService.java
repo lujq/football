@@ -4,6 +4,7 @@ import com.example.spinwheel.base.request.GetFileUrlReq;
 import com.example.spinwheel.base.request.GetTotalScoreDetailReq;
 import com.example.spinwheel.base.request.GetTotalScoreReq;
 import com.example.spinwheel.base.response.GetFileUrlRsp;
+import com.example.spinwheel.base.response.GetSeasonsRsp;
 import com.example.spinwheel.base.response.GetTotalScoreDetailRsp;
 import com.example.spinwheel.base.response.GetTotalScoreRsp;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,12 @@ public interface StatisticService {
      * @return
      */
     GetTotalScoreDetailRsp getTotalScoreDetail(GetTotalScoreDetailReq req);
+
+    /**
+     * 查询赛季
+     * @return
+     */
+    GetSeasonsRsp getSeasons();
 
     /**
      * 查询文件下载地址

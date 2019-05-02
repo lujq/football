@@ -3,6 +3,8 @@ package com.example.spinwheel.base.dao;
 import com.example.spinwheel.base.domain.TotalScoreReal;
 import com.example.spinwheel.base.domain.TotalScoreRealExample;
 import java.util.List;
+
+import com.example.spinwheel.base.dto.CommonListDto;
 import org.apache.ibatis.annotations.Param;
 
 public interface TotalScoreRealMapper {
@@ -29,5 +31,15 @@ public interface TotalScoreRealMapper {
     int updateByPrimaryKey(TotalScoreReal record);
 
     List<Integer> selectClassId();
+
+    List<CommonListDto> selectSeasons();
+
+    List<Integer> selectHomeHalfScores();
+
+    List<Integer> selectGuestHalfScores();
+
+    List<Float> selectFirstGoals();
+
+    List<Float> selectGoals();
 
 }

@@ -2,8 +2,10 @@ package com.example.spinwheel.controller;
 
 import com.example.spinwheel.base.request.GetTotalScoreDetailReq;
 import com.example.spinwheel.base.request.GetTotalScoreReq;
+import com.example.spinwheel.base.response.GetSeasonsRsp;
 import com.example.spinwheel.base.response.GetTotalScoreDetailRsp;
 import com.example.spinwheel.base.response.GetTotalScoreRsp;
+import com.example.spinwheel.base.response.HttpResponseBaseDto;
 import com.example.spinwheel.service.StatisticService;
 import com.example.spinwheel.utils.GenLogTagTool;
 import com.example.spinwheel.utils.LoggerManager;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+@CrossOrigin
 @RestController
 @RequestMapping
 public class SpinwheelController {
@@ -61,6 +64,25 @@ public class SpinwheelController {
             rsp = statisticService.getTotalScoreDetail(req);
         } catch (Exception e) {
             logger.info("getTotalScoreDetail error. Exception is :" + e.getMessage());
+            rsp.setCode("FAILURE");
+            rsp.setMessage("系统内部错误");
+        }
+        rsp.setCode("SUCCESS");
+        rsp.setMessage("成功");
+        return rsp;
+    }
+
+    @ApiOperation(value="查询联赛信息", notes="查询联赛信息")
+    @PostMapping(value = "/getSeasons")
+    public GetSeasonsRsp getSeasons() {
+        Map<String, String> logTags = GenLogTagTool.genlogTag("SpinwheelController", "getSeasons");
+        SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0);
+        long id = idWorker.nextId();
+        GetSeasonsRsp rsp = new GetSeasonsRsp();
+        try {
+            rsp = statisticService.getSeasons();
+        } catch (Exception e) {
+            logger.info("getSeasons error. Exception is :" + e.getMessage());
             rsp.setCode("FAILURE");
             rsp.setMessage("系统内部错误");
         }
