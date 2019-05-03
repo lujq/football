@@ -90,13 +90,15 @@
         <el-table-column prop="result" sortable label="赢球场次"/>
         <el-table-column prop="winRate" sortable label="赢球率">
           <template slot-scope="scope">
-            <el-progress :stroke-width="6" :percentage="scope.row.winRate*100"/>
+            <el-progress :stroke-width="6" :percentage="Math.round(scope.row.winRate*100).toFixed(2)"/>
           </template>
         </el-table-column>
         <el-table-column prop="rate" sortable label="盈利率">
           <template slot-scope="scope">
-            <el-progress v-if="scope.row.rate >= 1" :stroke-width="6" :percentage="(scope.row.rate/2.08*100).toFixed(1)"/>
-            <el-progress v-if="scope.row.rate < 1" :percentage="((1-scope.row.rate)*100).toFixed(1)" :stroke-width="6" color="#FF0000" />
+            <el-progress v-if="scope.row.rate >= 1" :stroke-width="6" :percentage="(scope.row.rate/2.08*100).toFixed(2)" :show-text="false"/>
+            <span v-if="scope.row.rate >= 1">{{ (Math.round(scope.row.rate * 100)).toFixed(2) + '%' }}</span>
+            <el-progress v-if="scope.row.rate < 1" :percentage="((1-scope.row.rate)*100).toFixed(2)" :stroke-width="6" :show-text="false" color="#FF0000"/>
+            <span v-if="scope.row.rate < 1">{{ (Math.round((1-scope.row.rate) * 100)).toFixed(2) + '%' }}</span>
           </template>
         </el-table-column>
       </el-table>
