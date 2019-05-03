@@ -24,6 +24,18 @@ public class StatisticBo {
         return result;
     }
 
+    public List<TotalScoreReal> checkTotal(List<TotalScoreReal> list) {
+        List<TotalScoreReal> result = new ArrayList<>();
+        for (TotalScoreReal real: list) {
+            Float interval = real.getGoal() - real.getHalf_score();
+
+            if (real.getHalf_score() > 0 && interval < real.getFirst_goal()) {
+                result.add(real);
+            }
+        }
+        return result;
+    }
+
     public Float sumRate(List<TotalScoreReal> list) {
         Float result = 0F;
         Integer count = 0;

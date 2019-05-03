@@ -115,6 +115,8 @@
             <p> {{ tempClassName }} </p>
           </template>
         </el-table-column>
+        <el-table-column prop="home_team" sortable label="主队"/>
+        <el-table-column prop="guest_team" sortable label="客队"/>
         <el-table-column prop="home_score" sortable label="终场得分（主）"/>
         <el-table-column prop="guest_score" sortable label="终场得分（客）"/>
         <el-table-column prop="home_half_score" sortable label="中场得分（主）"/>
@@ -194,6 +196,11 @@ export default {
       this.ruleForm.midGoal = this.initParams.midGoals[0]
       this.initParams.sclasses = [...this.initParams.sclasses, ...response.seasons]
       this.ruleForm.sclasses = this.initParams.sclasses[0]
+    })
+    this.loading = true
+    getStatistic({}).then(response => {
+      this.resultForm = response.resultList
+      this.loading = false
     })
   },
   methods: {

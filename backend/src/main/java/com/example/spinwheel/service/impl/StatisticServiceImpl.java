@@ -96,9 +96,10 @@ public class StatisticServiceImpl implements StatisticService{
                 }
                 List<TotalScoreReal> tempList = realMapper.selectByExample(example);
                 List<TotalScoreReal> goalList = statisticBo.checkTotalScore(tempList);
+                List<TotalScoreReal> totalList = statisticBo.checkTotal(tempList);
                 ResultDto dto = new ResultDto();
                 dto.setResult(goalList.size());
-                dto.setTotal(tempList.size());
+                dto.setTotal(totalList.size());
                 Sclass sclass = sclassMapper.selectByPrimaryKey(classId);
                 dto.setClassId(classId);
                 dto.setClassName(sclass.getName_J());
@@ -114,18 +115,24 @@ public class StatisticServiceImpl implements StatisticService{
             Collections.sort(dtoList, new Comparator<ResultDto>() {
                 @Override
                 public int compare(ResultDto o1, ResultDto o2) {
-                    float percent1 = (float)(o1.getResult())/ o1.getTotal();
-                    if (percent1 == NaN) {
-                        percent1 = 0F;
-                    }
-                    float percent2 = (float)(o2.getResult())/ o2.getTotal();
-                    if (percent2 == NaN) {
-                        percent2 = 0F;
-                    }
-                    if (percent2 > percent1) {
-                        return 1;
-                    } else if (percent2 < percent1) {
+//                    float percent1 = (float)(o1.getResult())/ o1.getTotal();
+//                    if (percent1 == NaN) {
+//                        percent1 = 0F;
+//                    }
+//                    float percent2 = (float)(o2.getResult())/ o2.getTotal();
+//                    if (percent2 == NaN) {
+//                        percent2 = 0F;
+//                    }
+//                    if (percent2 > percent1) {
+//                        return 1;
+//                    } else if (percent2 < percent1) {
+//                        return -1;
+//                    }
+                    if (o1.getWinRate() - o2.getWinRate() > 0) {
                         return -1;
+                    }
+                    if (o1.getWinRate() - o2.getWinRate() < 0) {
+                        return 1;
                     }
                     return 0;
                 }
@@ -148,9 +155,10 @@ public class StatisticServiceImpl implements StatisticService{
             }
             reals = realMapper.selectByExample(example);
             List<TotalScoreReal> goalList = statisticBo.checkTotalScore(reals);
+            List<TotalScoreReal> totalList = statisticBo.checkTotal(reals);
             ResultDto dto = new ResultDto();
             dto.setResult(goalList.size());
-            dto.setTotal(reals.size());
+            dto.setTotal(totalList.size());
             Sclass sclass = sclassMapper.selectByPrimaryKey(req.getSclass());
             dto.setClassId(req.getSclass());
             dto.setClassName(sclass.getName_J());
@@ -192,7 +200,8 @@ public class StatisticServiceImpl implements StatisticService{
             criteria.andFirst_goalEqualTo(req.getFirstGoal());
         }
         List<TotalScoreReal> reals = realMapper.selectByExample(example);
-        rsp.setResultList(reals);
+        List<TotalScoreReal> totalList = statisticBo.checkTotal(reals);
+        rsp.setResultList(totalList);
         return rsp;
     }
 
