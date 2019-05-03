@@ -110,7 +110,9 @@ public class StatisticServiceImpl implements StatisticService{
                     BigDecimal b = new BigDecimal(Float.parseFloat(dto.getResult().toString()) / dto.getTotal());
                     dto.setWinRate(b.setScale(4, BigDecimal.ROUND_HALF_UP).floatValue());
                 }
-                dtoList.add(dto);
+                if (dto.getTotal() != 0) {
+                    dtoList.add(dto);
+                }
             }
             Collections.sort(dtoList, new Comparator<ResultDto>() {
                 @Override

@@ -105,7 +105,6 @@
     </el-row>
     <el-dialog
       :visible.sync="dialogVisible"
-      :before-close="handleClose"
       title="明细"
       width="80%">
       <el-table :data="detailForm" border>
