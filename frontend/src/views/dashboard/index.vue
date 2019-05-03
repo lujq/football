@@ -90,7 +90,7 @@
         <el-table-column prop="result" sortable label="赢球场次"/>
         <el-table-column prop="winRate" sortable label="赢球率">
           <template slot-scope="scope">
-            <el-progress :stroke-width="6" :percentage="Math.round(scope.row.winRate*100).toFixed(2)"/>
+            <el-progress :stroke-width="6" :percentage="(scope.row.winRate*100).toFixed(2)"/>
           </template>
         </el-table-column>
         <el-table-column prop="rate" sortable label="盈利率">

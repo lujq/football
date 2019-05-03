@@ -17,7 +17,7 @@ public class StatisticBo {
         for (TotalScoreReal real: list) {
             Float interval = real.getGoal() - real.getHalf_score();
 
-            if (real.getHalf_score() > 0 && real.getGoal() > real.getFirst_goal() && interval < real.getFirst_goal() && real.getScore() < real.getGoal()) {
+            if (real.getHalf_score() > 0 && interval < real.getFirst_goal() && real.getScore() < real.getGoal()) {
                 result.add(real);
             }
         }
@@ -29,7 +29,7 @@ public class StatisticBo {
         Integer count = 0;
         for (TotalScoreReal real: list) {
             Float interval = real.getGoal() - real.getHalf_score();
-            if (real.getHalf_score() > 0 && real.getGoal() > real.getFirst_goal() && interval < real.getFirst_goal()) {
+            if (real.getHalf_score() > 0 && interval < real.getFirst_goal()) {
                 count++;
                 Float odds = real.getScore() - real.getGoal();
                 if (odds > 0.25) {
