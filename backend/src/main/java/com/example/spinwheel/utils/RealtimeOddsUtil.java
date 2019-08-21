@@ -14,6 +14,8 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -23,6 +25,7 @@ import org.apache.http.util.EntityUtils;
 import redis.clients.jedis.Jedis;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -54,6 +57,44 @@ public class RealtimeOddsUtil {
         return null;
     }
 
+    public static HttpResponse sendTemplate(String accessToken, String home, String guest) {
+        String tepUrl = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token="
+                + accessToken;
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpPost httpPost = new HttpPost(tepUrl);
+        // 装配post请求参数
+        JSONObject json = new JSONObject();
+        json.put("touser", "oY9RC5mfZn87aSPd9fwirVQz95zY");
+        json.put("template_id", "7PJRIU8el3GGblNAir1dxbuAu7fU1dV");
+        JSONObject dataJson = new JSONObject();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
+        dataJson.put("first", sdf.format(new Date()));
+        dataJson.put("keyword1", sdf.format(new Date()));
+        dataJson.put("keyword2", "足球大数据通知");
+        dataJson.put("keyword3", "【"+home+"】 vs 【"+guest+"】");
+        json.put("data", dataJson);
+        HttpResponse httpResponse = null;
+        try {
+            StringEntity myEntity = new StringEntity(json.toJSONString(), ContentType.APPLICATION_JSON);
+
+            // 设置post求情参数
+            httpPost.setEntity(myEntity);
+            httpResponse = httpClient.execute(httpPost);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (httpClient != null) {
+                    // 释放资源
+                    httpClient.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return httpResponse;
+    }
+
     public static HttpResponse sendPost(String accessToken, String home, String guest) throws Exception {
 
         String url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token="+accessToken;
@@ -72,12 +113,15 @@ public class RealtimeOddsUtil {
         CommonTemplateDTO first = new CommonTemplateDTO();
         first.setValue(sdf.format(new Date()));
         dto.setFirst(first);
-        first.setValue("足球大数据通知");
-        dto.setKeyword1(first);
-        first.setValue("比赛投注提醒");
-        dto.setKeyword2(first);
-        first.setValue("【"+home+"】 vs 【"+guest+"】");
-        dto.setKeyword3(first);
+        CommonTemplateDTO keyword1 = new CommonTemplateDTO();
+        keyword1.setValue("足球大数据通知");
+        dto.setKeyword1(keyword1);
+        CommonTemplateDTO keyword2 = new CommonTemplateDTO();
+        keyword2.setValue("比赛投注提醒");
+        dto.setKeyword2(keyword2);
+        CommonTemplateDTO keyword3 = new CommonTemplateDTO();
+        keyword3.setValue("【"+home+"】 vs 【"+guest+"】");
+        dto.setKeyword3(keyword3);
         urlParameters.add(new BasicNameValuePair("data", JSONObject.toJSONString(dto)));
 
         post.setEntity(new UrlEncodedFormEntity(urlParameters));
@@ -189,7 +233,18 @@ public class RealtimeOddsUtil {
             // 发送消息模板
             if (jedis.exists("spinwheel_schedule_list")){
                 Set<String> existedSchedules = jedis.smembers("spinwheel_schedule_list");
-
+                for (OddsDTO dto : resultList) {
+                    if (existedSchedules.contains(dto.getScheduleId())) {
+                        continue;
+                    } else {
+                        try {
+                            sendPost(accessToken, dto.getHomeName(), dto.getGuestName());
+                            jedis.sadd("spinwheel_schedule_list", dto.getScheduleId());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
             }
             String templateResp = sendGet("");
 
