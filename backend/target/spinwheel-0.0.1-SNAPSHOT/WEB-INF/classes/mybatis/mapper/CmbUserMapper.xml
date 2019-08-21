@@ -1,0 +1,591 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.spinwheel.base.dao.CmbUserMapper">
+  <resultMap id="BaseResultMap" type="com.example.spinwheel.base.domain.CmbUser">
+    <id column="ID" jdbcType="NUMERIC" property="ID" />
+    <result column="UserID" jdbcType="CHAR" property="userID" />
+    <result column="Password" jdbcType="CHAR" property="password" />
+    <result column="Mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="Email" jdbcType="VARCHAR" property="email" />
+    <result column="LoginName" jdbcType="VARCHAR" property="loginName" />
+    <result column="NickName" jdbcType="VARCHAR" property="nickName" />
+    <result column="RealName" jdbcType="VARCHAR" property="realName" />
+    <result column="IDNo" jdbcType="VARCHAR" property="IDNo" />
+    <result column="IDType" jdbcType="CHAR" property="IDType" />
+    <result column="ChnType" jdbcType="VARCHAR" property="chnType" />
+    <result column="Flag" jdbcType="CHAR" property="flag" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="Device" jdbcType="VARCHAR" property="device" />
+    <result column="IP" jdbcType="VARCHAR" property="IP" />
+    <result column="Lat" jdbcType="VARCHAR" property="lat" />
+    <result column="AppID" jdbcType="VARCHAR" property="appID" />
+    <result column="CreateTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="Approver" jdbcType="VARCHAR" property="approver" />
+    <result column="ApprovalTime" jdbcType="TIMESTAMP" property="approvalTime" />
+    <result column="IsHot" jdbcType="CHAR" property="isHot" />
+    <result column="NewsTypeID" jdbcType="VARCHAR" property="newsTypeID" />
+    <result column="AutoWellChoseFlag" jdbcType="CHAR" property="autoWellChoseFlag" />
+    <result column="UserType" jdbcType="CHAR" property="userType" />
+    <result column="RelateProductFlag" jdbcType="CHAR" property="relateProductFlag" />
+    <result column="ProFlag" jdbcType="CHAR" property="proFlag" />
+    <result column="ProTime" jdbcType="TIMESTAMP" property="proTime" />
+    <result column="CertificateType" jdbcType="INTEGER" property="certificateType" />
+    <result column="DisplayType" jdbcType="INTEGER" property="displayType" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, UserID, Password, Mobile, Email, LoginName, NickName, RealName, IDNo, IDType, 
+    ChnType, Flag, Remark, Device, IP, Lat, AppID, CreateTime, Approver, ApprovalTime, 
+    IsHot, NewsTypeID, AutoWellChoseFlag, UserType, RelateProductFlag, ProFlag, ProTime, 
+    CertificateType, DisplayType
+  </sql>
+  <select id="selectByExample" parameterType="com.example.spinwheel.base.domain.CmbUserExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from MBP_UserInfo
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MBP_UserInfo
+    where ID = #{ID,jdbcType=NUMERIC}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from MBP_UserInfo
+    where ID = #{ID,jdbcType=NUMERIC}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.spinwheel.base.domain.CmbUserExample">
+    delete from MBP_UserInfo
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.spinwheel.base.domain.CmbUser">
+    insert into MBP_UserInfo (ID, UserID, Password, 
+      Mobile, Email, LoginName, 
+      NickName, RealName, IDNo, 
+      IDType, ChnType, Flag, Remark, 
+      Device, IP, Lat, AppID, 
+      CreateTime, Approver, ApprovalTime, 
+      IsHot, NewsTypeID, AutoWellChoseFlag, 
+      UserType, RelateProductFlag, ProFlag, 
+      ProTime, CertificateType, DisplayType
+      )
+    values (#{ID,jdbcType=NUMERIC}, #{userID,jdbcType=CHAR}, #{password,jdbcType=CHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, 
+      #{nickName,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, #{IDNo,jdbcType=VARCHAR}, 
+      #{IDType,jdbcType=CHAR}, #{chnType,jdbcType=VARCHAR}, #{flag,jdbcType=CHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{device,jdbcType=VARCHAR}, #{IP,jdbcType=VARCHAR}, #{lat,jdbcType=VARCHAR}, #{appID,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{approver,jdbcType=VARCHAR}, #{approvalTime,jdbcType=TIMESTAMP}, 
+      #{isHot,jdbcType=CHAR}, #{newsTypeID,jdbcType=VARCHAR}, #{autoWellChoseFlag,jdbcType=CHAR}, 
+      #{userType,jdbcType=CHAR}, #{relateProductFlag,jdbcType=CHAR}, #{proFlag,jdbcType=CHAR}, 
+      #{proTime,jdbcType=TIMESTAMP}, #{certificateType,jdbcType=INTEGER}, #{displayType,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.spinwheel.base.domain.CmbUser">
+    insert into MBP_UserInfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="ID != null">
+        ID,
+      </if>
+      <if test="userID != null">
+        UserID,
+      </if>
+      <if test="password != null">
+        Password,
+      </if>
+      <if test="mobile != null">
+        Mobile,
+      </if>
+      <if test="email != null">
+        Email,
+      </if>
+      <if test="loginName != null">
+        LoginName,
+      </if>
+      <if test="nickName != null">
+        NickName,
+      </if>
+      <if test="realName != null">
+        RealName,
+      </if>
+      <if test="IDNo != null">
+        IDNo,
+      </if>
+      <if test="IDType != null">
+        IDType,
+      </if>
+      <if test="chnType != null">
+        ChnType,
+      </if>
+      <if test="flag != null">
+        Flag,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="device != null">
+        Device,
+      </if>
+      <if test="IP != null">
+        IP,
+      </if>
+      <if test="lat != null">
+        Lat,
+      </if>
+      <if test="appID != null">
+        AppID,
+      </if>
+      <if test="createTime != null">
+        CreateTime,
+      </if>
+      <if test="approver != null">
+        Approver,
+      </if>
+      <if test="approvalTime != null">
+        ApprovalTime,
+      </if>
+      <if test="isHot != null">
+        IsHot,
+      </if>
+      <if test="newsTypeID != null">
+        NewsTypeID,
+      </if>
+      <if test="autoWellChoseFlag != null">
+        AutoWellChoseFlag,
+      </if>
+      <if test="userType != null">
+        UserType,
+      </if>
+      <if test="relateProductFlag != null">
+        RelateProductFlag,
+      </if>
+      <if test="proFlag != null">
+        ProFlag,
+      </if>
+      <if test="proTime != null">
+        ProTime,
+      </if>
+      <if test="certificateType != null">
+        CertificateType,
+      </if>
+      <if test="displayType != null">
+        DisplayType,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="ID != null">
+        #{ID,jdbcType=NUMERIC},
+      </if>
+      <if test="userID != null">
+        #{userID,jdbcType=CHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=CHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="loginName != null">
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="IDNo != null">
+        #{IDNo,jdbcType=VARCHAR},
+      </if>
+      <if test="IDType != null">
+        #{IDType,jdbcType=CHAR},
+      </if>
+      <if test="chnType != null">
+        #{chnType,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=CHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="device != null">
+        #{device,jdbcType=VARCHAR},
+      </if>
+      <if test="IP != null">
+        #{IP,jdbcType=VARCHAR},
+      </if>
+      <if test="lat != null">
+        #{lat,jdbcType=VARCHAR},
+      </if>
+      <if test="appID != null">
+        #{appID,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approver != null">
+        #{approver,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalTime != null">
+        #{approvalTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isHot != null">
+        #{isHot,jdbcType=CHAR},
+      </if>
+      <if test="newsTypeID != null">
+        #{newsTypeID,jdbcType=VARCHAR},
+      </if>
+      <if test="autoWellChoseFlag != null">
+        #{autoWellChoseFlag,jdbcType=CHAR},
+      </if>
+      <if test="userType != null">
+        #{userType,jdbcType=CHAR},
+      </if>
+      <if test="relateProductFlag != null">
+        #{relateProductFlag,jdbcType=CHAR},
+      </if>
+      <if test="proFlag != null">
+        #{proFlag,jdbcType=CHAR},
+      </if>
+      <if test="proTime != null">
+        #{proTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="certificateType != null">
+        #{certificateType,jdbcType=INTEGER},
+      </if>
+      <if test="displayType != null">
+        #{displayType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.spinwheel.base.domain.CmbUserExample" resultType="java.lang.Long">
+    select count(*) from MBP_UserInfo
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update MBP_UserInfo
+    <set>
+      <if test="record.ID != null">
+        ID = #{record.ID,jdbcType=NUMERIC},
+      </if>
+      <if test="record.userID != null">
+        UserID = #{record.userID,jdbcType=CHAR},
+      </if>
+      <if test="record.password != null">
+        Password = #{record.password,jdbcType=CHAR},
+      </if>
+      <if test="record.mobile != null">
+        Mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null">
+        Email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loginName != null">
+        LoginName = #{record.loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nickName != null">
+        NickName = #{record.nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realName != null">
+        RealName = #{record.realName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.IDNo != null">
+        IDNo = #{record.IDNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.IDType != null">
+        IDType = #{record.IDType,jdbcType=CHAR},
+      </if>
+      <if test="record.chnType != null">
+        ChnType = #{record.chnType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flag != null">
+        Flag = #{record.flag,jdbcType=CHAR},
+      </if>
+      <if test="record.remark != null">
+        Remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.device != null">
+        Device = #{record.device,jdbcType=VARCHAR},
+      </if>
+      <if test="record.IP != null">
+        IP = #{record.IP,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lat != null">
+        Lat = #{record.lat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appID != null">
+        AppID = #{record.appID,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        CreateTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.approver != null">
+        Approver = #{record.approver,jdbcType=VARCHAR},
+      </if>
+      <if test="record.approvalTime != null">
+        ApprovalTime = #{record.approvalTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isHot != null">
+        IsHot = #{record.isHot,jdbcType=CHAR},
+      </if>
+      <if test="record.newsTypeID != null">
+        NewsTypeID = #{record.newsTypeID,jdbcType=VARCHAR},
+      </if>
+      <if test="record.autoWellChoseFlag != null">
+        AutoWellChoseFlag = #{record.autoWellChoseFlag,jdbcType=CHAR},
+      </if>
+      <if test="record.userType != null">
+        UserType = #{record.userType,jdbcType=CHAR},
+      </if>
+      <if test="record.relateProductFlag != null">
+        RelateProductFlag = #{record.relateProductFlag,jdbcType=CHAR},
+      </if>
+      <if test="record.proFlag != null">
+        ProFlag = #{record.proFlag,jdbcType=CHAR},
+      </if>
+      <if test="record.proTime != null">
+        ProTime = #{record.proTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.certificateType != null">
+        CertificateType = #{record.certificateType,jdbcType=INTEGER},
+      </if>
+      <if test="record.displayType != null">
+        DisplayType = #{record.displayType,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update MBP_UserInfo
+    set ID = #{record.ID,jdbcType=NUMERIC},
+      UserID = #{record.userID,jdbcType=CHAR},
+      Password = #{record.password,jdbcType=CHAR},
+      Mobile = #{record.mobile,jdbcType=VARCHAR},
+      Email = #{record.email,jdbcType=VARCHAR},
+      LoginName = #{record.loginName,jdbcType=VARCHAR},
+      NickName = #{record.nickName,jdbcType=VARCHAR},
+      RealName = #{record.realName,jdbcType=VARCHAR},
+      IDNo = #{record.IDNo,jdbcType=VARCHAR},
+      IDType = #{record.IDType,jdbcType=CHAR},
+      ChnType = #{record.chnType,jdbcType=VARCHAR},
+      Flag = #{record.flag,jdbcType=CHAR},
+      Remark = #{record.remark,jdbcType=VARCHAR},
+      Device = #{record.device,jdbcType=VARCHAR},
+      IP = #{record.IP,jdbcType=VARCHAR},
+      Lat = #{record.lat,jdbcType=VARCHAR},
+      AppID = #{record.appID,jdbcType=VARCHAR},
+      CreateTime = #{record.createTime,jdbcType=TIMESTAMP},
+      Approver = #{record.approver,jdbcType=VARCHAR},
+      ApprovalTime = #{record.approvalTime,jdbcType=TIMESTAMP},
+      IsHot = #{record.isHot,jdbcType=CHAR},
+      NewsTypeID = #{record.newsTypeID,jdbcType=VARCHAR},
+      AutoWellChoseFlag = #{record.autoWellChoseFlag,jdbcType=CHAR},
+      UserType = #{record.userType,jdbcType=CHAR},
+      RelateProductFlag = #{record.relateProductFlag,jdbcType=CHAR},
+      ProFlag = #{record.proFlag,jdbcType=CHAR},
+      ProTime = #{record.proTime,jdbcType=TIMESTAMP},
+      CertificateType = #{record.certificateType,jdbcType=INTEGER},
+      DisplayType = #{record.displayType,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.spinwheel.base.domain.CmbUser">
+    update MBP_UserInfo
+    <set>
+      <if test="userID != null">
+        UserID = #{userID,jdbcType=CHAR},
+      </if>
+      <if test="password != null">
+        Password = #{password,jdbcType=CHAR},
+      </if>
+      <if test="mobile != null">
+        Mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        Email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="loginName != null">
+        LoginName = #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        NickName = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
+        RealName = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="IDNo != null">
+        IDNo = #{IDNo,jdbcType=VARCHAR},
+      </if>
+      <if test="IDType != null">
+        IDType = #{IDType,jdbcType=CHAR},
+      </if>
+      <if test="chnType != null">
+        ChnType = #{chnType,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        Flag = #{flag,jdbcType=CHAR},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="device != null">
+        Device = #{device,jdbcType=VARCHAR},
+      </if>
+      <if test="IP != null">
+        IP = #{IP,jdbcType=VARCHAR},
+      </if>
+      <if test="lat != null">
+        Lat = #{lat,jdbcType=VARCHAR},
+      </if>
+      <if test="appID != null">
+        AppID = #{appID,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CreateTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approver != null">
+        Approver = #{approver,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalTime != null">
+        ApprovalTime = #{approvalTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isHot != null">
+        IsHot = #{isHot,jdbcType=CHAR},
+      </if>
+      <if test="newsTypeID != null">
+        NewsTypeID = #{newsTypeID,jdbcType=VARCHAR},
+      </if>
+      <if test="autoWellChoseFlag != null">
+        AutoWellChoseFlag = #{autoWellChoseFlag,jdbcType=CHAR},
+      </if>
+      <if test="userType != null">
+        UserType = #{userType,jdbcType=CHAR},
+      </if>
+      <if test="relateProductFlag != null">
+        RelateProductFlag = #{relateProductFlag,jdbcType=CHAR},
+      </if>
+      <if test="proFlag != null">
+        ProFlag = #{proFlag,jdbcType=CHAR},
+      </if>
+      <if test="proTime != null">
+        ProTime = #{proTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="certificateType != null">
+        CertificateType = #{certificateType,jdbcType=INTEGER},
+      </if>
+      <if test="displayType != null">
+        DisplayType = #{displayType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{ID,jdbcType=NUMERIC}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.spinwheel.base.domain.CmbUser">
+    update MBP_UserInfo
+    set UserID = #{userID,jdbcType=CHAR},
+      Password = #{password,jdbcType=CHAR},
+      Mobile = #{mobile,jdbcType=VARCHAR},
+      Email = #{email,jdbcType=VARCHAR},
+      LoginName = #{loginName,jdbcType=VARCHAR},
+      NickName = #{nickName,jdbcType=VARCHAR},
+      RealName = #{realName,jdbcType=VARCHAR},
+      IDNo = #{IDNo,jdbcType=VARCHAR},
+      IDType = #{IDType,jdbcType=CHAR},
+      ChnType = #{chnType,jdbcType=VARCHAR},
+      Flag = #{flag,jdbcType=CHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      Device = #{device,jdbcType=VARCHAR},
+      IP = #{IP,jdbcType=VARCHAR},
+      Lat = #{lat,jdbcType=VARCHAR},
+      AppID = #{appID,jdbcType=VARCHAR},
+      CreateTime = #{createTime,jdbcType=TIMESTAMP},
+      Approver = #{approver,jdbcType=VARCHAR},
+      ApprovalTime = #{approvalTime,jdbcType=TIMESTAMP},
+      IsHot = #{isHot,jdbcType=CHAR},
+      NewsTypeID = #{newsTypeID,jdbcType=VARCHAR},
+      AutoWellChoseFlag = #{autoWellChoseFlag,jdbcType=CHAR},
+      UserType = #{userType,jdbcType=CHAR},
+      RelateProductFlag = #{relateProductFlag,jdbcType=CHAR},
+      ProFlag = #{proFlag,jdbcType=CHAR},
+      ProTime = #{proTime,jdbcType=TIMESTAMP},
+      CertificateType = #{certificateType,jdbcType=INTEGER},
+      DisplayType = #{displayType,jdbcType=INTEGER}
+    where ID = #{ID,jdbcType=NUMERIC}
+  </update>
+</mapper>

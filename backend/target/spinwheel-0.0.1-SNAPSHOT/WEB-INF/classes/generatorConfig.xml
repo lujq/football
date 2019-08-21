@@ -14,7 +14,7 @@
         </commentGenerator>
         <!--数据库链接URL，用户名、密码 -->
         <jdbcConnection driverClass="net.sourceforge.jtds.jdbc.Driver"
-                        connectionURL="jdbc:jtds:sqlserver://139.198.177.39:4321/Win007_3Y" userId="sa1" password="zyncn1550">
+                        connectionURL="jdbc:jtds:sqlserver://127.0.0.1:1433/MBWEBDB" userId="sa" password="Zqwer3edc">
         </jdbcConnection>
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
@@ -33,67 +33,82 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!-- 要生成哪些表-->
-        <table tableName="Company" domainObjectName="Company" enableCountByExample="true" enableUpdateByExample="true"
-               enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <property name="useActualColumnNames" value="true" />
-            <!--<generatedKey column="Id" sqlStatement="SqlServer" type="post" identity="true"/>-->
-        </table>
-        <table tableName="SubSclass" domainObjectName="SubSclass" enableCountByExample="true" enableUpdateByExample="true"
-               enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <property name="useActualColumnNames" value="true" />
-            <!--<generatedKey column="Id" sqlStatement="SqlServer" type="post" identity="true"/>-->
-        </table>
-        <table tableName="Sclass" domainObjectName="Sclass" enableCountByExample="true" enableUpdateByExample="true"
-               enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <property name="useActualColumnNames" value="true" />
-            <!--<generatedKey column="Id" sqlStatement="SqlServer" type="post" identity="true"/>-->
-        </table>
-        <table tableName="Schedule" domainObjectName="Schedule" enableCountByExample="true" enableUpdateByExample="true"
-               enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <property name="useActualColumnNames" value="true" />
-            <!--<generatedKey column="Id" sqlStatement="SqlServer" type="post" identity="true"/>-->
-        </table>
-        <table tableName="TotalScore" domainObjectName="TotalScore" enableCountByExample="true" enableUpdateByExample="true"
-               enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <property name="useActualColumnNames" value="true" />
-            <!--<generatedKey column="Id" sqlStatement="SqlServer" type="post" identity="true"/>-->
-        </table>
-        <table tableName="TotalScoreDetail" domainObjectName="TotalScoreDetail" enableCountByExample="true" enableUpdateByExample="true"
-               enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <property name="useActualColumnNames" value="true" />
-            <!--<generatedKey column="Id" sqlStatement="SqlServer" type="post" identity="true"/>-->
-        </table>
-        <table tableName="t_schedule_2016" domainObjectName="Schedule2016" enableCountByExample="true" enableUpdateByExample="true"
-               enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <property name="useActualColumnNames" value="true" />
-            <!--<generatedKey column="Id" sqlStatement="SqlServer" type="post" identity="true"/>-->
-        </table>
-        <table tableName="t_schedule_2017" domainObjectName="Schedule2017" enableCountByExample="true" enableUpdateByExample="true"
-               enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <property name="useActualColumnNames" value="true" />
-            <!--<generatedKey column="Id" sqlStatement="SqlServer" type="post" identity="true"/>-->
-        </table>
-        <table tableName="t_schedule_2018" domainObjectName="Schedule2018" enableCountByExample="true" enableUpdateByExample="true"
-               enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <property name="useActualColumnNames" value="true" />
-            <!--<generatedKey column="Id" sqlStatement="SqlServer" type="post" identity="true"/>-->
-        </table>
-        <table tableName="t_schedule_2016_2017" domainObjectName="Schedule20162017" enableCountByExample="true" enableUpdateByExample="true"
-               enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <property name="useActualColumnNames" value="true" />
-            <!--<generatedKey column="Id" sqlStatement="SqlServer" type="post" identity="true"/>-->
-        </table>
-        <table tableName="t_schedule_2017_2018" domainObjectName="Schedule20172018" enableCountByExample="true" enableUpdateByExample="true"
-               enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <property name="useActualColumnNames" value="true" />
-            <!--<generatedKey column="Id" sqlStatement="SqlServer" type="post" identity="true"/>-->
-        </table>
-        <table tableName="t_schedule_2018_2019" domainObjectName="Schedule20182019" enableCountByExample="true" enableUpdateByExample="true"
-               enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-            <property name="useActualColumnNames" value="true" />
-            <!--<generatedKey column="Id" sqlStatement="SqlServer" type="post" identity="true"/>-->
-        </table>
-        <table tableName="t_totalscore" domainObjectName="TotalScoreReal" enableCountByExample="true" enableUpdateByExample="true"
+        <!--<table tableName="Company" domainObjectName="Company" enableCountByExample="true" enableUpdateByExample="true"-->
+               <!--enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<property name="useActualColumnNames" value="true" />-->
+            <!--&lt;!&ndash;<generatedKey column="Id" sqlStatement="SqlServer" type="post" identity="true"/>&ndash;&gt;-->
+        <!--</table>-->
+        <!--<table tableName="SubSclass" domainObjectName="SubSclass" enableCountByExample="true" enableUpdateByExample="true"-->
+               <!--enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<property name="useActualColumnNames" value="true" />-->
+            <!--&lt;!&ndash;<generatedKey column="Id" sqlStatement="SqlServer" type="post" identity="true"/>&ndash;&gt;-->
+        <!--</table>-->
+        <!--<table tableName="Sclass" domainObjectName="Sclass" enableCountByExample="true" enableUpdateByExample="true"-->
+               <!--enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<property name="useActualColumnNames" value="true" />-->
+            <!--&lt;!&ndash;<generatedKey column="Id" sqlStatement="SqlServer" type="post" identity="true"/>&ndash;&gt;-->
+        <!--</table>-->
+        <!--<table tableName="Schedule" domainObjectName="Schedule" enableCountByExample="true" enableUpdateByExample="true"-->
+               <!--enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<property name="useActualColumnNames" value="true" />-->
+            <!--&lt;!&ndash;<generatedKey column="Id" sqlStatement="SqlServer" type="post" identity="true"/>&ndash;&gt;-->
+        <!--</table>-->
+        <!--<table tableName="TotalScore" domainObjectName="TotalScore" enableCountByExample="true" enableUpdateByExample="true"-->
+               <!--enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<property name="useActualColumnNames" value="true" />-->
+            <!--&lt;!&ndash;<generatedKey column="Id" sqlStatement="SqlServer" type="post" identity="true"/>&ndash;&gt;-->
+        <!--</table>-->
+        <!--<table tableName="TotalScoreDetail" domainObjectName="TotalScoreDetail" enableCountByExample="true" enableUpdateByExample="true"-->
+               <!--enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<property name="useActualColumnNames" value="true" />-->
+            <!--&lt;!&ndash;<generatedKey column="Id" sqlStatement="SqlServer" type="post" identity="true"/>&ndash;&gt;-->
+        <!--</table>-->
+        <!--<table tableName="t_schedule_2016" domainObjectName="Schedule2016" enableCountByExample="true" enableUpdateByExample="true"-->
+               <!--enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<property name="useActualColumnNames" value="true" />-->
+            <!--&lt;!&ndash;<generatedKey column="Id" sqlStatement="SqlServer" type="post" identity="true"/>&ndash;&gt;-->
+        <!--</table>-->
+        <!--<table tableName="t_schedule_2017" domainObjectName="Schedule2017" enableCountByExample="true" enableUpdateByExample="true"-->
+               <!--enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<property name="useActualColumnNames" value="true" />-->
+            <!--&lt;!&ndash;<generatedKey column="Id" sqlStatement="SqlServer" type="post" identity="true"/>&ndash;&gt;-->
+        <!--</table>-->
+        <!--<table tableName="t_schedule_2018" domainObjectName="Schedule2018" enableCountByExample="true" enableUpdateByExample="true"-->
+               <!--enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<property name="useActualColumnNames" value="true" />-->
+            <!--&lt;!&ndash;<generatedKey column="Id" sqlStatement="SqlServer" type="post" identity="true"/>&ndash;&gt;-->
+        <!--</table>-->
+        <!--<table tableName="t_schedule_2016_2017" domainObjectName="Schedule20162017" enableCountByExample="true" enableUpdateByExample="true"-->
+               <!--enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<property name="useActualColumnNames" value="true" />-->
+            <!--&lt;!&ndash;<generatedKey column="Id" sqlStatement="SqlServer" type="post" identity="true"/>&ndash;&gt;-->
+        <!--</table>-->
+        <!--<table tableName="t_schedule_2017_2018" domainObjectName="Schedule20172018" enableCountByExample="true" enableUpdateByExample="true"-->
+               <!--enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<property name="useActualColumnNames" value="true" />-->
+            <!--&lt;!&ndash;<generatedKey column="Id" sqlStatement="SqlServer" type="post" identity="true"/>&ndash;&gt;-->
+        <!--</table>-->
+        <!--<table tableName="t_schedule_2018_2019" domainObjectName="Schedule20182019" enableCountByExample="true" enableUpdateByExample="true"-->
+               <!--enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<property name="useActualColumnNames" value="true" />-->
+            <!--&lt;!&ndash;<generatedKey column="Id" sqlStatement="SqlServer" type="post" identity="true"/>&ndash;&gt;-->
+        <!--</table>-->
+        <!--<table tableName="t_totalscore" domainObjectName="TotalScoreReal" enableCountByExample="true" enableUpdateByExample="true"-->
+               <!--enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<property name="useActualColumnNames" value="true" />-->
+            <!--&lt;!&ndash;<generatedKey column="Id" sqlStatement="SqlServer" type="post" identity="true"/>&ndash;&gt;-->
+        <!--</table>-->
+        <!--<table tableName="LetGoal" domainObjectName="LetGoal" enableCountByExample="true" enableUpdateByExample="true"-->
+               <!--enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<property name="useActualColumnNames" value="true" />-->
+            <!--&lt;!&ndash;<generatedKey column="Id" sqlStatement="SqlServer" type="post" identity="true"/>&ndash;&gt;-->
+        <!--</table>-->
+        <!--<table tableName="LetGoalDetail" domainObjectName="LetGoalDetail" enableCountByExample="true" enableUpdateByExample="true"-->
+               <!--enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--<property name="useActualColumnNames" value="true" />-->
+            <!--&lt;!&ndash;<generatedKey column="Id" sqlStatement="SqlServer" type="post" identity="true"/>&ndash;&gt;-->
+        <!--</table>-->
+        <table tableName="MBP_UserInfo" domainObjectName="CmbUser" enableCountByExample="true" enableUpdateByExample="true"
                enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
             <property name="useActualColumnNames" value="true" />
             <!--<generatedKey column="Id" sqlStatement="SqlServer" type="post" identity="true"/>-->

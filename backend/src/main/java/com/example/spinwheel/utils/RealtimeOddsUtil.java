@@ -2,21 +2,32 @@ package com.example.spinwheel.utils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.spinwheel.base.dto.ClassDTO;
+import com.example.spinwheel.base.dto.CommonTemplateDTO;
+import com.example.spinwheel.base.dto.NewsTemplateDTO;
 import com.example.spinwheel.base.dto.OddsDTO;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicHeader;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import redis.clients.jedis.Jedis;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+import static org.springframework.http.HttpHeaders.USER_AGENT;
 
 public class RealtimeOddsUtil {
     private static LoggerManager logger = LoggerManager.getLogger(RealtimeOddsUtil.class);
@@ -43,8 +54,41 @@ public class RealtimeOddsUtil {
         return null;
     }
 
-    public static String sendPost(String url) {
-        return null;
+    public static HttpResponse sendPost(String accessToken, String home, String guest) throws Exception {
+
+        String url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token="+accessToken;
+
+        HttpClient client = new DefaultHttpClient();
+        HttpPost post = new HttpPost(url);
+
+        //添加请求头
+        post.setHeader("User-Agent", USER_AGENT);
+
+        List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
+        urlParameters.add(new BasicNameValuePair("touser", "oY9RC5mfZn87aSPd9fwirVQz95zY"));
+        urlParameters.add(new BasicNameValuePair("template_id", "7PJRIU8el3GGblNAir1dxbuAu7fU1dV-fz0Y02zLsMc"));
+        NewsTemplateDTO dto = new NewsTemplateDTO();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
+        CommonTemplateDTO first = new CommonTemplateDTO();
+        first.setValue(sdf.format(new Date()));
+        dto.setFirst(first);
+        first.setValue("足球大数据通知");
+        dto.setKeyword1(first);
+        first.setValue("比赛投注提醒");
+        dto.setKeyword2(first);
+        first.setValue("【"+home+"】 vs 【"+guest+"】");
+        dto.setKeyword3(first);
+        urlParameters.add(new BasicNameValuePair("data", JSONObject.toJSONString(dto)));
+
+        post.setEntity(new UrlEncodedFormEntity(urlParameters));
+
+        HttpResponse response = client.execute(post);
+        System.out.println("\nSending 'POST' request to URL : " + url);
+        System.out.println("Post parameters : " + post.getEntity());
+        System.out.println("Response Code : " +
+        response.getStatusLine().getStatusCode());
+        return response;
+
     }
 
     public static List<OddsDTO> readRealtimeOdds() {
@@ -130,11 +174,23 @@ public class RealtimeOddsUtil {
             // 微信通知
 
             // 获取access_token
-            String accessTokenResp = sendGet("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx581c631ff7ed0c70&secret=0d9340d2b107c65e58f1591291853754");
-            JSONObject jsonObject = JSONObject.parseObject(accessTokenResp);
-            String accessToken = jsonObject.getString("access_token");
+            Jedis jedis = new Jedis("192.168.10.4");
+            String accessToken = null;
+            if (jedis.exists("spinwheel_access_token")){
+                accessToken = jedis.get("spinwheel_access_token");
+            } else {
+                String accessTokenResp = sendGet("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx581c631ff7ed0c70&secret=0d9340d2b107c65e58f1591291853754");
+                JSONObject jsonObject = JSONObject.parseObject(accessTokenResp);
+                accessToken = jsonObject.getString("access_token");
+                jedis.set("spinwheel_access_token", accessToken);
+                jedis.expire("spinwheel_access_token", 15*60);
+            }
 
             // 发送消息模板
+            if (jedis.exists("spinwheel_schedule_list")){
+                Set<String> existedSchedules = jedis.smembers("spinwheel_schedule_list");
+
+            }
             String templateResp = sendGet("");
 
         }
