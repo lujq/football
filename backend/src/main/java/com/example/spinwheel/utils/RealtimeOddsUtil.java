@@ -74,24 +74,15 @@ public class RealtimeOddsUtil {
         dataJson.put("keyword3", "【"+home+"】 vs 【"+guest+"】");
         json.put("data", dataJson);
         HttpResponse httpResponse = null;
-//        try {
-//            StringEntity myEntity = new StringEntity(json.toJSONString(), ContentType.APPLICATION_JSON);
-//
-//            // 设置post求情参数
-//            httpPost.setEntity(myEntity);
-//            httpResponse = httpClient.execute(httpPost);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            try {
-//                if (httpClient != null) {
-//                    // 释放资源
-//                    httpClient.close();
-//                }
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        try {
+            StringEntity myEntity = new StringEntity(json.toJSONString(), ContentType.APPLICATION_JSON);
+
+            // 设置post求情参数
+            httpPost.setEntity(myEntity);
+            httpResponse = httpClient.execute(httpPost);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return httpResponse;
     }
 
