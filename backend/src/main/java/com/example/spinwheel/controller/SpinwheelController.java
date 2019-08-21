@@ -1,5 +1,6 @@
 package com.example.spinwheel.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.example.spinwheel.base.request.GetTotalScoreDetailReq;
 import com.example.spinwheel.base.request.GetTotalScoreReq;
 import com.example.spinwheel.base.response.GetSeasonsRsp;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+import static com.example.spinwheel.utils.RealtimeOddsUtil.sendGet;
+
 @CrossOrigin
 @RestController
 @RequestMapping
@@ -30,6 +33,16 @@ public class SpinwheelController {
     @GetMapping(value = "/getRank")
     public String getRank() {
         return "zym";
+    }
+
+    @ApiOperation(value="查询大小球统计信息", notes="查询大小球统计信息")
+    @PostMapping(value = "/getOpenId")
+    public String getOpenIds() {
+        String accessTokenResp = sendGet("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx581c631ff7ed0c70&secret=0d9340d2b107c65e58f1591291853754");
+        JSONObject jsonObject = JSONObject.parseObject(accessTokenResp);
+        String accessToken = jsonObject.getString("access_token");
+        String openIdResp = sendGet("https://api.weixin.qq.com/cgi-bin/user/get?access_token="+ accessToken);
+        return openIdResp;
     }
 
     @ApiOperation(value="查询大小球统计信息", notes="查询大小球统计信息")
@@ -91,6 +104,96 @@ public class SpinwheelController {
         return rsp;
     }
 
+    @ApiOperation(value="导出csv", notes="导出csv")
+    @PostMapping(value = "/exportCsv")
+    public void exportCsv() {
+        Map<String, String> logTags = GenLogTagTool.genlogTag("SpinwheelController", "exportCsv");
+        SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0);
+        long id = idWorker.nextId();
+        try {
+            statisticService.generateCsv();
+        } catch (Exception e) {
+            logger.info("exportCsv error. Exception is :" + e.getMessage());
+        }
+    }
+
+    @ApiOperation(value="导出csv", notes="导出csv")
+    @PostMapping(value = "/exportXlsx")
+    public void exportXlsx() {
+        Map<String, String> logTags = GenLogTagTool.genlogTag("SpinwheelController", "exportXlsx");
+        SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0);
+        long id = idWorker.nextId();
+        try {
+            statisticService.generateLetGoal();
+        } catch (Exception e) {
+            logger.info("exportCsv error. Exception is :" + e.getMessage());
+        }
+    }
+
+    @ApiOperation(value="导出csv", notes="导出csv")
+    @PostMapping(value = "/export2018_2019")
+    public void export2018_2019() {
+        Map<String, String> logTags = GenLogTagTool.genlogTag("SpinwheelController", "export2018_2019");
+        SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0);
+        long id = idWorker.nextId();
+        try {
+            statisticService.newGenerateCsv();
+        } catch (Exception e) {
+            logger.info("exportCsv error. Exception is :" + e.getMessage());
+        }
+    }
+
+    @ApiOperation(value="导出csv", notes="导出csv")
+    @PostMapping(value = "/export2018_20191")
+    public void export2018_20191() {
+        Map<String, String> logTags = GenLogTagTool.genlogTag("SpinwheelController", "export2018_2019");
+        SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0);
+        long id = idWorker.nextId();
+        try {
+            statisticService.newGenerateCsv1();
+        } catch (Exception e) {
+            logger.info("exportCsv error. Exception is :" + e.getMessage());
+        }
+    }
+
+    @ApiOperation(value="导出csv", notes="导出csv")
+    @PostMapping(value = "/export2018_20192")
+    public void export2018_20192() {
+        Map<String, String> logTags = GenLogTagTool.genlogTag("SpinwheelController", "export2018_2019");
+        SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0);
+        long id = idWorker.nextId();
+        try {
+            statisticService.newGenerateCsv2();
+        } catch (Exception e) {
+            logger.info("exportCsv error. Exception is :" + e.getMessage());
+        }
+    }
+
+    @ApiOperation(value="导出csv", notes="导出csv")
+    @PostMapping(value = "/export2018_20193")
+    public void export2018_20193() {
+        Map<String, String> logTags = GenLogTagTool.genlogTag("SpinwheelController", "export2018_2019");
+        SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0);
+        long id = idWorker.nextId();
+        try {
+            statisticService.newGenerateCsv3();
+        } catch (Exception e) {
+            logger.info("exportCsv error. Exception is :" + e.getMessage());
+        }
+    }
+
+    @ApiOperation(value="导出csv", notes="导出csv")
+    @PostMapping(value = "/export2018_20194")
+    public void export2018_20194() {
+        Map<String, String> logTags = GenLogTagTool.genlogTag("SpinwheelController", "export2018_2019");
+        SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0);
+        long id = idWorker.nextId();
+        try {
+            statisticService.newGenerateCsv4();
+        } catch (Exception e) {
+            logger.info("exportCsv error. Exception is :" + e.getMessage());
+        }
+    }
 //    @ApiOperation(value="补全2016数据", notes="补全2016数据")
 //    @PostMapping(value = "/complete2016")
 //    public void complete2016(

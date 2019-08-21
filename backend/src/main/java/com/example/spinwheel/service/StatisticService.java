@@ -32,6 +32,17 @@ public interface StatisticService {
      */
     GetSeasonsRsp getSeasons();
 
+    void generateCsv();
+
+    void generateLetGoal();
+
+    void newGenerateCsv();
+
+    void newGenerateCsv1();
+    void newGenerateCsv2();
+    void newGenerateCsv3();
+    void newGenerateCsv4();
+
     /**
      * 查询文件下载地址
      * @param req
