@@ -120,10 +120,10 @@ public class RealtimeOddsUtil {
         try {
             StringEntity myEntity = new StringEntity(json.toJSONString());
             myEntity.setContentEncoding("UTF-8");
-            myEntity.setContentType("application/json");
+            myEntity.setContentType("application/x-www-form-urlencoded");
             // 设置post求情参数
             httpPost.setEntity(myEntity);
-            httpPost.addHeader(HTTP.CONTENT_TYPE, "application/json");
+            httpPost.addHeader(HTTP.CONTENT_TYPE, "application/x-www-form-urlencoded");
             httpResponse = httpClient.execute(httpPost);
 
 
