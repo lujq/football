@@ -73,8 +73,9 @@ public class RealtimeOddsUtil {
         HttpResponse httpResponse = null;
         String resultStr = "发送失败";
         try {
-            StringEntity myEntity = new StringEntity(json.toJSONString(), ContentType.APPLICATION_JSON);
-
+            StringEntity myEntity = new StringEntity(json.toJSONString());
+            myEntity.setContentEncoding("UTF-8");
+            myEntity.setContentType("application/json");
             // 设置post求情参数
             httpPost.setEntity(myEntity);
             httpResponse = httpClient.execute(httpPost);
