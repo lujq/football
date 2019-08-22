@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 import static com.example.spinwheel.utils.RealtimeOddsUtil.sendGet;
-import static com.example.spinwheel.utils.RealtimeOddsUtil.sendPost;
 import static com.example.spinwheel.utils.RealtimeOddsUtil.sendTemplate;
 
 @CrossOrigin
@@ -50,12 +49,12 @@ public class SpinwheelController {
 
     @ApiOperation(value="试着发送消息模板", notes="试着发送消息模板")
     @PostMapping(value = "/sendTemplate")
-    public HttpResponse sendTemplate1() {
+    public String sendTemplate1() {
         String accessToken = null;
         String accessTokenResp = sendGet("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx581c631ff7ed0c70&secret=0d9340d2b107c65e58f1591291853754");
         JSONObject jsonObject = JSONObject.parseObject(accessTokenResp);
         accessToken = jsonObject.getString("access_token");
-        HttpResponse response = null;
+        String response = null;
         try {
             response = sendTemplate(accessToken, "主队", "客队");
         } catch (Exception e) {

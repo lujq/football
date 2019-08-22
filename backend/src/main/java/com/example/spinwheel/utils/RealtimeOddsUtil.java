@@ -1,10 +1,7 @@
 package com.example.spinwheel.utils;
 
 import com.alibaba.fastjson.JSONObject;
-import com.example.spinwheel.base.dto.ClassDTO;
-import com.example.spinwheel.base.dto.CommonTemplateDTO;
-import com.example.spinwheel.base.dto.NewsTemplateDTO;
-import com.example.spinwheel.base.dto.OddsDTO;
+import com.example.spinwheel.base.dto.*;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -57,7 +54,7 @@ public class RealtimeOddsUtil {
         return null;
     }
 
-    public static HttpResponse sendTemplate(String accessToken, String home, String guest) {
+    public static String sendTemplate(String accessToken, String home, String guest) {
         String tepUrl = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token="
                 + accessToken;
         CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -69,61 +66,48 @@ public class RealtimeOddsUtil {
         JSONObject dataJson = new JSONObject();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
         dataJson.put("first", sdf.format(new Date()));
-        dataJson.put("keyword1", sdf.format(new Date()));
+        dataJson.put("keyword1", "");
         dataJson.put("keyword2", "足球大数据通知");
         dataJson.put("keyword3", "【"+home+"】 vs 【"+guest+"】");
         json.put("data", dataJson);
         HttpResponse httpResponse = null;
+        String resultStr = "发送失败";
         try {
             StringEntity myEntity = new StringEntity(json.toJSONString(), ContentType.APPLICATION_JSON);
 
             // 设置post求情参数
             httpPost.setEntity(myEntity);
             httpResponse = httpClient.execute(httpPost);
-        } catch (Exception e) {
+
+
+            if (httpResponse.getStatusLine().getStatusCode() == 200) {
+                // 发送成功
+                String resutlEntity = EntityUtils.toString(httpResponse.getEntity());
+                ResultTemplateDate resultTemplateDate = JSONObject.parseObject(resutlEntity, ResultTemplateDate.class);
+                if (resultTemplateDate.getErrcode().equals("40037")) {
+                    resultStr = "template_id不正确";
+                }
+                if (resultTemplateDate.getErrcode().equals("41028")) {
+                    resultStr = "form_id不正确，或者过期";
+                }
+                if (resultTemplateDate.getErrcode().equals("41029")) {
+                    resultStr = "form_id已被使用";
+                }
+                if (resultTemplateDate.getErrcode().equals("41030")) {
+                    resultStr = "page不正确";
+                }
+                if (resultTemplateDate.getErrcode().equals("45009")) {
+                    resultStr = "接口调用超过限额（目前默认每个帐号日调用限额为100万）";
+                }
+                resultStr = resultTemplateDate.getErrmsg();
+                return resultStr;
+            } else {
+                // 发送失败
+                return resultStr;
+            }        } catch (Exception e) {
             e.printStackTrace();
         }
-        return httpResponse;
-    }
-
-    public static HttpResponse sendPost(String accessToken, String home, String guest) throws Exception {
-
-        String url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token="+accessToken;
-
-        HttpClient client = new DefaultHttpClient();
-        HttpPost post = new HttpPost(url);
-
-        //添加请求头
-        post.setHeader("User-Agent", USER_AGENT);
-
-        List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
-        urlParameters.add(new BasicNameValuePair("touser", "oY9RC5mfZn87aSPd9fwirVQz95zY"));
-        urlParameters.add(new BasicNameValuePair("template_id", "7PJRIU8el3GGblNAir1dxbuAu7fU1dV-fz0Y02zLsMc"));
-        NewsTemplateDTO dto = new NewsTemplateDTO();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
-        CommonTemplateDTO first = new CommonTemplateDTO();
-        first.setValue(sdf.format(new Date()));
-        dto.setFirst(first);
-        CommonTemplateDTO keyword1 = new CommonTemplateDTO();
-        keyword1.setValue("足球大数据通知");
-        dto.setKeyword1(keyword1);
-        CommonTemplateDTO keyword2 = new CommonTemplateDTO();
-        keyword2.setValue("比赛投注提醒");
-        dto.setKeyword2(keyword2);
-        CommonTemplateDTO keyword3 = new CommonTemplateDTO();
-        keyword3.setValue("【"+home+"】 vs 【"+guest+"】");
-        dto.setKeyword3(keyword3);
-        urlParameters.add(new BasicNameValuePair("data", JSONObject.toJSONString(dto)));
-
-        post.setEntity(new UrlEncodedFormEntity(urlParameters));
-
-        HttpResponse response = client.execute(post);
-        System.out.println("\nSending 'POST' request to URL : " + url);
-        System.out.println("Post parameters : " + post.getEntity());
-        System.out.println("Response Code : " +
-        response.getStatusLine().getStatusCode());
-        return response;
-
+        return resultStr;
     }
 
     public static List<OddsDTO> readRealtimeOdds() {
@@ -229,7 +213,7 @@ public class RealtimeOddsUtil {
                         continue;
                     } else {
                         try {
-                            sendPost(accessToken, dto.getHomeName(), dto.getGuestName());
+                            sendTemplate(accessToken, dto.getHomeName(), dto.getGuestName());
                             jedis.sadd("spinwheel_schedule_list", dto.getScheduleId());
                         } catch (Exception e) {
                             e.printStackTrace();
