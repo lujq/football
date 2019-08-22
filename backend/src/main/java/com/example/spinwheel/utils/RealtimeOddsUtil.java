@@ -115,7 +115,7 @@ public class RealtimeOddsUtil {
         dataJson.put("keyword1", "足球大数据通知");
         dataJson.put("keyword2", "比赛投注提醒");
         dataJson.put("keyword3", "【"+home+"】 vs 【"+guest+"】");
-        json.put("data", dataJson);
+        json.put("data", dataJson.toJSONString());
         HttpResponse httpResponse = null;
         String resultStr = "发送失败";
         try {
