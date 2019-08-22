@@ -18,6 +18,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import redis.clients.jedis.Jedis;
 
@@ -119,9 +120,10 @@ public class RealtimeOddsUtil {
         try {
             StringEntity myEntity = new StringEntity(json.toJSONString());
             myEntity.setContentEncoding("UTF-8");
-            myEntity.setContentType("application/x-www-form-urlencoded");
+            myEntity.setContentType("application/json");
             // 设置post求情参数
             httpPost.setEntity(myEntity);
+            httpPost.addHeader(HTTP.CONTENT_TYPE, "application/x-www-form-urlencoded");
             httpResponse = httpClient.execute(httpPost);
 
 
