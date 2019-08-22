@@ -20,6 +20,8 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 
 import java.io.BufferedReader;
@@ -30,9 +32,10 @@ import java.util.*;
 
 import static org.springframework.http.HttpHeaders.USER_AGENT;
 
+@Component
 public class RealtimeOddsUtil {
     private static LoggerManager logger = LoggerManager.getLogger(RealtimeOddsUtil.class);
-    public static String sendGet(String url) {
+    public String sendGet(String url) {
         JSONObject jsonObject = null;
         CloseableHttpClient client = null;
         CloseableHttpResponse response = null;
@@ -55,68 +58,15 @@ public class RealtimeOddsUtil {
         return null;
     }
 
-    public static String sendPost(String accesstoken, String home, String guest) throws Exception {
-
-        String url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=";
-
-        HttpClient client = new DefaultHttpClient();
-        HttpPost post = new HttpPost(url);
-
-        //添加请求头
-        post.setHeader("User-Agent", USER_AGENT);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
-        List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
-        urlParameters.add(new BasicNameValuePair("touser", "oY9RC5pjrq2xeW2q_RnxjGxt-Y50"));
-        urlParameters.add(new BasicNameValuePair("template_id", "7PJRIU8el3GGblNAir1dxbuAu7fU1dV-fz0Y02zLsMc"));
-        JSONObject json = new JSONObject();
-        JSONObject dataJson = new JSONObject();
-        dataJson.put("first", sdf.format(new Date()));
-        dataJson.put("keyword1", "足球大数据通知");
-        dataJson.put("keyword2", "比赛投注提醒");
-        dataJson.put("keyword3", "【"+home+"】 vs 【"+guest+"】");
-        json.put("data", dataJson);
-        urlParameters.add(new BasicNameValuePair("data", json.toJSONString()));
-
-        post.setEntity(new UrlEncodedFormEntity(urlParameters));
-
-        HttpResponse response = client.execute(post);
-        System.out.println("\nSending 'POST' request to URL : " + url);
-        System.out.println("Post parameters : " + post.getEntity());
-        System.out.println("Response Code : " +
-                response.getStatusLine().getStatusCode());
-
-        BufferedReader rd = new BufferedReader(
-                new InputStreamReader(response.getEntity().getContent()));
-
-        StringBuffer result = new StringBuffer();
-        String line = "";
-        while ((line = rd.readLine()) != null) {
-            result.append(line);
-        }
-
-        System.out.println(result.toString());
-        return result.toString();
-
-    }
-
-    public static String sendTemplate(String accessToken, String home, String guest) {
+    public String sendTemplate(String accessToken, String home, String guest, String touser) {
         String tepUrl = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token="
                 + accessToken;
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(tepUrl);
         // 装配post请求参数
-        JSONObject json = new JSONObject();
-        json.put("touser", "oY9RC5pjrq2xeW2q_RnxjGxt-Y50");
-        json.put("template_id", "7PJRIU8el3GGblNAir1dxbuAu7fU1dV-fz0Y02zLsMc");
-        json.put("url", "https://www.baidu.com");
-        JSONObject dataJson = new JSONObject();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
-        dataJson.put("first", sdf.format(new Date()));
-        dataJson.put("keyword1", "足球大数据通知");
-        dataJson.put("keyword2", "比赛投注提醒");
-        dataJson.put("keyword3", "【"+home+"】 vs 【"+guest+"】");
         DataDTO dataDTO = new DataDTO();
-        dataDTO.setTouser("oY9RC5pjrq2xeW2q_RnxjGxt-Y50");
+        dataDTO.setTouser(touser);
         dataDTO.setTemplate_id("7PJRIU8el3GGblNAir1dxbuAu7fU1dV-fz0Y02zLsMc");
         NewsTemplateDTO newsTemplateDTO = new NewsTemplateDTO();
         CommonTemplateDTO c1 = new CommonTemplateDTO();
@@ -131,7 +81,6 @@ public class RealtimeOddsUtil {
         newsTemplateDTO.setKeyword1(c2);
         newsTemplateDTO.setKeyword2(c3);
         newsTemplateDTO.setKeyword3(c4);
-        json.put("data", JSONObject.toJSONString(newsTemplateDTO));
         dataDTO.setData(newsTemplateDTO);
         HttpResponse httpResponse = null;
         String resultStr = "发送失败";
@@ -176,11 +125,17 @@ public class RealtimeOddsUtil {
         return resultStr;
     }
 
-    public static List<OddsDTO> readRealtimeOdds() {
+    @Scheduled(fixedRate = 2*60*1000)
+    public List<OddsDTO> readRealtimeOdds() {
+        System.out.println("start zzz");
         String url = "http://interface.win007.com/zq/odds.aspx";
         String rawResult = sendGet(url);
         if (null != rawResult){
             String[] result = rawResult.split("\\$");
+            if (result.length == 1) {
+                logger.error(rawResult);
+                return null;
+            }
             // 释放内存
             rawResult = null;
             // 联赛信息
@@ -279,15 +234,27 @@ public class RealtimeOddsUtil {
                         continue;
                     } else {
                         try {
-                            sendTemplate(accessToken, dto.getHomeName(), dto.getGuestName());
+                            sendTemplate(accessToken, dto.getHomeName(), dto.getGuestName(), "oY9RC5pjrq2xeW2q_RnxjGxt-Y50");
+                            sendTemplate(accessToken, dto.getHomeName(), dto.getGuestName(), "oY9RC5mfZn87aSPd9fwirVQz95zY");
                             jedis.sadd("spinwheel_schedule_list", dto.getScheduleId());
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
                 }
+            } else {
+                for (OddsDTO dto : resultList) {
+                    try {
+                        sendTemplate(accessToken, dto.getHomeName(), dto.getGuestName(), "oY9RC5pjrq2xeW2q_RnxjGxt-Y50");
+                        sendTemplate(accessToken, dto.getHomeName(), dto.getGuestName(), "oY9RC5mfZn87aSPd9fwirVQz95zY");
+                        jedis.sadd("spinwheel_schedule_list", dto.getScheduleId());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                jedis.expire("spinwheel_schedule_list", 6*60*60);
+
             }
-            String templateResp = sendGet("");
 
         }
         return null;
@@ -309,6 +276,6 @@ public class RealtimeOddsUtil {
         } else {
             System.out.println("no");
         }
-        readRealtimeOdds();
+//        readRealtimeOdds();
     }
 }

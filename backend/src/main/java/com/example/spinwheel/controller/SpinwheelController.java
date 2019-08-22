@@ -19,9 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-import static com.example.spinwheel.utils.RealtimeOddsUtil.sendGet;
-import static com.example.spinwheel.utils.RealtimeOddsUtil.sendPost;
-import static com.example.spinwheel.utils.RealtimeOddsUtil.sendTemplate;
 
 @CrossOrigin
 @RestController
@@ -38,31 +35,31 @@ public class SpinwheelController {
         return "zym";
     }
 
-    @ApiOperation(value="查询openID", notes="查询openID")
-    @PostMapping(value = "/getOpenId")
-    public String getOpenIds() {
-        String accessTokenResp = sendGet("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx581c631ff7ed0c70&secret=0d9340d2b107c65e58f1591291853754");
-        JSONObject jsonObject = JSONObject.parseObject(accessTokenResp);
-        String accessToken = jsonObject.getString("access_token");
-        String openIdResp = sendGet("https://api.weixin.qq.com/cgi-bin/user/get?access_token="+ accessToken);
-        return openIdResp;
-    }
-
-    @ApiOperation(value="试着发送消息模板", notes="试着发送消息模板")
-    @PostMapping(value = "/sendTemplate")
-    public String sendTemplate1() {
-        String accessToken = null;
-        String accessTokenResp = sendGet("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx581c631ff7ed0c70&secret=0d9340d2b107c65e58f1591291853754");
-        JSONObject jsonObject = JSONObject.parseObject(accessTokenResp);
-        accessToken = jsonObject.getString("access_token");
-        String response = null;
-        try {
-            response = sendTemplate(accessToken, "主队", "客队");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return response;
-    }
+//    @ApiOperation(value="查询openID", notes="查询openID")
+//    @PostMapping(value = "/getOpenId")
+//    public String getOpenIds() {
+//        String accessTokenResp = sendGet("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx581c631ff7ed0c70&secret=0d9340d2b107c65e58f1591291853754");
+//        JSONObject jsonObject = JSONObject.parseObject(accessTokenResp);
+//        String accessToken = jsonObject.getString("access_token");
+//        String openIdResp = sendGet("https://api.weixin.qq.com/cgi-bin/user/get?access_token="+ accessToken);
+//        return openIdResp;
+//    }
+//
+//    @ApiOperation(value="试着发送消息模板", notes="试着发送消息模板")
+//    @PostMapping(value = "/sendTemplate")
+//    public String sendTemplate1() {
+//        String accessToken = null;
+//        String accessTokenResp = sendGet("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx581c631ff7ed0c70&secret=0d9340d2b107c65e58f1591291853754");
+//        JSONObject jsonObject = JSONObject.parseObject(accessTokenResp);
+//        accessToken = jsonObject.getString("access_token");
+//        String response = null;
+//        try {
+//            response = sendTemplate(accessToken, "主队", "客队");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return response;
+//    }
 
     @ApiOperation(value="查询大小球统计信息", notes="查询大小球统计信息")
     @PostMapping(value = "/getTotalScoreStatistic")
