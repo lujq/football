@@ -9,4 +9,5 @@ public class NewsTemplateDTO {
     private CommonTemplateDTO keyword2;
     private CommonTemplateDTO keyword3;
     private CommonTemplateDTO remark;
+
 }

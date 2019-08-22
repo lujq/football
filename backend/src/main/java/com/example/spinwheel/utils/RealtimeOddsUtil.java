@@ -115,16 +115,24 @@ public class RealtimeOddsUtil {
         dataJson.put("keyword1", "足球大数据通知");
         dataJson.put("keyword2", "比赛投注提醒");
         dataJson.put("keyword3", "【"+home+"】 vs 【"+guest+"】");
-        json.put("data", dataJson.toJSONString());
+        DataDTO dataDTO = new DataDTO();
+        dataDTO.setTouser("oY9RC5pjrq2xeW2q_RnxjGxt-Y50");
+        dataDTO.setTemplate_id("7PJRIU8el3GGblNAir1dxbuAu7fU1dV-fz0Y02zLsMc");
+        NewsTemplateDTO newsTemplateDTO = new NewsTemplateDTO();
+        CommonTemplateDTO c1 = new CommonTemplateDTO();
+        c1.setValue(sdf.format(new Date()));
+        newsTemplateDTO.setFirst(c1);
+        json.put("data", JSONObject.toJSONString(newsTemplateDTO));
+        dataDTO.setData(newsTemplateDTO);
         HttpResponse httpResponse = null;
         String resultStr = "发送失败";
         try {
-            StringEntity myEntity = new StringEntity(json.toJSONString());
+            StringEntity myEntity = new StringEntity(JSONObject.toJSONString(dataDTO));
             myEntity.setContentEncoding("UTF-8");
-            myEntity.setContentType("application/x-www-form-urlencoded");
+            myEntity.setContentType("application/json");
             // 设置post求情参数
             httpPost.setEntity(myEntity);
-            httpPost.addHeader(HTTP.CONTENT_TYPE, "application/x-www-form-urlencoded");
+            httpPost.addHeader(HTTP.CONTENT_TYPE, "application/json");
             httpResponse = httpClient.execute(httpPost);
 
 
