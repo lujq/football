@@ -54,6 +54,50 @@ public class RealtimeOddsUtil {
         return null;
     }
 
+    public static String sendPost(String accesstoken, String home, String guest) throws Exception {
+
+        String url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=";
+
+        HttpClient client = new DefaultHttpClient();
+        HttpPost post = new HttpPost(url);
+
+        //添加请求头
+        post.setHeader("User-Agent", USER_AGENT);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
+        List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
+        urlParameters.add(new BasicNameValuePair("touser", "oY9RC5pjrq2xeW2q_RnxjGxt-Y50");
+        urlParameters.add(new BasicNameValuePair("template_id", "7PJRIU8el3GGblNAir1dxbuAu7fU1dV-fz0Y02zLsMc"));
+        JSONObject json = new JSONObject();
+        JSONObject dataJson = new JSONObject();
+        dataJson.put("first", sdf.format(new Date()));
+        dataJson.put("keyword1", "足球大数据通知");
+        dataJson.put("keyword2", "比赛投注提醒");
+        dataJson.put("keyword3", "【"+home+"】 vs 【"+guest+"】");
+        json.put("data", dataJson);
+        urlParameters.add(new BasicNameValuePair("data", json.toJSONString()));
+
+        post.setEntity(new UrlEncodedFormEntity(urlParameters));
+
+        HttpResponse response = client.execute(post);
+        System.out.println("\nSending 'POST' request to URL : " + url);
+        System.out.println("Post parameters : " + post.getEntity());
+        System.out.println("Response Code : " +
+                response.getStatusLine().getStatusCode());
+
+        BufferedReader rd = new BufferedReader(
+                new InputStreamReader(response.getEntity().getContent()));
+
+        StringBuffer result = new StringBuffer();
+        String line = "";
+        while ((line = rd.readLine()) != null) {
+            result.append(line);
+        }
+
+        System.out.println(result.toString());
+        return result.toString();
+
+    }
+
     public static String sendTemplate(String accessToken, String home, String guest) {
         String tepUrl = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token="
                 + accessToken;
@@ -75,7 +119,7 @@ public class RealtimeOddsUtil {
         try {
             StringEntity myEntity = new StringEntity(json.toJSONString());
             myEntity.setContentEncoding("UTF-8");
-            myEntity.setContentType("application/json");
+            myEntity.setContentType("application/x-www-form-urlencoded");
             // 设置post求情参数
             httpPost.setEntity(myEntity);
             httpResponse = httpClient.execute(httpPost);
@@ -105,7 +149,8 @@ public class RealtimeOddsUtil {
             } else {
                 // 发送失败
                 return resultStr;
-            }        } catch (Exception e) {
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return resultStr;
