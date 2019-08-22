@@ -61,13 +61,13 @@ public class RealtimeOddsUtil {
         HttpPost httpPost = new HttpPost(tepUrl);
         // 装配post请求参数
         JSONObject json = new JSONObject();
-        json.put("touser", "oY9RC5mfZn87aSPd9fwirVQz95zY");
+        json.put("touser", "oY9RC5qoIowPmPT2Eg4M5l6WNx7k");
         json.put("template_id", "7PJRIU8el3GGblNAir1dxbuAu7fU1dV-fz0Y02zLsMc");
         JSONObject dataJson = new JSONObject();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
         dataJson.put("first", sdf.format(new Date()));
-        dataJson.put("keyword1", "");
-        dataJson.put("keyword2", "足球大数据通知");
+        dataJson.put("keyword1", "足球大数据通知");
+        dataJson.put("keyword2", "比赛投注提醒");
         dataJson.put("keyword3", "【"+home+"】 vs 【"+guest+"】");
         json.put("data", dataJson);
         HttpResponse httpResponse = null;
