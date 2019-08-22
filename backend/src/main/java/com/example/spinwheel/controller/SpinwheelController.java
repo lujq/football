@@ -52,12 +52,12 @@ public class SpinwheelController {
     @PostMapping(value = "/sendTemplate")
     public String sendTemplate1() {
         String accessToken = null;
-        String accessTokenResp = sendTemplate("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx581c631ff7ed0c70&secret=0d9340d2b107c65e58f1591291853754");
+        String accessTokenResp = sendGet("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx581c631ff7ed0c70&secret=0d9340d2b107c65e58f1591291853754");
         JSONObject jsonObject = JSONObject.parseObject(accessTokenResp);
         accessToken = jsonObject.getString("access_token");
         String response = null;
         try {
-            response = sendPost(accessToken, "主队", "客队");
+            response = sendTemplate(accessToken, "主队", "客队");
         } catch (Exception e) {
             e.printStackTrace();
         }
