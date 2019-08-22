@@ -65,7 +65,7 @@ public class RealtimeOddsUtil {
         post.setHeader("User-Agent", USER_AGENT);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
         List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
-        urlParameters.add(new BasicNameValuePair("touser", "oY9RC5pjrq2xeW2q_RnxjGxt-Y50");
+        urlParameters.add(new BasicNameValuePair("touser", "oY9RC5pjrq2xeW2q_RnxjGxt-Y50"));
         urlParameters.add(new BasicNameValuePair("template_id", "7PJRIU8el3GGblNAir1dxbuAu7fU1dV-fz0Y02zLsMc"));
         JSONObject json = new JSONObject();
         JSONObject dataJson = new JSONObject();
