@@ -62,7 +62,7 @@ public class RealtimeOddsUtil {
         // 装配post请求参数
         JSONObject json = new JSONObject();
         json.put("touser", "oY9RC5mfZn87aSPd9fwirVQz95zY");
-        json.put("template_id", "7PJRIU8el3GGblNAir1dxbuAu7fU1dV");
+        json.put("template_id", "7PJRIU8el3GGblNAir1dxbuAu7fU1dV-fz0Y02zLsMc");
         JSONObject dataJson = new JSONObject();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
         dataJson.put("first", sdf.format(new Date()));
