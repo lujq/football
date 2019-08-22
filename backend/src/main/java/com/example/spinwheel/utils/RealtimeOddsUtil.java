@@ -123,7 +123,7 @@ public class RealtimeOddsUtil {
             myEntity.setContentType("application/json");
             // 设置post求情参数
             httpPost.setEntity(myEntity);
-            httpPost.addHeader(HTTP.CONTENT_TYPE, "application/x-www-form-urlencoded");
+            httpPost.addHeader(HTTP.CONTENT_TYPE, "application/json");
             httpResponse = httpClient.execute(httpPost);
 
 
