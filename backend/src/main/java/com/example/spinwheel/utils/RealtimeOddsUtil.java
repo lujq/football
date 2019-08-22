@@ -61,7 +61,7 @@ public class RealtimeOddsUtil {
         HttpPost httpPost = new HttpPost(tepUrl);
         // 装配post请求参数
         JSONObject json = new JSONObject();
-        json.put("touser", "oY9RC5qoIowPmPT2Eg4M5l6WNx7k");
+        json.put("touser", "oY9RC5pjrq2xeW2q_RnxjGxt-Y50");
         json.put("template_id", "7PJRIU8el3GGblNAir1dxbuAu7fU1dV-fz0Y02zLsMc");
         JSONObject dataJson = new JSONObject();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
