@@ -121,13 +121,22 @@ public class RealtimeOddsUtil {
         NewsTemplateDTO newsTemplateDTO = new NewsTemplateDTO();
         CommonTemplateDTO c1 = new CommonTemplateDTO();
         c1.setValue(sdf.format(new Date()));
+        CommonTemplateDTO c2 = new CommonTemplateDTO();
+        c2.setValue("足球大数据通知");
+        CommonTemplateDTO c3 = new CommonTemplateDTO();
+        CommonTemplateDTO c4 = new CommonTemplateDTO();
+        c3.setValue("比赛投注提醒");
+        c4.setValue("【"+home+"】 vs 【"+guest+"】");
         newsTemplateDTO.setFirst(c1);
+        newsTemplateDTO.setKeyword1(c2);
+        newsTemplateDTO.setKeyword2(c3);
+        newsTemplateDTO.setKeyword3(c4);
         json.put("data", JSONObject.toJSONString(newsTemplateDTO));
         dataDTO.setData(newsTemplateDTO);
         HttpResponse httpResponse = null;
         String resultStr = "发送失败";
         try {
-            StringEntity myEntity = new StringEntity(JSONObject.toJSONString(dataDTO));
+            StringEntity myEntity = new StringEntity(JSONObject.toJSONString(dataDTO), "UTF-8");
             myEntity.setContentEncoding("UTF-8");
             myEntity.setContentType("application/json");
             // 设置post求情参数
