@@ -261,7 +261,7 @@ public class RealtimeOddsUtil {
 //                jedis.expire("spinwheel_schedule_list", 6*60*60);
 //
 //            }
-
+            return resultList;
         } else {
             String accessToken = null;
             String accessTokenResp = sendGet("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx581c631ff7ed0c70&secret=0d9340d2b107c65e58f1591291853754");
