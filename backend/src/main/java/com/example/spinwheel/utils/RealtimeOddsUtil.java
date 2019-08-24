@@ -125,108 +125,111 @@ public class RealtimeOddsUtil {
         return resultStr;
     }
 
-    @Scheduled(fixedRate = 5*60*1000)
+    @Scheduled(fixedRate = 2*60*1000)
     public List<OddsDTO> readRealtimeOdds() {
         System.out.println("start zzz");
-        String url = "http://interface.win007.com/zq/odds.aspx";
-        String rawResult = sendGet(url);
-        if (null != rawResult){
-            String[] result = rawResult.split("\\$");
-            if (result.length == 1) {
-                logger.error(rawResult);
-                return null;
-            }
-            // 释放内存
-            rawResult = null;
-            // 联赛信息
-            String[] classes = result[0].split(";");
-            // 当期比赛
-            String[] schedules = result[1].split(";");
-            // 实时让球盘
-            String[] letGoals = result[2].split(";");
-            // 实时大小球
-            String[] totalGoals = result[4].split(";");
-
-            // 联赛清单
-            Map<String, String> leagues = new HashMap<>();
-            for (int i = 0; i < classes.length; i++) {
-                String[] classDetail = classes[i].split(",");
-                if(classDetail[1].equals("1")) {
-                    leagues.put(classDetail[0],classDetail[3]);
-                }
-            }
-            classes = null;
-
-            List<OddsDTO> scheduleList = new ArrayList<>();
-            Map<String,OddsDTO> matches = new HashMap<>();
-            // 中场比赛清单
-            for (int i = 0; i < schedules.length; i++) {
-                String[] scheduleDetail = schedules[i].split(",");
-                if (scheduleDetail[14].equals("2") && leagues.containsKey(scheduleDetail[1])) {
-                    OddsDTO oddsDTO = new OddsDTO();
-                    oddsDTO.setScheduleId(scheduleDetail[0]);
-                    oddsDTO.setClassId(scheduleDetail[1]);
-                    oddsDTO.setClassName(leagues.get(scheduleDetail[1]));
-                    oddsDTO.setClassType("1");
-                    oddsDTO.setHomeScore(scheduleDetail[15]);
-                    oddsDTO.setGuestScore(scheduleDetail[16]);
-                    oddsDTO.setHomeName(scheduleDetail[5]);
-                    oddsDTO.setGuestName(scheduleDetail[10]);
-                    oddsDTO.setHomeRed(scheduleDetail[20]);
-                    oddsDTO.setGuestRed(scheduleDetail[21]);
-                    scheduleList.add(oddsDTO);
-                    matches.put(oddsDTO.getScheduleId(), oddsDTO);
-                }
-            }
-            schedules = null;
-
-
-            List<OddsDTO> resultList = new ArrayList<>();
-            Map<String,OddsDTO> realMatches = new HashMap<>();
-            // 让球盘
-            for(int i = 0; i < letGoals.length; i++) {
-                String[] letGoalDetail = letGoals[i].split(",");
-                if (letGoalDetail[1].equals("3") && matches.containsKey(letGoalDetail[0])) {
-                    OddsDTO odd = matches.get(letGoalDetail[0]);
-                    Double firstGoal = Double.parseDouble(letGoalDetail[2]);
-                    if (-0.5 <= firstGoal && firstGoal <= 0.25) {
-                        realMatches.put(odd.getScheduleId(), odd);
-                    }
-
-                }
-            }
-            matches = null;
-
-            // 大小球
-            for(int i = 0; i < totalGoals.length; i++) {
-                String[] totalGoalDetail = totalGoals[i].split(",");
-                if (totalGoalDetail[1].equals("3") && realMatches.containsKey(totalGoalDetail[0])) {
-                    OddsDTO odd = realMatches.get(totalGoalDetail[0]);
-                    Double firstGoal = Double.parseDouble(totalGoalDetail[2]);
-                    Double goal = Double.parseDouble(totalGoalDetail[5]);
-                    Integer score = Integer.parseInt(odd.getHomeScore()) + Integer.parseInt(odd.getGuestScore());
-                    if (2 <= firstGoal && firstGoal < 3 && score == 2 && 3 < goal && goal <= 3.5) {
-                        resultList.add(odd);
-                    }
-                }
-            }
+//        String url = "http://interface.win007.com/zq/odds.aspx";
+//        String rawResult = sendGet(url);
+//        if (null != rawResult){
+//            String[] result = rawResult.split("\\$");
+//            if (result.length == 1) {
+//                logger.error(rawResult);
+//                return null;
+//            }
+//            // 释放内存
+//            rawResult = null;
+//            // 联赛信息
+//            String[] classes = result[0].split(";");
+//            // 当期比赛
+//            String[] schedules = result[1].split(";");
+//            // 实时让球盘
+//            String[] letGoals = result[2].split(";");
+//            // 实时大小球
+//            String[] totalGoals = result[4].split(";");
+//
+//            // 联赛清单
+//            Map<String, String> leagues = new HashMap<>();
+//            for (int i = 0; i < classes.length; i++) {
+//                String[] classDetail = classes[i].split(",");
+//                if(classDetail[1].equals("1")) {
+//                    leagues.put(classDetail[0],classDetail[3]);
+//                }
+//            }
+//            classes = null;
+//
+//            List<OddsDTO> scheduleList = new ArrayList<>();
+//            Map<String,OddsDTO> matches = new HashMap<>();
+//            // 中场比赛清单
+//            for (int i = 0; i < schedules.length; i++) {
+//                String[] scheduleDetail = schedules[i].split(",");
+//                if (scheduleDetail[14].equals("2") && leagues.containsKey(scheduleDetail[1])) {
+//                    OddsDTO oddsDTO = new OddsDTO();
+//                    oddsDTO.setScheduleId(scheduleDetail[0]);
+//                    oddsDTO.setClassId(scheduleDetail[1]);
+//                    oddsDTO.setClassName(leagues.get(scheduleDetail[1]));
+//                    oddsDTO.setClassType("1");
+//                    oddsDTO.setHomeScore(scheduleDetail[15]);
+//                    oddsDTO.setGuestScore(scheduleDetail[16]);
+//                    oddsDTO.setHomeName(scheduleDetail[5]);
+//                    oddsDTO.setGuestName(scheduleDetail[10]);
+//                    oddsDTO.setHomeRed(scheduleDetail[20]);
+//                    oddsDTO.setGuestRed(scheduleDetail[21]);
+//                    scheduleList.add(oddsDTO);
+//                    matches.put(oddsDTO.getScheduleId(), oddsDTO);
+//                }
+//            }
+//            schedules = null;
+//
+//
+//            List<OddsDTO> resultList = new ArrayList<>();
+//            Map<String,OddsDTO> realMatches = new HashMap<>();
+//            // 让球盘
+//            for(int i = 0; i < letGoals.length; i++) {
+//                String[] letGoalDetail = letGoals[i].split(",");
+//                if (letGoalDetail[1].equals("3") && matches.containsKey(letGoalDetail[0])) {
+//                    OddsDTO odd = matches.get(letGoalDetail[0]);
+//                    Double firstGoal = Double.parseDouble(letGoalDetail[2]);
+//                    if (-0.5 <= firstGoal && firstGoal <= 0.25) {
+//                        realMatches.put(odd.getScheduleId(), odd);
+//                    }
+//
+//                }
+//            }
+//            matches = null;
+//
+//            // 大小球
+//            for(int i = 0; i < totalGoals.length; i++) {
+//                String[] totalGoalDetail = totalGoals[i].split(",");
+//                if (totalGoalDetail[1].equals("3") && realMatches.containsKey(totalGoalDetail[0])) {
+//                    OddsDTO odd = realMatches.get(totalGoalDetail[0]);
+//                    Double firstGoal = Double.parseDouble(totalGoalDetail[2]);
+//                    Double goal = Double.parseDouble(totalGoalDetail[5]);
+//                    Integer score = Integer.parseInt(odd.getHomeScore()) + Integer.parseInt(odd.getGuestScore());
+//                    if (2 <= firstGoal && firstGoal < 3 && score == 2 && 3 < goal && goal <= 3.5) {
+//                        resultList.add(odd);
+//                    }
+//                }
+//            }
 
             // 微信通知
 
             // 获取access_token
-            Jedis jedis = new Jedis("192.168.10.4");
+//            Jedis jedis = new Jedis("192.168.10.4");
             String accessToken = null;
-            if (jedis.exists("spinwheel_access_token")){
-                accessToken = jedis.get("spinwheel_access_token");
-            } else {
-                String accessTokenResp = sendGet("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx581c631ff7ed0c70&secret=0d9340d2b107c65e58f1591291853754");
-                JSONObject jsonObject = JSONObject.parseObject(accessTokenResp);
-                accessToken = jsonObject.getString("access_token");
-                jedis.set("spinwheel_access_token", accessToken);
-                jedis.expire("spinwheel_access_token", 15*60);
-            }
-            logger.info("spinwheel accessToken: " + accessToken);
-            sendTemplate(accessToken, "主队", "客队", "oY9RC5pjrq2xeW2q_RnxjGxt-Y50");
+//            if (jedis.exists("spinwheel_access_token")){
+//                accessToken = jedis.get("spinwheel_access_token");
+//            } else {
+//                String accessTokenResp = sendGet("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx581c631ff7ed0c70&secret=0d9340d2b107c65e58f1591291853754");
+//                JSONObject jsonObject = JSONObject.parseObject(accessTokenResp);
+//                accessToken = jsonObject.getString("access_token");
+//                jedis.set("spinwheel_access_token", accessToken);
+//                jedis.expire("spinwheel_access_token", 15*60);
+//            }
+//            logger.info("spinwheel accessToken: " + accessToken);
+        String accessTokenResp = sendGet("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx581c631ff7ed0c70&secret=0d9340d2b107c65e58f1591291853754");
+        JSONObject jsonObject = JSONObject.parseObject(accessTokenResp);
+        accessToken = jsonObject.getString("access_token");
+        sendTemplate(accessToken, "主队", "客队", "oY9RC5pjrq2xeW2q_RnxjGxt-Y50");
 
             // 发送消息模板
 //            if (jedis.exists("spinwheel_schedule_list")){
