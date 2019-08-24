@@ -40,7 +40,7 @@ public class SpinwheelController {
     public String getRawData() {
         String url = "http://interface.win007.com/zq/odds.aspx";
         String rawResult = util.sendGet(url);
-        String resultStr = null;
+        String resultStr = "x";
         if (null != rawResult) {
             String[] result = rawResult.split("\\$");
             if (result.length == 1) {
@@ -58,20 +58,11 @@ public class SpinwheelController {
             // 实时大小球
             String[] totalGoals = result[4].split(";");
 
-            // 联赛清单
-            Map<String, String> leagues = new HashMap<>();
-            for (int i = 0; i < classes.length; i++) {
-//                String[] classDetail = classes[i].split(",");
-//                if (classDetail[1].equals("1")) {
-//                    leagues.put(classDetail[0], classDetail[3]);
-//                }
-                resultStr += classes[i];
-
-            }
             classes = null;
+            resultStr = classes.toString();
 
         }
-        return rawResult;
+        return resultStr;
     }
 
     @GetMapping(value = "/getRank")
