@@ -61,11 +61,12 @@ public class SpinwheelController {
             // 联赛清单
             Map<String, String> leagues = new HashMap<>();
             for (int i = 0; i < classes.length; i++) {
-                String[] classDetail = classes[i].split(",");
-                if (classDetail[1].equals("1")) {
-                    leagues.put(classDetail[0], classDetail[3]);
-                    resultStr += classDetail[3];
-                }
+//                String[] classDetail = classes[i].split(",");
+//                if (classDetail[1].equals("1")) {
+//                    leagues.put(classDetail[0], classDetail[3]);
+//                }
+                resultStr += classes[i];
+
             }
             classes = null;
 
