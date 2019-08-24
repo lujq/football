@@ -189,6 +189,7 @@ public class RealtimeOddsUtil {
                 if (letGoalDetail[1].equals("3") && matches.containsKey(letGoalDetail[0])) {
                     OddsDTO odd = matches.get(letGoalDetail[0]);
                     Double firstGoal = Double.parseDouble(letGoalDetail[2]);
+                    logger.info("Spinwheel Log legGoal firstGoal: "+firstGoal);
                     if (-0.5 <= firstGoal && firstGoal <= 0.25) {
                         realMatches.put(odd.getScheduleId(), odd);
                     }
@@ -197,16 +198,26 @@ public class RealtimeOddsUtil {
             }
             matches = null;
 
+            String accessToken = null;
+            String accessTokenResp = sendGet("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx581c631ff7ed0c70&secret=0d9340d2b107c65e58f1591291853754");
+            JSONObject jsonObject = JSONObject.parseObject(accessTokenResp);
+            accessToken = jsonObject.getString("access_token");
+
             // 大小球
             for(int i = 0; i < totalGoals.length; i++) {
                 String[] totalGoalDetail = totalGoals[i].split(",");
+                logger.info("Spinwheel Log totalGoals: " + totalGoals);
                 if (totalGoalDetail[1].equals("3") && realMatches.containsKey(totalGoalDetail[0])) {
+                    logger.info("Spinwheel ok totalGoals: " + totalGoals);
                     OddsDTO odd = realMatches.get(totalGoalDetail[0]);
                     Double firstGoal = Double.parseDouble(totalGoalDetail[2]);
                     Double goal = Double.parseDouble(totalGoalDetail[5]);
                     Integer score = Integer.parseInt(odd.getHomeScore()) + Integer.parseInt(odd.getGuestScore());
+                    logger.info("Spinwheel Log totalGoals firstGoal : "+firstGoal + " goal:" + goal + " score: "+score);
                     if (2 <= firstGoal && firstGoal < 3 && score == 2 && 3 < goal && goal <= 3.5) {
                         resultList.add(odd);
+                        sendTemplate(accessToken, odd.getHomeName(), odd.getGuestName(), "oY9RC5pjrq2xeW2q_RnxjGxt-Y50");
+                        sendTemplate(accessToken, odd.getHomeName(), odd.getGuestName(), "oY9RC5mfZn87aSPd9fwirVQz95zY");
                     }
                 }
             }
@@ -215,7 +226,7 @@ public class RealtimeOddsUtil {
 
             // 获取access_token
 //            Jedis jedis = new Jedis("192.168.10.4");
-            String accessToken = null;
+
 //            if (jedis.exists("spinwheel_access_token")){
 //                accessToken = jedis.get("spinwheel_access_token");
 //            } else {
@@ -227,10 +238,7 @@ public class RealtimeOddsUtil {
 //            }
 //            logger.info("spinwheel accessToken: " + accessToken);
 //            if (!matches.isEmpty()) {
-                String accessTokenResp = sendGet("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx581c631ff7ed0c70&secret=0d9340d2b107c65e58f1591291853754");
-                JSONObject jsonObject = JSONObject.parseObject(accessTokenResp);
-                accessToken = jsonObject.getString("access_token");
-                sendTemplate(accessToken, String.valueOf(leagues.size()), "thanks", "oY9RC5pjrq2xeW2q_RnxjGxt-Y50");
+
 //            }
             // 发送消息模板
 //            if (jedis.exists("spinwheel_schedule_list")){
