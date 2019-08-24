@@ -78,7 +78,7 @@ public class SpinwheelController {
             for (int i = 0; i < schedules.length; i++) {
                 String[] scheduleDetail = schedules[i].split(",");
                 resultStr = schedules[i];
-                if (scheduleDetail[14].equals("2") && leagues.containsKey(scheduleDetail[1])) {
+                if (scheduleDetail[14].equals("0") && leagues.containsKey(scheduleDetail[1])) {
                     OddsDTO oddsDTO = new OddsDTO();
                     oddsDTO.setScheduleId(scheduleDetail[0]);
                     oddsDTO.setClassId(scheduleDetail[1]);
