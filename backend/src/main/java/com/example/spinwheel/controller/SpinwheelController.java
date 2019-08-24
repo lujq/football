@@ -10,6 +10,7 @@ import com.example.spinwheel.base.response.HttpResponseBaseDto;
 import com.example.spinwheel.service.StatisticService;
 import com.example.spinwheel.utils.GenLogTagTool;
 import com.example.spinwheel.utils.LoggerManager;
+import com.example.spinwheel.utils.RealtimeOddsUtil;
 import com.example.spinwheel.utils.SnowflakeIdWorker;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -29,6 +30,18 @@ public class SpinwheelController {
 
     @Autowired
     private StatisticService statisticService;
+
+    @Autowired
+    private RealtimeOddsUtil util;
+
+    @ApiOperation(value="查询rawData", notes="查询rawData")
+    @PostMapping(value = "/getRawData")
+    public String getRawData() {
+        String url = "http://interface.win007.com/zq/odds.aspx";
+        String rawResult = util.sendGet(url);
+        
+        return rawResult;
+    }
 
     @GetMapping(value = "/getRank")
     public String getRank() {
