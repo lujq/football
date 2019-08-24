@@ -125,7 +125,7 @@ public class RealtimeOddsUtil {
         return resultStr;
     }
 
-    @Scheduled(fixedRate = 2*60*1000)
+    @Scheduled(fixedRate = 5*60*1000)
     public List<OddsDTO> readRealtimeOdds() {
         System.out.println("start zzz");
         String url = "http://interface.win007.com/zq/odds.aspx";
@@ -225,36 +225,38 @@ public class RealtimeOddsUtil {
                 jedis.set("spinwheel_access_token", accessToken);
                 jedis.expire("spinwheel_access_token", 15*60);
             }
+            logger.info("spinwheel accessToken: " + accessToken);
+            sendTemplate(accessToken, "主队", "客队", "oY9RC5pjrq2xeW2q_RnxjGxt-Y50");
 
             // 发送消息模板
-            if (jedis.exists("spinwheel_schedule_list")){
-                Set<String> existedSchedules = jedis.smembers("spinwheel_schedule_list");
-                for (OddsDTO dto : resultList) {
-                    if (existedSchedules.contains(dto.getScheduleId())) {
-                        continue;
-                    } else {
-                        try {
-                            sendTemplate(accessToken, dto.getHomeName(), dto.getGuestName(), "oY9RC5pjrq2xeW2q_RnxjGxt-Y50");
-                            sendTemplate(accessToken, dto.getHomeName(), dto.getGuestName(), "oY9RC5mfZn87aSPd9fwirVQz95zY");
-                            jedis.sadd("spinwheel_schedule_list", dto.getScheduleId());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            } else {
-                for (OddsDTO dto : resultList) {
-                    try {
-                        sendTemplate(accessToken, dto.getHomeName(), dto.getGuestName(), "oY9RC5pjrq2xeW2q_RnxjGxt-Y50");
-                        sendTemplate(accessToken, dto.getHomeName(), dto.getGuestName(), "oY9RC5mfZn87aSPd9fwirVQz95zY");
-                        jedis.sadd("spinwheel_schedule_list", dto.getScheduleId());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                jedis.expire("spinwheel_schedule_list", 6*60*60);
-
-            }
+//            if (jedis.exists("spinwheel_schedule_list")){
+//                Set<String> existedSchedules = jedis.smembers("spinwheel_schedule_list");
+//                for (OddsDTO dto : resultList) {
+//                    if (existedSchedules.contains(dto.getScheduleId())) {
+//                        continue;
+//                    } else {
+//                        try {
+//                            sendTemplate(accessToken, dto.getHomeName(), dto.getGuestName(), "oY9RC5pjrq2xeW2q_RnxjGxt-Y50");
+//                            sendTemplate(accessToken, dto.getHomeName(), dto.getGuestName(), "oY9RC5mfZn87aSPd9fwirVQz95zY");
+//                            jedis.sadd("spinwheel_schedule_list", dto.getScheduleId());
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//            } else {
+//                for (OddsDTO dto : resultList) {
+//                    try {
+//                        sendTemplate(accessToken, dto.getHomeName(), dto.getGuestName(), "oY9RC5pjrq2xeW2q_RnxjGxt-Y50");
+//                        sendTemplate(accessToken, dto.getHomeName(), dto.getGuestName(), "oY9RC5mfZn87aSPd9fwirVQz95zY");
+//                        jedis.sadd("spinwheel_schedule_list", dto.getScheduleId());
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//                jedis.expire("spinwheel_schedule_list", 6*60*60);
+//
+//            }
 
         }
         return null;
