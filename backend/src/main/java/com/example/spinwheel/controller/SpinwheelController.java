@@ -40,64 +40,9 @@ public class SpinwheelController {
 
     @ApiOperation(value="查询rawData", notes="查询rawData")
     @PostMapping(value = "/getRawData")
-    public String getRawData() {
-        String url = "http://interface.win007.com/zq/odds.aspx";
-        String rawResult = util.sendGet(url);
-        String resultStr = "x";
-        if (null != rawResult) {
-            String[] result = rawResult.split("\\$");
-            if (result.length == 1) {
-                logger.error(rawResult);
-                return null;
-            }
-            // 释放内存
-            rawResult = null;
-            // 联赛信息
-            String[] classes = result[0].split(";");
-            // 当期比赛
-            String[] schedules = result[1].split(";");
-            // 实时让球盘
-            String[] letGoals = result[2].split(";");
-            // 实时大小球
-            String[] totalGoals = result[4].split(";");
-
-            // 联赛清单
-            Map<String, String> leagues = new HashMap<>();
-            for (int i = 0; i < classes.length; i++) {
-                String[] classDetail = classes[i].split(",");
-                if (classDetail[1].equals("1")) {
-                    leagues.put(classDetail[0], classDetail[3]);
-                }
-
-            }
-            classes = null;
-
-            List<OddsDTO> scheduleList = new ArrayList<>();
-            Map<String,OddsDTO> matches = new HashMap<>();
-            // 中场比赛清单
-            for (int i = 0; i < schedules.length; i++) {
-                String[] scheduleDetail = schedules[i].split(",");
-                if (scheduleDetail[14].equals("2") && leagues.containsKey(scheduleDetail[1])) {
-                    OddsDTO oddsDTO = new OddsDTO();
-                    oddsDTO.setScheduleId(scheduleDetail[0]);
-                    oddsDTO.setClassId(scheduleDetail[1]);
-                    oddsDTO.setClassName(leagues.get(scheduleDetail[1]));
-                    oddsDTO.setClassType("1");
-                    oddsDTO.setHomeScore(scheduleDetail[15]);
-                    oddsDTO.setGuestScore(scheduleDetail[16]);
-                    oddsDTO.setHomeName(scheduleDetail[5]);
-                    oddsDTO.setGuestName(scheduleDetail[10]);
-                    oddsDTO.setHomeRed(scheduleDetail[20]);
-                    oddsDTO.setGuestRed(scheduleDetail[21]);
-                    scheduleList.add(oddsDTO);
-                    matches.put(oddsDTO.getScheduleId(), oddsDTO);
-                }
-            }
-            resultStr = String.valueOf(matches.size());
-            schedules = null;
-
-        }
-        return resultStr;
+    public List<OddsDTO> getRawData() {
+        List<OddsDTO> result = util.readRealtimeOdds();
+        return result;
     }
 
     @GetMapping(value = "/getRank")

@@ -125,7 +125,7 @@ public class RealtimeOddsUtil {
         return resultStr;
     }
 
-    @Scheduled(fixedRate = 2*60*1000)
+//    @Scheduled(fixedRate = 2*60*1000)
     public List<OddsDTO> readRealtimeOdds() {
         System.out.println("start zzz");
         String url = "http://interface.win007.com/zq/odds.aspx";
@@ -230,7 +230,7 @@ public class RealtimeOddsUtil {
                 String accessTokenResp = sendGet("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx581c631ff7ed0c70&secret=0d9340d2b107c65e58f1591291853754");
                 JSONObject jsonObject = JSONObject.parseObject(accessTokenResp);
                 accessToken = jsonObject.getString("access_token");
-                sendTemplate(accessToken, String.valueOf(leagues.size()), String.valueOf(matches.size()), "oY9RC5pjrq2xeW2q_RnxjGxt-Y50");
+                sendTemplate(accessToken, String.valueOf(leagues.size()), "thanks", "oY9RC5pjrq2xeW2q_RnxjGxt-Y50");
 //            }
             // 发送消息模板
 //            if (jedis.exists("spinwheel_schedule_list")){
@@ -267,7 +267,7 @@ public class RealtimeOddsUtil {
             String accessTokenResp = sendGet("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx581c631ff7ed0c70&secret=0d9340d2b107c65e58f1591291853754");
             JSONObject jsonObject = JSONObject.parseObject(accessTokenResp);
             accessToken = jsonObject.getString("access_token");
-            sendTemplate(accessToken, "返回原始参数：", rawResult.substring(0,20), "oY9RC5pjrq2xeW2q_RnxjGxt-Y50");
+            sendTemplate(accessToken, "返回原始参数：", "123", "oY9RC5pjrq2xeW2q_RnxjGxt-Y50");
 
         }
         return null;
