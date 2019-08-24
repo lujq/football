@@ -226,12 +226,12 @@ public class RealtimeOddsUtil {
 //                jedis.expire("spinwheel_access_token", 15*60);
 //            }
 //            logger.info("spinwheel accessToken: " + accessToken);
-            if (!matches.isEmpty()) {
+//            if (!matches.isEmpty()) {
                 String accessTokenResp = sendGet("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx581c631ff7ed0c70&secret=0d9340d2b107c65e58f1591291853754");
                 JSONObject jsonObject = JSONObject.parseObject(accessTokenResp);
                 accessToken = jsonObject.getString("access_token");
-                sendTemplate(accessToken, "主队", "客队", "oY9RC5pjrq2xeW2q_RnxjGxt-Y50");
-            }
+                sendTemplate(accessToken, String.valueOf(leagues.size()), String.valueOf(matches.size()), "oY9RC5pjrq2xeW2q_RnxjGxt-Y50");
+//            }
             // 发送消息模板
 //            if (jedis.exists("spinwheel_schedule_list")){
 //                Set<String> existedSchedules = jedis.smembers("spinwheel_schedule_list");
