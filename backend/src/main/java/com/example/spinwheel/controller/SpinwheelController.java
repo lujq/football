@@ -58,8 +58,7 @@ public class SpinwheelController {
             // 实时大小球
             String[] totalGoals = result[4].split(";");
 
-            classes = null;
-            resultStr = classes.toString();
+            resultStr = result[0];
 
         }
         return resultStr;
