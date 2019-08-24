@@ -77,7 +77,6 @@ public class SpinwheelController {
             // 中场比赛清单
             for (int i = 0; i < schedules.length; i++) {
                 String[] scheduleDetail = schedules[i].split(",");
-                resultStr = schedules[i];
                 if (scheduleDetail[14].equals("0") && leagues.containsKey(scheduleDetail[1])) {
                     OddsDTO oddsDTO = new OddsDTO();
                     oddsDTO.setScheduleId(scheduleDetail[0]);
@@ -94,6 +93,7 @@ public class SpinwheelController {
                     matches.put(oddsDTO.getScheduleId(), oddsDTO);
                 }
             }
+            resultStr = String.valueOf(matches.size());
             schedules = null;
 
         }
