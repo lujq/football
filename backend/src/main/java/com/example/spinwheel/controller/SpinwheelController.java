@@ -62,10 +62,10 @@ public class SpinwheelController {
             Map<String, String> leagues = new HashMap<>();
             for (int i = 0; i < classes.length; i++) {
                 String[] classDetail = classes[i].split(",");
-                resultStr += classDetail[3] + classDetail[1];
-//                if (classDetail[1].equals("1")) {
-//                    leagues.put(classDetail[0], classDetail[3]);
-//                }
+                if (classDetail[1].equals("1")) {
+                    resultStr += classDetail[3] + classDetail[1];
+                    leagues.put(classDetail[0], classDetail[3]);
+                }
 
             }
             classes = null;
