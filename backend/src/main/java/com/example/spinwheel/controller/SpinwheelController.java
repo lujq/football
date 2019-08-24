@@ -58,7 +58,17 @@ public class SpinwheelController {
             // 实时大小球
             String[] totalGoals = result[4].split(";");
 
-            resultStr = String. valueOf(classes.length);
+            // 联赛清单
+            Map<String, String> leagues = new HashMap<>();
+            for (int i = 0; i < classes.length; i++) {
+//                String[] classDetail = classes[i].split(",");
+//                if (classDetail[1].equals("1")) {
+//                    leagues.put(classDetail[0], classDetail[3]);
+//                }
+                resultStr += String.valueOf(i);
+
+            }
+            classes = null;
 
         }
         return resultStr;
