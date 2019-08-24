@@ -18,6 +18,7 @@ import org.apache.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -39,7 +40,36 @@ public class SpinwheelController {
     public String getRawData() {
         String url = "http://interface.win007.com/zq/odds.aspx";
         String rawResult = util.sendGet(url);
-        
+        String resultStr = null;
+        if (null != rawResult) {
+            String[] result = rawResult.split("\\$");
+            if (result.length == 1) {
+                logger.error(rawResult);
+                return null;
+            }
+            // 释放内存
+            rawResult = null;
+            // 联赛信息
+            String[] classes = result[0].split(";");
+            // 当期比赛
+            String[] schedules = result[1].split(";");
+            // 实时让球盘
+            String[] letGoals = result[2].split(";");
+            // 实时大小球
+            String[] totalGoals = result[4].split(";");
+
+            // 联赛清单
+            Map<String, String> leagues = new HashMap<>();
+            for (int i = 0; i < classes.length; i++) {
+                String[] classDetail = classes[i].split(",");
+                if (classDetail[1].equals("1")) {
+                    leagues.put(classDetail[0], classDetail[3]);
+                    resultStr += classDetail[3];
+                }
+            }
+            classes = null;
+
+        }
         return rawResult;
     }
 
