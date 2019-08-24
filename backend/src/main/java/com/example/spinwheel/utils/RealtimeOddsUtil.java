@@ -125,7 +125,7 @@ public class RealtimeOddsUtil {
         return resultStr;
     }
 
-    @Scheduled(fixedRate = 60*1000)
+    @Scheduled(fixedRate = 5*60*1000)
     public List<OddsDTO> readRealtimeOdds() {
         System.out.println("足球大数据通知启动");
         String url = "http://interface.win007.com/zq/odds.aspx";
