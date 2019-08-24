@@ -63,11 +63,11 @@ public class SpinwheelController {
             for (int i = 0; i < classes.length; i++) {
                 String[] classDetail = classes[i].split(",");
                 if (classDetail[1].equals("1")) {
-                    resultStr += classDetail[3] + classDetail[1];
                     leagues.put(classDetail[0], classDetail[3]);
                 }
 
             }
+            resultStr = String.valueOf(leagues.size());
             classes = null;
 
         }
