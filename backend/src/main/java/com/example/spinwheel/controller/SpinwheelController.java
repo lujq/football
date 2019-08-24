@@ -1,6 +1,7 @@
 package com.example.spinwheel.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.spinwheel.base.dto.OddsDTO;
 import com.example.spinwheel.base.request.GetTotalScoreDetailReq;
 import com.example.spinwheel.base.request.GetTotalScoreReq;
 import com.example.spinwheel.base.response.GetSeasonsRsp;
@@ -18,7 +19,9 @@ import org.apache.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -67,8 +70,31 @@ public class SpinwheelController {
                 }
 
             }
-            resultStr = String.valueOf(leagues.size());
             classes = null;
+
+            List<OddsDTO> scheduleList = new ArrayList<>();
+            Map<String,OddsDTO> matches = new HashMap<>();
+            // 中场比赛清单
+            for (int i = 0; i < schedules.length; i++) {
+                String[] scheduleDetail = schedules[i].split(",");
+                if (scheduleDetail[14].equals("2") && leagues.containsKey(scheduleDetail[1])) {
+                    OddsDTO oddsDTO = new OddsDTO();
+                    oddsDTO.setScheduleId(scheduleDetail[0]);
+                    oddsDTO.setClassId(scheduleDetail[1]);
+                    oddsDTO.setClassName(leagues.get(scheduleDetail[1]));
+                    oddsDTO.setClassType("1");
+                    oddsDTO.setHomeScore(scheduleDetail[15]);
+                    oddsDTO.setGuestScore(scheduleDetail[16]);
+                    oddsDTO.setHomeName(scheduleDetail[5]);
+                    oddsDTO.setGuestName(scheduleDetail[10]);
+                    oddsDTO.setHomeRed(scheduleDetail[20]);
+                    oddsDTO.setGuestRed(scheduleDetail[21]);
+                    scheduleList.add(oddsDTO);
+                    matches.put(oddsDTO.getScheduleId(), oddsDTO);
+                }
+            }
+            resultStr = String.valueOf(matches.size());
+            schedules = null;
 
         }
         return resultStr;
