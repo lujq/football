@@ -50,15 +50,15 @@ public class SpinwheelController {
         return "zym";
     }
 
-//    @ApiOperation(value="查询openID", notes="查询openID")
-//    @PostMapping(value = "/getOpenId")
-//    public String getOpenIds() {
-//        String accessTokenResp = sendGet("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx581c631ff7ed0c70&secret=0d9340d2b107c65e58f1591291853754");
-//        JSONObject jsonObject = JSONObject.parseObject(accessTokenResp);
-//        String accessToken = jsonObject.getString("access_token");
-//        String openIdResp = sendGet("https://api.weixin.qq.com/cgi-bin/user/get?access_token="+ accessToken);
-//        return openIdResp;
-//    }
+    @ApiOperation(value="查询openID", notes="查询openID")
+    @PostMapping(value = "/getOpenId")
+    public String getOpenIds() {
+        String accessTokenResp = util.sendGet("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx581c631ff7ed0c70&secret=0d9340d2b107c65e58f1591291853754");
+        JSONObject jsonObject = JSONObject.parseObject(accessTokenResp);
+        String accessToken = jsonObject.getString("access_token");
+        String openIdResp = util.sendGet("https://api.weixin.qq.com/cgi-bin/user/get?access_token="+ accessToken);
+        return openIdResp;
+    }
 //
 //    @ApiOperation(value="试着发送消息模板", notes="试着发送消息模板")
 //    @PostMapping(value = "/sendTemplate")
