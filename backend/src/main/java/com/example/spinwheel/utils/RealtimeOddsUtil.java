@@ -162,7 +162,7 @@ public class RealtimeOddsUtil {
             // 中场比赛清单
             for (int i = 0; i < schedules.length; i++) {
                 String[] scheduleDetail = schedules[i].split(",");
-                if (scheduleDetail[14].equals("2") && leagues.containsKey(scheduleDetail[1])) {
+                if (scheduleDetail[14].equals("2") && leagues.containsKey(scheduleDetail[1]) && Integer.parseInt(scheduleDetail[20]) < 1 && Integer.parseInt(scheduleDetail[21]) < 1) {
                     OddsDTO oddsDTO = new OddsDTO();
                     oddsDTO.setScheduleId(scheduleDetail[0]);
                     oddsDTO.setClassId(scheduleDetail[1]);
@@ -219,6 +219,8 @@ public class RealtimeOddsUtil {
                         sendTemplate(accessToken, odd.getHomeName(), odd.getGuestName(), "oY9RC5pjrq2xeW2q_RnxjGxt-Y50");
                         sendTemplate(accessToken, odd.getHomeName(), odd.getGuestName(), "oY9RC5mfZn87aSPd9fwirVQz95zY");
                         sendTemplate(accessToken, odd.getHomeName(), odd.getGuestName(), "oY9RC5jHbKUTYHbT7DA42gfpaaSY");
+                        sendTemplate(accessToken, odd.getHomeName(), odd.getGuestName(), "oY9RC5h9DDPuOdkc0D74mRDY1AAQ");
+                        sendTemplate(accessToken, odd.getHomeName(), odd.getGuestName(), "oY9RC5r4c7VYjRos9vZ4qfoOQISY");
                     }
                 }
             }
