@@ -218,6 +218,7 @@ public class RealtimeOddsUtil {
                         resultList.add(odd);
                         sendTemplate(accessToken, odd.getHomeName(), odd.getGuestName(), "oY9RC5pjrq2xeW2q_RnxjGxt-Y50");
                         sendTemplate(accessToken, odd.getHomeName(), odd.getGuestName(), "oY9RC5mfZn87aSPd9fwirVQz95zY");
+                        sendTemplate(accessToken, odd.getHomeName(), odd.getGuestName(), "oY9RC5jHbKUTYHbT7DA42gfpaaSY");
                     }
                 }
             }
