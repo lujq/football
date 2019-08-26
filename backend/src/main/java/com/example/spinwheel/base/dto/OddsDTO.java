@@ -56,4 +56,7 @@ public class OddsDTO {
     private String guestRed;
 
     private String firstLetGoal;
+
+    private String startTime;
+
 }

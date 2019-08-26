@@ -58,7 +58,7 @@ public class RealtimeOddsUtil {
         return null;
     }
 
-    public String sendTemplate(String accessToken, String home, String guest, String touser) {
+    public String sendTemplate(String accessToken, String home, String guest, String touser, String startTime, String className) {
         String tepUrl = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token="
                 + accessToken;
         CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -70,12 +70,12 @@ public class RealtimeOddsUtil {
         dataDTO.setTemplate_id("7PJRIU8el3GGblNAir1dxbuAu7fU1dV-fz0Y02zLsMc");
         NewsTemplateDTO newsTemplateDTO = new NewsTemplateDTO();
         CommonTemplateDTO c1 = new CommonTemplateDTO();
-        c1.setValue(sdf.format(new Date()));
+        c1.setValue(startTime);
         CommonTemplateDTO c2 = new CommonTemplateDTO();
-        c2.setValue("足球大数据通知");
+        c2.setValue("小波投通知");
         CommonTemplateDTO c3 = new CommonTemplateDTO();
         CommonTemplateDTO c4 = new CommonTemplateDTO();
-        c3.setValue("比赛投注提醒");
+        c3.setValue(className);
         c4.setValue("【"+home+"】 vs 【"+guest+"】");
         newsTemplateDTO.setFirst(c1);
         newsTemplateDTO.setKeyword1(c2);
@@ -163,6 +163,7 @@ public class RealtimeOddsUtil {
             for (int i = 0; i < schedules.length; i++) {
                 String[] scheduleDetail = schedules[i].split(",");
                 if (scheduleDetail[14].equals("2") && leagues.containsKey(scheduleDetail[1]) && Integer.parseInt(scheduleDetail[20]) < 1 && Integer.parseInt(scheduleDetail[21]) < 1) {
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
                     OddsDTO oddsDTO = new OddsDTO();
                     oddsDTO.setScheduleId(scheduleDetail[0]);
                     oddsDTO.setClassId(scheduleDetail[1]);
@@ -174,6 +175,7 @@ public class RealtimeOddsUtil {
                     oddsDTO.setGuestName(scheduleDetail[10]);
                     oddsDTO.setHomeRed(scheduleDetail[20]);
                     oddsDTO.setGuestRed(scheduleDetail[21]);
+                    oddsDTO.setStartTime(format.format(new Date(Long.valueOf(scheduleDetail[3]))));
                     scheduleList.add(oddsDTO);
                     matches.put(oddsDTO.getScheduleId(), oddsDTO);
                 }
@@ -216,12 +218,12 @@ public class RealtimeOddsUtil {
                     logger.info("Spinwheel Log totalGoals firstGoal : "+firstGoal + " goal:" + goal + " score: "+score);
                     if (2 <= firstGoal && firstGoal < 3 && score == 2 && 3 < goal && goal <= 3.5) {
                         resultList.add(odd);
-                        sendTemplate(accessToken, odd.getHomeName(), odd.getGuestName(), "oY9RC5pjrq2xeW2q_RnxjGxt-Y50");
-                        sendTemplate(accessToken, odd.getHomeName(), odd.getGuestName(), "oY9RC5mfZn87aSPd9fwirVQz95zY");
-                        sendTemplate(accessToken, odd.getHomeName(), odd.getGuestName(), "oY9RC5jHbKUTYHbT7DA42gfpaaSY");
-                        sendTemplate(accessToken, odd.getHomeName(), odd.getGuestName(), "oY9RC5h9DDPuOdkc0D74mRDY1AAQ");
-                        sendTemplate(accessToken, odd.getHomeName(), odd.getGuestName(), "oY9RC5r4c7VYjRos9vZ4qfoOQISY");
-                        sendTemplate(accessToken, odd.getHomeName(), odd.getGuestName(), "oY9RC5moB_PQmlCPWqHpDvlRoTKg");
+                        sendTemplate(accessToken, odd.getHomeName(), odd.getGuestName(), "oY9RC5pjrq2xeW2q_RnxjGxt-Y50", odd.getStartTime(), odd.getClassName());// zym
+                        sendTemplate(accessToken, odd.getHomeName(), odd.getGuestName(), "oY9RC5mfZn87aSPd9fwirVQz95zY", odd.getStartTime(), odd.getClassName());// alex
+                        sendTemplate(accessToken, odd.getHomeName(), odd.getGuestName(), "oY9RC5jHbKUTYHbT7DA42gfpaaSY", odd.getStartTime(), odd.getClassName());// boss
+                        sendTemplate(accessToken, odd.getHomeName(), odd.getGuestName(), "oY9RC5h9DDPuOdkc0D74mRDY1AAQ", odd.getStartTime(), odd.getClassName());// worker1
+                        sendTemplate(accessToken, odd.getHomeName(), odd.getGuestName(), "oY9RC5r4c7VYjRos9vZ4qfoOQISY", odd.getStartTime(), odd.getClassName());// worker2
+                        sendTemplate(accessToken, odd.getHomeName(), odd.getGuestName(), "oY9RC5moB_PQmlCPWqHpDvlRoTKg", odd.getStartTime(), odd.getClassName());// worker3
                     }
                 }
             }
@@ -279,7 +281,7 @@ public class RealtimeOddsUtil {
             String accessTokenResp = sendGet("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx581c631ff7ed0c70&secret=0d9340d2b107c65e58f1591291853754");
             JSONObject jsonObject = JSONObject.parseObject(accessTokenResp);
             accessToken = jsonObject.getString("access_token");
-            sendTemplate(accessToken, "返回原始参数：", "123", "oY9RC5pjrq2xeW2q_RnxjGxt-Y50");
+            sendTemplate(accessToken, "返回原始参数：", "123", "oY9RC5pjrq2xeW2q_RnxjGxt-Y50", "今天报错", "错误联赛");
 
         }
         return null;
@@ -288,6 +290,9 @@ public class RealtimeOddsUtil {
 
 
     public static void main(String[] args) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        System.out.println(sdf.format(new Date(Long.valueOf("1566831900000"))));
         Map<String, String> map = new HashMap<>();
         map.put("key","123");
         map.put("key1", "2");
@@ -301,6 +306,7 @@ public class RealtimeOddsUtil {
         } else {
             System.out.println("no");
         }
+
 //        readRealtimeOdds();
     }
 }
