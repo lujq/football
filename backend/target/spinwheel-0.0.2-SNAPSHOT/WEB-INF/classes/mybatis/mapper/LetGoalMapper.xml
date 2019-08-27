@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.spinwheel.base.dao.LetGoalMapper">
+  <resultMap id="BaseResultMap" type="com.example.spinwheel.base.domain.LetGoal">
+    <id column="OddsID" jdbcType="INTEGER" property="oddsID" />
+    <result column="ScheduleID" jdbcType="INTEGER" property="scheduleID" />
+    <result column="CompanyID" jdbcType="INTEGER" property="companyID" />
+    <result column="FirstGoal" jdbcType="REAL" property="firstGoal" />
+    <result column="FirstUpodds" jdbcType="REAL" property="firstUpodds" />
+    <result column="FirstDownodds" jdbcType="REAL" property="firstDownodds" />
+    <result column="Goal" jdbcType="REAL" property="goal" />
+    <result column="UpOdds" jdbcType="REAL" property="upOdds" />
+    <result column="DownOdds" jdbcType="REAL" property="downOdds" />
+    <result column="ModifyTime" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="Result" jdbcType="TINYINT" property="result" />
+    <result column="ClosePan" jdbcType="BIT" property="closePan" />
+    <result column="ZouDi" jdbcType="BIT" property="zouDi" />
+    <result column="Running" jdbcType="BIT" property="running" />
+    <result column="Goal_Real" jdbcType="REAL" property="goal_Real" />
+    <result column="UpOdds_Real" jdbcType="REAL" property="upOdds_Real" />
+    <result column="DownOdds_Real" jdbcType="REAL" property="downOdds_Real" />
+    <result column="isStopLive" jdbcType="BIT" property="isStopLive" />
+    <result column="StartTime" jdbcType="TIMESTAMP" property="startTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    OddsID, ScheduleID, CompanyID, FirstGoal, FirstUpodds, FirstDownodds, Goal, UpOdds, 
+    DownOdds, ModifyTime, Result, ClosePan, ZouDi, Running, Goal_Real, UpOdds_Real, DownOdds_Real, 
+    isStopLive, StartTime
+  </sql>
+  <select id="selectByExample" parameterType="com.example.spinwheel.base.domain.LetGoalExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from LetGoal
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from LetGoal
+    where OddsID = #{oddsID,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from LetGoal
+    where OddsID = #{oddsID,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.spinwheel.base.domain.LetGoalExample">
+    delete from LetGoal
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.spinwheel.base.domain.LetGoal">
+    insert into LetGoal (OddsID, ScheduleID, CompanyID, 
+      FirstGoal, FirstUpodds, FirstDownodds, 
+      Goal, UpOdds, DownOdds, ModifyTime, 
+      Result, ClosePan, ZouDi, Running, 
+      Goal_Real, UpOdds_Real, DownOdds_Real, 
+      isStopLive, StartTime)
+    values (#{oddsID,jdbcType=INTEGER}, #{scheduleID,jdbcType=INTEGER}, #{companyID,jdbcType=INTEGER}, 
+      #{firstGoal,jdbcType=REAL}, #{firstUpodds,jdbcType=REAL}, #{firstDownodds,jdbcType=REAL}, 
+      #{goal,jdbcType=REAL}, #{upOdds,jdbcType=REAL}, #{downOdds,jdbcType=REAL}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{result,jdbcType=TINYINT}, #{closePan,jdbcType=BIT}, #{zouDi,jdbcType=BIT}, #{running,jdbcType=BIT}, 
+      #{goal_Real,jdbcType=REAL}, #{upOdds_Real,jdbcType=REAL}, #{downOdds_Real,jdbcType=REAL}, 
+      #{isStopLive,jdbcType=BIT}, #{startTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.spinwheel.base.domain.LetGoal">
+    insert into LetGoal
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="oddsID != null">
+        OddsID,
+      </if>
+      <if test="scheduleID != null">
+        ScheduleID,
+      </if>
+      <if test="companyID != null">
+        CompanyID,
+      </if>
+      <if test="firstGoal != null">
+        FirstGoal,
+      </if>
+      <if test="firstUpodds != null">
+        FirstUpodds,
+      </if>
+      <if test="firstDownodds != null">
+        FirstDownodds,
+      </if>
+      <if test="goal != null">
+        Goal,
+      </if>
+      <if test="upOdds != null">
+        UpOdds,
+      </if>
+      <if test="downOdds != null">
+        DownOdds,
+      </if>
+      <if test="modifyTime != null">
+        ModifyTime,
+      </if>
+      <if test="result != null">
+        Result,
+      </if>
+      <if test="closePan != null">
+        ClosePan,
+      </if>
+      <if test="zouDi != null">
+        ZouDi,
+      </if>
+      <if test="running != null">
+        Running,
+      </if>
+      <if test="goal_Real != null">
+        Goal_Real,
+      </if>
+      <if test="upOdds_Real != null">
+        UpOdds_Real,
+      </if>
+      <if test="downOdds_Real != null">
+        DownOdds_Real,
+      </if>
+      <if test="isStopLive != null">
+        isStopLive,
+      </if>
+      <if test="startTime != null">
+        StartTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="oddsID != null">
+        #{oddsID,jdbcType=INTEGER},
+      </if>
+      <if test="scheduleID != null">
+        #{scheduleID,jdbcType=INTEGER},
+      </if>
+      <if test="companyID != null">
+        #{companyID,jdbcType=INTEGER},
+      </if>
+      <if test="firstGoal != null">
+        #{firstGoal,jdbcType=REAL},
+      </if>
+      <if test="firstUpodds != null">
+        #{firstUpodds,jdbcType=REAL},
+      </if>
+      <if test="firstDownodds != null">
+        #{firstDownodds,jdbcType=REAL},
+      </if>
+      <if test="goal != null">
+        #{goal,jdbcType=REAL},
+      </if>
+      <if test="upOdds != null">
+        #{upOdds,jdbcType=REAL},
+      </if>
+      <if test="downOdds != null">
+        #{downOdds,jdbcType=REAL},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="result != null">
+        #{result,jdbcType=TINYINT},
+      </if>
+      <if test="closePan != null">
+        #{closePan,jdbcType=BIT},
+      </if>
+      <if test="zouDi != null">
+        #{zouDi,jdbcType=BIT},
+      </if>
+      <if test="running != null">
+        #{running,jdbcType=BIT},
+      </if>
+      <if test="goal_Real != null">
+        #{goal_Real,jdbcType=REAL},
+      </if>
+      <if test="upOdds_Real != null">
+        #{upOdds_Real,jdbcType=REAL},
+      </if>
+      <if test="downOdds_Real != null">
+        #{downOdds_Real,jdbcType=REAL},
+      </if>
+      <if test="isStopLive != null">
+        #{isStopLive,jdbcType=BIT},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.spinwheel.base.domain.LetGoalExample" resultType="java.lang.Long">
+    select count(*) from LetGoal
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update LetGoal
+    <set>
+      <if test="record.oddsID != null">
+        OddsID = #{record.oddsID,jdbcType=INTEGER},
+      </if>
+      <if test="record.scheduleID != null">
+        ScheduleID = #{record.scheduleID,jdbcType=INTEGER},
+      </if>
+      <if test="record.companyID != null">
+        CompanyID = #{record.companyID,jdbcType=INTEGER},
+      </if>
+      <if test="record.firstGoal != null">
+        FirstGoal = #{record.firstGoal,jdbcType=REAL},
+      </if>
+      <if test="record.firstUpodds != null">
+        FirstUpodds = #{record.firstUpodds,jdbcType=REAL},
+      </if>
+      <if test="record.firstDownodds != null">
+        FirstDownodds = #{record.firstDownodds,jdbcType=REAL},
+      </if>
+      <if test="record.goal != null">
+        Goal = #{record.goal,jdbcType=REAL},
+      </if>
+      <if test="record.upOdds != null">
+        UpOdds = #{record.upOdds,jdbcType=REAL},
+      </if>
+      <if test="record.downOdds != null">
+        DownOdds = #{record.downOdds,jdbcType=REAL},
+      </if>
+      <if test="record.modifyTime != null">
+        ModifyTime = #{record.modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.result != null">
+        Result = #{record.result,jdbcType=TINYINT},
+      </if>
+      <if test="record.closePan != null">
+        ClosePan = #{record.closePan,jdbcType=BIT},
+      </if>
+      <if test="record.zouDi != null">
+        ZouDi = #{record.zouDi,jdbcType=BIT},
+      </if>
+      <if test="record.running != null">
+        Running = #{record.running,jdbcType=BIT},
+      </if>
+      <if test="record.goal_Real != null">
+        Goal_Real = #{record.goal_Real,jdbcType=REAL},
+      </if>
+      <if test="record.upOdds_Real != null">
+        UpOdds_Real = #{record.upOdds_Real,jdbcType=REAL},
+      </if>
+      <if test="record.downOdds_Real != null">
+        DownOdds_Real = #{record.downOdds_Real,jdbcType=REAL},
+      </if>
+      <if test="record.isStopLive != null">
+        isStopLive = #{record.isStopLive,jdbcType=BIT},
+      </if>
+      <if test="record.startTime != null">
+        StartTime = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update LetGoal
+    set OddsID = #{record.oddsID,jdbcType=INTEGER},
+      ScheduleID = #{record.scheduleID,jdbcType=INTEGER},
+      CompanyID = #{record.companyID,jdbcType=INTEGER},
+      FirstGoal = #{record.firstGoal,jdbcType=REAL},
+      FirstUpodds = #{record.firstUpodds,jdbcType=REAL},
+      FirstDownodds = #{record.firstDownodds,jdbcType=REAL},
+      Goal = #{record.goal,jdbcType=REAL},
+      UpOdds = #{record.upOdds,jdbcType=REAL},
+      DownOdds = #{record.downOdds,jdbcType=REAL},
+      ModifyTime = #{record.modifyTime,jdbcType=TIMESTAMP},
+      Result = #{record.result,jdbcType=TINYINT},
+      ClosePan = #{record.closePan,jdbcType=BIT},
+      ZouDi = #{record.zouDi,jdbcType=BIT},
+      Running = #{record.running,jdbcType=BIT},
+      Goal_Real = #{record.goal_Real,jdbcType=REAL},
+      UpOdds_Real = #{record.upOdds_Real,jdbcType=REAL},
+      DownOdds_Real = #{record.downOdds_Real,jdbcType=REAL},
+      isStopLive = #{record.isStopLive,jdbcType=BIT},
+      StartTime = #{record.startTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.spinwheel.base.domain.LetGoal">
+    update LetGoal
+    <set>
+      <if test="scheduleID != null">
+        ScheduleID = #{scheduleID,jdbcType=INTEGER},
+      </if>
+      <if test="companyID != null">
+        CompanyID = #{companyID,jdbcType=INTEGER},
+      </if>
+      <if test="firstGoal != null">
+        FirstGoal = #{firstGoal,jdbcType=REAL},
+      </if>
+      <if test="firstUpodds != null">
+        FirstUpodds = #{firstUpodds,jdbcType=REAL},
+      </if>
+      <if test="firstDownodds != null">
+        FirstDownodds = #{firstDownodds,jdbcType=REAL},
+      </if>
+      <if test="goal != null">
+        Goal = #{goal,jdbcType=REAL},
+      </if>
+      <if test="upOdds != null">
+        UpOdds = #{upOdds,jdbcType=REAL},
+      </if>
+      <if test="downOdds != null">
+        DownOdds = #{downOdds,jdbcType=REAL},
+      </if>
+      <if test="modifyTime != null">
+        ModifyTime = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="result != null">
+        Result = #{result,jdbcType=TINYINT},
+      </if>
+      <if test="closePan != null">
+        ClosePan = #{closePan,jdbcType=BIT},
+      </if>
+      <if test="zouDi != null">
+        ZouDi = #{zouDi,jdbcType=BIT},
+      </if>
+      <if test="running != null">
+        Running = #{running,jdbcType=BIT},
+      </if>
+      <if test="goal_Real != null">
+        Goal_Real = #{goal_Real,jdbcType=REAL},
+      </if>
+      <if test="upOdds_Real != null">
+        UpOdds_Real = #{upOdds_Real,jdbcType=REAL},
+      </if>
+      <if test="downOdds_Real != null">
+        DownOdds_Real = #{downOdds_Real,jdbcType=REAL},
+      </if>
+      <if test="isStopLive != null">
+        isStopLive = #{isStopLive,jdbcType=BIT},
+      </if>
+      <if test="startTime != null">
+        StartTime = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where OddsID = #{oddsID,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.spinwheel.base.domain.LetGoal">
+    update LetGoal
+    set ScheduleID = #{scheduleID,jdbcType=INTEGER},
+      CompanyID = #{companyID,jdbcType=INTEGER},
+      FirstGoal = #{firstGoal,jdbcType=REAL},
+      FirstUpodds = #{firstUpodds,jdbcType=REAL},
+      FirstDownodds = #{firstDownodds,jdbcType=REAL},
+      Goal = #{goal,jdbcType=REAL},
+      UpOdds = #{upOdds,jdbcType=REAL},
+      DownOdds = #{downOdds,jdbcType=REAL},
+      ModifyTime = #{modifyTime,jdbcType=TIMESTAMP},
+      Result = #{result,jdbcType=TINYINT},
+      ClosePan = #{closePan,jdbcType=BIT},
+      ZouDi = #{zouDi,jdbcType=BIT},
+      Running = #{running,jdbcType=BIT},
+      Goal_Real = #{goal_Real,jdbcType=REAL},
+      UpOdds_Real = #{upOdds_Real,jdbcType=REAL},
+      DownOdds_Real = #{downOdds_Real,jdbcType=REAL},
+      isStopLive = #{isStopLive,jdbcType=BIT},
+      StartTime = #{startTime,jdbcType=TIMESTAMP}
+    where OddsID = #{oddsID,jdbcType=INTEGER}
+  </update>
+</mapper>

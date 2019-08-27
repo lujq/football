@@ -40,9 +40,11 @@ public class SpinwheelController {
 
     @ApiOperation(value="查询rawData", notes="查询rawData")
     @PostMapping(value = "/getRawData")
-    public List<OddsDTO> getRawData() {
-        List<OddsDTO> result = util.readRealtimeOdds();
-        return result;
+    public String getRawData() {
+//        List<OddsDTO> result = util.readRealtimeOdds();
+        String url = "http://interface.win007.com/zq/odds.aspx";
+        String rawResult = util.sendGet(url);
+        return rawResult;
     }
 
     @GetMapping(value = "/getRank")

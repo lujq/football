@@ -1,0 +1,947 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.spinwheel.base.dao.ScheduleMapper">
+  <resultMap id="BaseResultMap" type="com.example.spinwheel.base.domain.Schedule">
+    <id column="ScheduleID" jdbcType="INTEGER" property="scheduleID" />
+    <result column="SclassID" jdbcType="INTEGER" property="sclassID" />
+    <result column="MatchSeason" jdbcType="CHAR" property="matchSeason" />
+    <result column="round" jdbcType="SMALLINT" property="round" />
+    <result column="grouping" jdbcType="CHAR" property="grouping" />
+    <result column="HomeTeamID" jdbcType="INTEGER" property="homeTeamID" />
+    <result column="GuestTeamID" jdbcType="INTEGER" property="guestTeamID" />
+    <result column="HomeTeam" jdbcType="CHAR" property="homeTeam" />
+    <result column="GuestTeam" jdbcType="CHAR" property="guestTeam" />
+    <result column="Neutrality" jdbcType="BIT" property="neutrality" />
+    <result column="MatchTime" jdbcType="TIMESTAMP" property="matchTime" />
+    <result column="MatchTime2" jdbcType="TIMESTAMP" property="matchTime2" />
+    <result column="Location" jdbcType="VARCHAR" property="location" />
+    <result column="Home_Order" jdbcType="CHAR" property="home_Order" />
+    <result column="Guest_Order" jdbcType="CHAR" property="guest_Order" />
+    <result column="MatchState" jdbcType="SMALLINT" property="matchState" />
+    <result column="WeatherIcon" jdbcType="SMALLINT" property="weatherIcon" />
+    <result column="Weather" jdbcType="CHAR" property="weather" />
+    <result column="Temperature" jdbcType="CHAR" property="temperature" />
+    <result column="TV" jdbcType="VARCHAR" property="TV" />
+    <result column="Umpire" jdbcType="CHAR" property="umpire" />
+    <result column="Visitor" jdbcType="INTEGER" property="visitor" />
+    <result column="HomeScore" jdbcType="SMALLINT" property="homeScore" />
+    <result column="GuestScore" jdbcType="SMALLINT" property="guestScore" />
+    <result column="HomeHalfScore" jdbcType="SMALLINT" property="homeHalfScore" />
+    <result column="GuestHalfScore" jdbcType="SMALLINT" property="guestHalfScore" />
+    <result column="Home_Red" jdbcType="SMALLINT" property="home_Red" />
+    <result column="Guest_Red" jdbcType="SMALLINT" property="guest_Red" />
+    <result column="Home_Yellow" jdbcType="SMALLINT" property="home_Yellow" />
+    <result column="Guest_Yellow" jdbcType="SMALLINT" property="guest_Yellow" />
+    <result column="bf_changetime" jdbcType="TIMESTAMP" property="bf_changetime" />
+    <result column="shangpan" jdbcType="TINYINT" property="shangpan" />
+    <result column="grouping2" jdbcType="CHAR" property="grouping2" />
+    <result column="bfShow" jdbcType="BIT" property="bfShow" />
+    <result column="subSclassID" jdbcType="INTEGER" property="subSclassID" />
+    <result column="Explainlist" jdbcType="VARCHAR" property="explainlist" />
+    <result column="VenuesID" jdbcType="INTEGER" property="venuesID" />
+    <result column="isGuessRed" jdbcType="BIT" property="isGuessRed" />
+    <result column="isLive" jdbcType="BIT" property="isLive" />
+    <result column="homeCorner" jdbcType="TINYINT" property="homeCorner" />
+    <result column="homeCornerHalf" jdbcType="TINYINT" property="homeCornerHalf" />
+    <result column="guestCorner" jdbcType="TINYINT" property="guestCorner" />
+    <result column="guestCornerHalf" jdbcType="TINYINT" property="guestCornerHalf" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.spinwheel.base.domain.Schedule">
+    <result column="Explain" jdbcType="CLOB" property="explain" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ScheduleID, SclassID, MatchSeason, round, grouping, HomeTeamID, GuestTeamID, HomeTeam, 
+    GuestTeam, Neutrality, MatchTime, MatchTime2, Location, Home_Order, Guest_Order, 
+    MatchState, WeatherIcon, Weather, Temperature, TV, Umpire, Visitor, HomeScore, GuestScore, 
+    HomeHalfScore, GuestHalfScore, Home_Red, Guest_Red, Home_Yellow, Guest_Yellow, bf_changetime, 
+    shangpan, grouping2, bfShow, subSclassID, Explainlist, VenuesID, isGuessRed, isLive, 
+    homeCorner, homeCornerHalf, guestCorner, guestCornerHalf
+  </sql>
+  <sql id="Blob_Column_List">
+    Explain
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.example.spinwheel.base.domain.ScheduleExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from Schedule
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.example.spinwheel.base.domain.ScheduleExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from Schedule
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from Schedule
+    where ScheduleID = #{scheduleID,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from Schedule
+    where ScheduleID = #{scheduleID,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.spinwheel.base.domain.ScheduleExample">
+    delete from Schedule
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.spinwheel.base.domain.Schedule">
+    insert into Schedule (ScheduleID, SclassID, MatchSeason, 
+      round, grouping, HomeTeamID, 
+      GuestTeamID, HomeTeam, GuestTeam, 
+      Neutrality, MatchTime, MatchTime2, 
+      Location, Home_Order, Guest_Order, 
+      MatchState, WeatherIcon, Weather, 
+      Temperature, TV, Umpire, 
+      Visitor, HomeScore, GuestScore, 
+      HomeHalfScore, GuestHalfScore, Home_Red, 
+      Guest_Red, Home_Yellow, Guest_Yellow, 
+      bf_changetime, shangpan, grouping2, 
+      bfShow, subSclassID, Explainlist, 
+      VenuesID, isGuessRed, isLive, 
+      homeCorner, homeCornerHalf, guestCorner, 
+      guestCornerHalf, Explain)
+    values (#{scheduleID,jdbcType=INTEGER}, #{sclassID,jdbcType=INTEGER}, #{matchSeason,jdbcType=CHAR}, 
+      #{round,jdbcType=SMALLINT}, #{grouping,jdbcType=CHAR}, #{homeTeamID,jdbcType=INTEGER}, 
+      #{guestTeamID,jdbcType=INTEGER}, #{homeTeam,jdbcType=CHAR}, #{guestTeam,jdbcType=CHAR}, 
+      #{neutrality,jdbcType=BIT}, #{matchTime,jdbcType=TIMESTAMP}, #{matchTime2,jdbcType=TIMESTAMP}, 
+      #{location,jdbcType=VARCHAR}, #{home_Order,jdbcType=CHAR}, #{guest_Order,jdbcType=CHAR}, 
+      #{matchState,jdbcType=SMALLINT}, #{weatherIcon,jdbcType=SMALLINT}, #{weather,jdbcType=CHAR}, 
+      #{temperature,jdbcType=CHAR}, #{TV,jdbcType=VARCHAR}, #{umpire,jdbcType=CHAR}, 
+      #{visitor,jdbcType=INTEGER}, #{homeScore,jdbcType=SMALLINT}, #{guestScore,jdbcType=SMALLINT}, 
+      #{homeHalfScore,jdbcType=SMALLINT}, #{guestHalfScore,jdbcType=SMALLINT}, #{home_Red,jdbcType=SMALLINT}, 
+      #{guest_Red,jdbcType=SMALLINT}, #{home_Yellow,jdbcType=SMALLINT}, #{guest_Yellow,jdbcType=SMALLINT}, 
+      #{bf_changetime,jdbcType=TIMESTAMP}, #{shangpan,jdbcType=TINYINT}, #{grouping2,jdbcType=CHAR}, 
+      #{bfShow,jdbcType=BIT}, #{subSclassID,jdbcType=INTEGER}, #{explainlist,jdbcType=VARCHAR}, 
+      #{venuesID,jdbcType=INTEGER}, #{isGuessRed,jdbcType=BIT}, #{isLive,jdbcType=BIT}, 
+      #{homeCorner,jdbcType=TINYINT}, #{homeCornerHalf,jdbcType=TINYINT}, #{guestCorner,jdbcType=TINYINT}, 
+      #{guestCornerHalf,jdbcType=TINYINT}, #{explain,jdbcType=CLOB})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.spinwheel.base.domain.Schedule">
+    insert into Schedule
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="scheduleID != null">
+        ScheduleID,
+      </if>
+      <if test="sclassID != null">
+        SclassID,
+      </if>
+      <if test="matchSeason != null">
+        MatchSeason,
+      </if>
+      <if test="round != null">
+        round,
+      </if>
+      <if test="grouping != null">
+        grouping,
+      </if>
+      <if test="homeTeamID != null">
+        HomeTeamID,
+      </if>
+      <if test="guestTeamID != null">
+        GuestTeamID,
+      </if>
+      <if test="homeTeam != null">
+        HomeTeam,
+      </if>
+      <if test="guestTeam != null">
+        GuestTeam,
+      </if>
+      <if test="neutrality != null">
+        Neutrality,
+      </if>
+      <if test="matchTime != null">
+        MatchTime,
+      </if>
+      <if test="matchTime2 != null">
+        MatchTime2,
+      </if>
+      <if test="location != null">
+        Location,
+      </if>
+      <if test="home_Order != null">
+        Home_Order,
+      </if>
+      <if test="guest_Order != null">
+        Guest_Order,
+      </if>
+      <if test="matchState != null">
+        MatchState,
+      </if>
+      <if test="weatherIcon != null">
+        WeatherIcon,
+      </if>
+      <if test="weather != null">
+        Weather,
+      </if>
+      <if test="temperature != null">
+        Temperature,
+      </if>
+      <if test="TV != null">
+        TV,
+      </if>
+      <if test="umpire != null">
+        Umpire,
+      </if>
+      <if test="visitor != null">
+        Visitor,
+      </if>
+      <if test="homeScore != null">
+        HomeScore,
+      </if>
+      <if test="guestScore != null">
+        GuestScore,
+      </if>
+      <if test="homeHalfScore != null">
+        HomeHalfScore,
+      </if>
+      <if test="guestHalfScore != null">
+        GuestHalfScore,
+      </if>
+      <if test="home_Red != null">
+        Home_Red,
+      </if>
+      <if test="guest_Red != null">
+        Guest_Red,
+      </if>
+      <if test="home_Yellow != null">
+        Home_Yellow,
+      </if>
+      <if test="guest_Yellow != null">
+        Guest_Yellow,
+      </if>
+      <if test="bf_changetime != null">
+        bf_changetime,
+      </if>
+      <if test="shangpan != null">
+        shangpan,
+      </if>
+      <if test="grouping2 != null">
+        grouping2,
+      </if>
+      <if test="bfShow != null">
+        bfShow,
+      </if>
+      <if test="subSclassID != null">
+        subSclassID,
+      </if>
+      <if test="explainlist != null">
+        Explainlist,
+      </if>
+      <if test="venuesID != null">
+        VenuesID,
+      </if>
+      <if test="isGuessRed != null">
+        isGuessRed,
+      </if>
+      <if test="isLive != null">
+        isLive,
+      </if>
+      <if test="homeCorner != null">
+        homeCorner,
+      </if>
+      <if test="homeCornerHalf != null">
+        homeCornerHalf,
+      </if>
+      <if test="guestCorner != null">
+        guestCorner,
+      </if>
+      <if test="guestCornerHalf != null">
+        guestCornerHalf,
+      </if>
+      <if test="explain != null">
+        Explain,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="scheduleID != null">
+        #{scheduleID,jdbcType=INTEGER},
+      </if>
+      <if test="sclassID != null">
+        #{sclassID,jdbcType=INTEGER},
+      </if>
+      <if test="matchSeason != null">
+        #{matchSeason,jdbcType=CHAR},
+      </if>
+      <if test="round != null">
+        #{round,jdbcType=SMALLINT},
+      </if>
+      <if test="grouping != null">
+        #{grouping,jdbcType=CHAR},
+      </if>
+      <if test="homeTeamID != null">
+        #{homeTeamID,jdbcType=INTEGER},
+      </if>
+      <if test="guestTeamID != null">
+        #{guestTeamID,jdbcType=INTEGER},
+      </if>
+      <if test="homeTeam != null">
+        #{homeTeam,jdbcType=CHAR},
+      </if>
+      <if test="guestTeam != null">
+        #{guestTeam,jdbcType=CHAR},
+      </if>
+      <if test="neutrality != null">
+        #{neutrality,jdbcType=BIT},
+      </if>
+      <if test="matchTime != null">
+        #{matchTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="matchTime2 != null">
+        #{matchTime2,jdbcType=TIMESTAMP},
+      </if>
+      <if test="location != null">
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="home_Order != null">
+        #{home_Order,jdbcType=CHAR},
+      </if>
+      <if test="guest_Order != null">
+        #{guest_Order,jdbcType=CHAR},
+      </if>
+      <if test="matchState != null">
+        #{matchState,jdbcType=SMALLINT},
+      </if>
+      <if test="weatherIcon != null">
+        #{weatherIcon,jdbcType=SMALLINT},
+      </if>
+      <if test="weather != null">
+        #{weather,jdbcType=CHAR},
+      </if>
+      <if test="temperature != null">
+        #{temperature,jdbcType=CHAR},
+      </if>
+      <if test="TV != null">
+        #{TV,jdbcType=VARCHAR},
+      </if>
+      <if test="umpire != null">
+        #{umpire,jdbcType=CHAR},
+      </if>
+      <if test="visitor != null">
+        #{visitor,jdbcType=INTEGER},
+      </if>
+      <if test="homeScore != null">
+        #{homeScore,jdbcType=SMALLINT},
+      </if>
+      <if test="guestScore != null">
+        #{guestScore,jdbcType=SMALLINT},
+      </if>
+      <if test="homeHalfScore != null">
+        #{homeHalfScore,jdbcType=SMALLINT},
+      </if>
+      <if test="guestHalfScore != null">
+        #{guestHalfScore,jdbcType=SMALLINT},
+      </if>
+      <if test="home_Red != null">
+        #{home_Red,jdbcType=SMALLINT},
+      </if>
+      <if test="guest_Red != null">
+        #{guest_Red,jdbcType=SMALLINT},
+      </if>
+      <if test="home_Yellow != null">
+        #{home_Yellow,jdbcType=SMALLINT},
+      </if>
+      <if test="guest_Yellow != null">
+        #{guest_Yellow,jdbcType=SMALLINT},
+      </if>
+      <if test="bf_changetime != null">
+        #{bf_changetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shangpan != null">
+        #{shangpan,jdbcType=TINYINT},
+      </if>
+      <if test="grouping2 != null">
+        #{grouping2,jdbcType=CHAR},
+      </if>
+      <if test="bfShow != null">
+        #{bfShow,jdbcType=BIT},
+      </if>
+      <if test="subSclassID != null">
+        #{subSclassID,jdbcType=INTEGER},
+      </if>
+      <if test="explainlist != null">
+        #{explainlist,jdbcType=VARCHAR},
+      </if>
+      <if test="venuesID != null">
+        #{venuesID,jdbcType=INTEGER},
+      </if>
+      <if test="isGuessRed != null">
+        #{isGuessRed,jdbcType=BIT},
+      </if>
+      <if test="isLive != null">
+        #{isLive,jdbcType=BIT},
+      </if>
+      <if test="homeCorner != null">
+        #{homeCorner,jdbcType=TINYINT},
+      </if>
+      <if test="homeCornerHalf != null">
+        #{homeCornerHalf,jdbcType=TINYINT},
+      </if>
+      <if test="guestCorner != null">
+        #{guestCorner,jdbcType=TINYINT},
+      </if>
+      <if test="guestCornerHalf != null">
+        #{guestCornerHalf,jdbcType=TINYINT},
+      </if>
+      <if test="explain != null">
+        #{explain,jdbcType=CLOB},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.spinwheel.base.domain.ScheduleExample" resultType="java.lang.Long">
+    select count(*) from Schedule
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update Schedule
+    <set>
+      <if test="record.scheduleID != null">
+        ScheduleID = #{record.scheduleID,jdbcType=INTEGER},
+      </if>
+      <if test="record.sclassID != null">
+        SclassID = #{record.sclassID,jdbcType=INTEGER},
+      </if>
+      <if test="record.matchSeason != null">
+        MatchSeason = #{record.matchSeason,jdbcType=CHAR},
+      </if>
+      <if test="record.round != null">
+        round = #{record.round,jdbcType=SMALLINT},
+      </if>
+      <if test="record.grouping != null">
+        grouping = #{record.grouping,jdbcType=CHAR},
+      </if>
+      <if test="record.homeTeamID != null">
+        HomeTeamID = #{record.homeTeamID,jdbcType=INTEGER},
+      </if>
+      <if test="record.guestTeamID != null">
+        GuestTeamID = #{record.guestTeamID,jdbcType=INTEGER},
+      </if>
+      <if test="record.homeTeam != null">
+        HomeTeam = #{record.homeTeam,jdbcType=CHAR},
+      </if>
+      <if test="record.guestTeam != null">
+        GuestTeam = #{record.guestTeam,jdbcType=CHAR},
+      </if>
+      <if test="record.neutrality != null">
+        Neutrality = #{record.neutrality,jdbcType=BIT},
+      </if>
+      <if test="record.matchTime != null">
+        MatchTime = #{record.matchTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.matchTime2 != null">
+        MatchTime2 = #{record.matchTime2,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.location != null">
+        Location = #{record.location,jdbcType=VARCHAR},
+      </if>
+      <if test="record.home_Order != null">
+        Home_Order = #{record.home_Order,jdbcType=CHAR},
+      </if>
+      <if test="record.guest_Order != null">
+        Guest_Order = #{record.guest_Order,jdbcType=CHAR},
+      </if>
+      <if test="record.matchState != null">
+        MatchState = #{record.matchState,jdbcType=SMALLINT},
+      </if>
+      <if test="record.weatherIcon != null">
+        WeatherIcon = #{record.weatherIcon,jdbcType=SMALLINT},
+      </if>
+      <if test="record.weather != null">
+        Weather = #{record.weather,jdbcType=CHAR},
+      </if>
+      <if test="record.temperature != null">
+        Temperature = #{record.temperature,jdbcType=CHAR},
+      </if>
+      <if test="record.TV != null">
+        TV = #{record.TV,jdbcType=VARCHAR},
+      </if>
+      <if test="record.umpire != null">
+        Umpire = #{record.umpire,jdbcType=CHAR},
+      </if>
+      <if test="record.visitor != null">
+        Visitor = #{record.visitor,jdbcType=INTEGER},
+      </if>
+      <if test="record.homeScore != null">
+        HomeScore = #{record.homeScore,jdbcType=SMALLINT},
+      </if>
+      <if test="record.guestScore != null">
+        GuestScore = #{record.guestScore,jdbcType=SMALLINT},
+      </if>
+      <if test="record.homeHalfScore != null">
+        HomeHalfScore = #{record.homeHalfScore,jdbcType=SMALLINT},
+      </if>
+      <if test="record.guestHalfScore != null">
+        GuestHalfScore = #{record.guestHalfScore,jdbcType=SMALLINT},
+      </if>
+      <if test="record.home_Red != null">
+        Home_Red = #{record.home_Red,jdbcType=SMALLINT},
+      </if>
+      <if test="record.guest_Red != null">
+        Guest_Red = #{record.guest_Red,jdbcType=SMALLINT},
+      </if>
+      <if test="record.home_Yellow != null">
+        Home_Yellow = #{record.home_Yellow,jdbcType=SMALLINT},
+      </if>
+      <if test="record.guest_Yellow != null">
+        Guest_Yellow = #{record.guest_Yellow,jdbcType=SMALLINT},
+      </if>
+      <if test="record.bf_changetime != null">
+        bf_changetime = #{record.bf_changetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.shangpan != null">
+        shangpan = #{record.shangpan,jdbcType=TINYINT},
+      </if>
+      <if test="record.grouping2 != null">
+        grouping2 = #{record.grouping2,jdbcType=CHAR},
+      </if>
+      <if test="record.bfShow != null">
+        bfShow = #{record.bfShow,jdbcType=BIT},
+      </if>
+      <if test="record.subSclassID != null">
+        subSclassID = #{record.subSclassID,jdbcType=INTEGER},
+      </if>
+      <if test="record.explainlist != null">
+        Explainlist = #{record.explainlist,jdbcType=VARCHAR},
+      </if>
+      <if test="record.venuesID != null">
+        VenuesID = #{record.venuesID,jdbcType=INTEGER},
+      </if>
+      <if test="record.isGuessRed != null">
+        isGuessRed = #{record.isGuessRed,jdbcType=BIT},
+      </if>
+      <if test="record.isLive != null">
+        isLive = #{record.isLive,jdbcType=BIT},
+      </if>
+      <if test="record.homeCorner != null">
+        homeCorner = #{record.homeCorner,jdbcType=TINYINT},
+      </if>
+      <if test="record.homeCornerHalf != null">
+        homeCornerHalf = #{record.homeCornerHalf,jdbcType=TINYINT},
+      </if>
+      <if test="record.guestCorner != null">
+        guestCorner = #{record.guestCorner,jdbcType=TINYINT},
+      </if>
+      <if test="record.guestCornerHalf != null">
+        guestCornerHalf = #{record.guestCornerHalf,jdbcType=TINYINT},
+      </if>
+      <if test="record.explain != null">
+        Explain = #{record.explain,jdbcType=CLOB},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update Schedule
+    set ScheduleID = #{record.scheduleID,jdbcType=INTEGER},
+      SclassID = #{record.sclassID,jdbcType=INTEGER},
+      MatchSeason = #{record.matchSeason,jdbcType=CHAR},
+      round = #{record.round,jdbcType=SMALLINT},
+      grouping = #{record.grouping,jdbcType=CHAR},
+      HomeTeamID = #{record.homeTeamID,jdbcType=INTEGER},
+      GuestTeamID = #{record.guestTeamID,jdbcType=INTEGER},
+      HomeTeam = #{record.homeTeam,jdbcType=CHAR},
+      GuestTeam = #{record.guestTeam,jdbcType=CHAR},
+      Neutrality = #{record.neutrality,jdbcType=BIT},
+      MatchTime = #{record.matchTime,jdbcType=TIMESTAMP},
+      MatchTime2 = #{record.matchTime2,jdbcType=TIMESTAMP},
+      Location = #{record.location,jdbcType=VARCHAR},
+      Home_Order = #{record.home_Order,jdbcType=CHAR},
+      Guest_Order = #{record.guest_Order,jdbcType=CHAR},
+      MatchState = #{record.matchState,jdbcType=SMALLINT},
+      WeatherIcon = #{record.weatherIcon,jdbcType=SMALLINT},
+      Weather = #{record.weather,jdbcType=CHAR},
+      Temperature = #{record.temperature,jdbcType=CHAR},
+      TV = #{record.TV,jdbcType=VARCHAR},
+      Umpire = #{record.umpire,jdbcType=CHAR},
+      Visitor = #{record.visitor,jdbcType=INTEGER},
+      HomeScore = #{record.homeScore,jdbcType=SMALLINT},
+      GuestScore = #{record.guestScore,jdbcType=SMALLINT},
+      HomeHalfScore = #{record.homeHalfScore,jdbcType=SMALLINT},
+      GuestHalfScore = #{record.guestHalfScore,jdbcType=SMALLINT},
+      Home_Red = #{record.home_Red,jdbcType=SMALLINT},
+      Guest_Red = #{record.guest_Red,jdbcType=SMALLINT},
+      Home_Yellow = #{record.home_Yellow,jdbcType=SMALLINT},
+      Guest_Yellow = #{record.guest_Yellow,jdbcType=SMALLINT},
+      bf_changetime = #{record.bf_changetime,jdbcType=TIMESTAMP},
+      shangpan = #{record.shangpan,jdbcType=TINYINT},
+      grouping2 = #{record.grouping2,jdbcType=CHAR},
+      bfShow = #{record.bfShow,jdbcType=BIT},
+      subSclassID = #{record.subSclassID,jdbcType=INTEGER},
+      Explainlist = #{record.explainlist,jdbcType=VARCHAR},
+      VenuesID = #{record.venuesID,jdbcType=INTEGER},
+      isGuessRed = #{record.isGuessRed,jdbcType=BIT},
+      isLive = #{record.isLive,jdbcType=BIT},
+      homeCorner = #{record.homeCorner,jdbcType=TINYINT},
+      homeCornerHalf = #{record.homeCornerHalf,jdbcType=TINYINT},
+      guestCorner = #{record.guestCorner,jdbcType=TINYINT},
+      guestCornerHalf = #{record.guestCornerHalf,jdbcType=TINYINT},
+      Explain = #{record.explain,jdbcType=CLOB}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update Schedule
+    set ScheduleID = #{record.scheduleID,jdbcType=INTEGER},
+      SclassID = #{record.sclassID,jdbcType=INTEGER},
+      MatchSeason = #{record.matchSeason,jdbcType=CHAR},
+      round = #{record.round,jdbcType=SMALLINT},
+      grouping = #{record.grouping,jdbcType=CHAR},
+      HomeTeamID = #{record.homeTeamID,jdbcType=INTEGER},
+      GuestTeamID = #{record.guestTeamID,jdbcType=INTEGER},
+      HomeTeam = #{record.homeTeam,jdbcType=CHAR},
+      GuestTeam = #{record.guestTeam,jdbcType=CHAR},
+      Neutrality = #{record.neutrality,jdbcType=BIT},
+      MatchTime = #{record.matchTime,jdbcType=TIMESTAMP},
+      MatchTime2 = #{record.matchTime2,jdbcType=TIMESTAMP},
+      Location = #{record.location,jdbcType=VARCHAR},
+      Home_Order = #{record.home_Order,jdbcType=CHAR},
+      Guest_Order = #{record.guest_Order,jdbcType=CHAR},
+      MatchState = #{record.matchState,jdbcType=SMALLINT},
+      WeatherIcon = #{record.weatherIcon,jdbcType=SMALLINT},
+      Weather = #{record.weather,jdbcType=CHAR},
+      Temperature = #{record.temperature,jdbcType=CHAR},
+      TV = #{record.TV,jdbcType=VARCHAR},
+      Umpire = #{record.umpire,jdbcType=CHAR},
+      Visitor = #{record.visitor,jdbcType=INTEGER},
+      HomeScore = #{record.homeScore,jdbcType=SMALLINT},
+      GuestScore = #{record.guestScore,jdbcType=SMALLINT},
+      HomeHalfScore = #{record.homeHalfScore,jdbcType=SMALLINT},
+      GuestHalfScore = #{record.guestHalfScore,jdbcType=SMALLINT},
+      Home_Red = #{record.home_Red,jdbcType=SMALLINT},
+      Guest_Red = #{record.guest_Red,jdbcType=SMALLINT},
+      Home_Yellow = #{record.home_Yellow,jdbcType=SMALLINT},
+      Guest_Yellow = #{record.guest_Yellow,jdbcType=SMALLINT},
+      bf_changetime = #{record.bf_changetime,jdbcType=TIMESTAMP},
+      shangpan = #{record.shangpan,jdbcType=TINYINT},
+      grouping2 = #{record.grouping2,jdbcType=CHAR},
+      bfShow = #{record.bfShow,jdbcType=BIT},
+      subSclassID = #{record.subSclassID,jdbcType=INTEGER},
+      Explainlist = #{record.explainlist,jdbcType=VARCHAR},
+      VenuesID = #{record.venuesID,jdbcType=INTEGER},
+      isGuessRed = #{record.isGuessRed,jdbcType=BIT},
+      isLive = #{record.isLive,jdbcType=BIT},
+      homeCorner = #{record.homeCorner,jdbcType=TINYINT},
+      homeCornerHalf = #{record.homeCornerHalf,jdbcType=TINYINT},
+      guestCorner = #{record.guestCorner,jdbcType=TINYINT},
+      guestCornerHalf = #{record.guestCornerHalf,jdbcType=TINYINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.spinwheel.base.domain.Schedule">
+    update Schedule
+    <set>
+      <if test="sclassID != null">
+        SclassID = #{sclassID,jdbcType=INTEGER},
+      </if>
+      <if test="matchSeason != null">
+        MatchSeason = #{matchSeason,jdbcType=CHAR},
+      </if>
+      <if test="round != null">
+        round = #{round,jdbcType=SMALLINT},
+      </if>
+      <if test="grouping != null">
+        grouping = #{grouping,jdbcType=CHAR},
+      </if>
+      <if test="homeTeamID != null">
+        HomeTeamID = #{homeTeamID,jdbcType=INTEGER},
+      </if>
+      <if test="guestTeamID != null">
+        GuestTeamID = #{guestTeamID,jdbcType=INTEGER},
+      </if>
+      <if test="homeTeam != null">
+        HomeTeam = #{homeTeam,jdbcType=CHAR},
+      </if>
+      <if test="guestTeam != null">
+        GuestTeam = #{guestTeam,jdbcType=CHAR},
+      </if>
+      <if test="neutrality != null">
+        Neutrality = #{neutrality,jdbcType=BIT},
+      </if>
+      <if test="matchTime != null">
+        MatchTime = #{matchTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="matchTime2 != null">
+        MatchTime2 = #{matchTime2,jdbcType=TIMESTAMP},
+      </if>
+      <if test="location != null">
+        Location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="home_Order != null">
+        Home_Order = #{home_Order,jdbcType=CHAR},
+      </if>
+      <if test="guest_Order != null">
+        Guest_Order = #{guest_Order,jdbcType=CHAR},
+      </if>
+      <if test="matchState != null">
+        MatchState = #{matchState,jdbcType=SMALLINT},
+      </if>
+      <if test="weatherIcon != null">
+        WeatherIcon = #{weatherIcon,jdbcType=SMALLINT},
+      </if>
+      <if test="weather != null">
+        Weather = #{weather,jdbcType=CHAR},
+      </if>
+      <if test="temperature != null">
+        Temperature = #{temperature,jdbcType=CHAR},
+      </if>
+      <if test="TV != null">
+        TV = #{TV,jdbcType=VARCHAR},
+      </if>
+      <if test="umpire != null">
+        Umpire = #{umpire,jdbcType=CHAR},
+      </if>
+      <if test="visitor != null">
+        Visitor = #{visitor,jdbcType=INTEGER},
+      </if>
+      <if test="homeScore != null">
+        HomeScore = #{homeScore,jdbcType=SMALLINT},
+      </if>
+      <if test="guestScore != null">
+        GuestScore = #{guestScore,jdbcType=SMALLINT},
+      </if>
+      <if test="homeHalfScore != null">
+        HomeHalfScore = #{homeHalfScore,jdbcType=SMALLINT},
+      </if>
+      <if test="guestHalfScore != null">
+        GuestHalfScore = #{guestHalfScore,jdbcType=SMALLINT},
+      </if>
+      <if test="home_Red != null">
+        Home_Red = #{home_Red,jdbcType=SMALLINT},
+      </if>
+      <if test="guest_Red != null">
+        Guest_Red = #{guest_Red,jdbcType=SMALLINT},
+      </if>
+      <if test="home_Yellow != null">
+        Home_Yellow = #{home_Yellow,jdbcType=SMALLINT},
+      </if>
+      <if test="guest_Yellow != null">
+        Guest_Yellow = #{guest_Yellow,jdbcType=SMALLINT},
+      </if>
+      <if test="bf_changetime != null">
+        bf_changetime = #{bf_changetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shangpan != null">
+        shangpan = #{shangpan,jdbcType=TINYINT},
+      </if>
+      <if test="grouping2 != null">
+        grouping2 = #{grouping2,jdbcType=CHAR},
+      </if>
+      <if test="bfShow != null">
+        bfShow = #{bfShow,jdbcType=BIT},
+      </if>
+      <if test="subSclassID != null">
+        subSclassID = #{subSclassID,jdbcType=INTEGER},
+      </if>
+      <if test="explainlist != null">
+        Explainlist = #{explainlist,jdbcType=VARCHAR},
+      </if>
+      <if test="venuesID != null">
+        VenuesID = #{venuesID,jdbcType=INTEGER},
+      </if>
+      <if test="isGuessRed != null">
+        isGuessRed = #{isGuessRed,jdbcType=BIT},
+      </if>
+      <if test="isLive != null">
+        isLive = #{isLive,jdbcType=BIT},
+      </if>
+      <if test="homeCorner != null">
+        homeCorner = #{homeCorner,jdbcType=TINYINT},
+      </if>
+      <if test="homeCornerHalf != null">
+        homeCornerHalf = #{homeCornerHalf,jdbcType=TINYINT},
+      </if>
+      <if test="guestCorner != null">
+        guestCorner = #{guestCorner,jdbcType=TINYINT},
+      </if>
+      <if test="guestCornerHalf != null">
+        guestCornerHalf = #{guestCornerHalf,jdbcType=TINYINT},
+      </if>
+      <if test="explain != null">
+        Explain = #{explain,jdbcType=CLOB},
+      </if>
+    </set>
+    where ScheduleID = #{scheduleID,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.spinwheel.base.domain.Schedule">
+    update Schedule
+    set SclassID = #{sclassID,jdbcType=INTEGER},
+      MatchSeason = #{matchSeason,jdbcType=CHAR},
+      round = #{round,jdbcType=SMALLINT},
+      grouping = #{grouping,jdbcType=CHAR},
+      HomeTeamID = #{homeTeamID,jdbcType=INTEGER},
+      GuestTeamID = #{guestTeamID,jdbcType=INTEGER},
+      HomeTeam = #{homeTeam,jdbcType=CHAR},
+      GuestTeam = #{guestTeam,jdbcType=CHAR},
+      Neutrality = #{neutrality,jdbcType=BIT},
+      MatchTime = #{matchTime,jdbcType=TIMESTAMP},
+      MatchTime2 = #{matchTime2,jdbcType=TIMESTAMP},
+      Location = #{location,jdbcType=VARCHAR},
+      Home_Order = #{home_Order,jdbcType=CHAR},
+      Guest_Order = #{guest_Order,jdbcType=CHAR},
+      MatchState = #{matchState,jdbcType=SMALLINT},
+      WeatherIcon = #{weatherIcon,jdbcType=SMALLINT},
+      Weather = #{weather,jdbcType=CHAR},
+      Temperature = #{temperature,jdbcType=CHAR},
+      TV = #{TV,jdbcType=VARCHAR},
+      Umpire = #{umpire,jdbcType=CHAR},
+      Visitor = #{visitor,jdbcType=INTEGER},
+      HomeScore = #{homeScore,jdbcType=SMALLINT},
+      GuestScore = #{guestScore,jdbcType=SMALLINT},
+      HomeHalfScore = #{homeHalfScore,jdbcType=SMALLINT},
+      GuestHalfScore = #{guestHalfScore,jdbcType=SMALLINT},
+      Home_Red = #{home_Red,jdbcType=SMALLINT},
+      Guest_Red = #{guest_Red,jdbcType=SMALLINT},
+      Home_Yellow = #{home_Yellow,jdbcType=SMALLINT},
+      Guest_Yellow = #{guest_Yellow,jdbcType=SMALLINT},
+      bf_changetime = #{bf_changetime,jdbcType=TIMESTAMP},
+      shangpan = #{shangpan,jdbcType=TINYINT},
+      grouping2 = #{grouping2,jdbcType=CHAR},
+      bfShow = #{bfShow,jdbcType=BIT},
+      subSclassID = #{subSclassID,jdbcType=INTEGER},
+      Explainlist = #{explainlist,jdbcType=VARCHAR},
+      VenuesID = #{venuesID,jdbcType=INTEGER},
+      isGuessRed = #{isGuessRed,jdbcType=BIT},
+      isLive = #{isLive,jdbcType=BIT},
+      homeCorner = #{homeCorner,jdbcType=TINYINT},
+      homeCornerHalf = #{homeCornerHalf,jdbcType=TINYINT},
+      guestCorner = #{guestCorner,jdbcType=TINYINT},
+      guestCornerHalf = #{guestCornerHalf,jdbcType=TINYINT},
+      Explain = #{explain,jdbcType=CLOB}
+    where ScheduleID = #{scheduleID,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.spinwheel.base.domain.Schedule">
+    update Schedule
+    set SclassID = #{sclassID,jdbcType=INTEGER},
+      MatchSeason = #{matchSeason,jdbcType=CHAR},
+      round = #{round,jdbcType=SMALLINT},
+      grouping = #{grouping,jdbcType=CHAR},
+      HomeTeamID = #{homeTeamID,jdbcType=INTEGER},
+      GuestTeamID = #{guestTeamID,jdbcType=INTEGER},
+      HomeTeam = #{homeTeam,jdbcType=CHAR},
+      GuestTeam = #{guestTeam,jdbcType=CHAR},
+      Neutrality = #{neutrality,jdbcType=BIT},
+      MatchTime = #{matchTime,jdbcType=TIMESTAMP},
+      MatchTime2 = #{matchTime2,jdbcType=TIMESTAMP},
+      Location = #{location,jdbcType=VARCHAR},
+      Home_Order = #{home_Order,jdbcType=CHAR},
+      Guest_Order = #{guest_Order,jdbcType=CHAR},
+      MatchState = #{matchState,jdbcType=SMALLINT},
+      WeatherIcon = #{weatherIcon,jdbcType=SMALLINT},
+      Weather = #{weather,jdbcType=CHAR},
+      Temperature = #{temperature,jdbcType=CHAR},
+      TV = #{TV,jdbcType=VARCHAR},
+      Umpire = #{umpire,jdbcType=CHAR},
+      Visitor = #{visitor,jdbcType=INTEGER},
+      HomeScore = #{homeScore,jdbcType=SMALLINT},
+      GuestScore = #{guestScore,jdbcType=SMALLINT},
+      HomeHalfScore = #{homeHalfScore,jdbcType=SMALLINT},
+      GuestHalfScore = #{guestHalfScore,jdbcType=SMALLINT},
+      Home_Red = #{home_Red,jdbcType=SMALLINT},
+      Guest_Red = #{guest_Red,jdbcType=SMALLINT},
+      Home_Yellow = #{home_Yellow,jdbcType=SMALLINT},
+      Guest_Yellow = #{guest_Yellow,jdbcType=SMALLINT},
+      bf_changetime = #{bf_changetime,jdbcType=TIMESTAMP},
+      shangpan = #{shangpan,jdbcType=TINYINT},
+      grouping2 = #{grouping2,jdbcType=CHAR},
+      bfShow = #{bfShow,jdbcType=BIT},
+      subSclassID = #{subSclassID,jdbcType=INTEGER},
+      Explainlist = #{explainlist,jdbcType=VARCHAR},
+      VenuesID = #{venuesID,jdbcType=INTEGER},
+      isGuessRed = #{isGuessRed,jdbcType=BIT},
+      isLive = #{isLive,jdbcType=BIT},
+      homeCorner = #{homeCorner,jdbcType=TINYINT},
+      homeCornerHalf = #{homeCornerHalf,jdbcType=TINYINT},
+      guestCorner = #{guestCorner,jdbcType=TINYINT},
+      guestCornerHalf = #{guestCornerHalf,jdbcType=TINYINT}
+    where ScheduleID = #{scheduleID,jdbcType=INTEGER}
+  </update>
+</mapper>
