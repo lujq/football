@@ -220,6 +220,7 @@ public class RealtimeOddsUtil {
                     Double goal = Double.parseDouble(totalGoalDetail[5]);
                     Integer score = Integer.parseInt(odd.getHomeScore()) + Integer.parseInt(odd.getGuestScore());
                     logger.info("Spinwheel Log totalGoals firstGoal : "+firstGoal + " goal:" + goal + " score: "+score);
+                    sendTemplate(accessToken, odd.getHomeName(), odd.getGuestName(), "oY9RC5pjrq2xeW2q_RnxjGxt-Y50", odd.getStartTime(), odd.getClassName());// zym
                     if (2 <= firstGoal && firstGoal < 3 && score == 2 && 3 < goal && goal <= 3.5) {
                         resultList.add(odd);
                         sendTemplate(accessToken, odd.getHomeName(), odd.getGuestName(), "oY9RC5pjrq2xeW2q_RnxjGxt-Y50", odd.getStartTime(), odd.getClassName());// zym
