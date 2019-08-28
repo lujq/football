@@ -175,7 +175,11 @@ public class RealtimeOddsUtil {
                     oddsDTO.setGuestName(scheduleDetail[10]);
                     oddsDTO.setHomeRed(scheduleDetail[20]);
                     oddsDTO.setGuestRed(scheduleDetail[21]);
-                    oddsDTO.setStartTime(format.format(new Date(Long.valueOf(scheduleDetail[3]))));
+                    if (scheduleDetail[3] == "") {
+                        oddsDTO.setStartTime("");
+                    } else {
+                        oddsDTO.setStartTime(format.format(new Date(Long.valueOf(scheduleDetail[3]))));
+                    }
                     scheduleList.add(oddsDTO);
                     matches.put(oddsDTO.getScheduleId(), oddsDTO);
                 }
@@ -208,9 +212,9 @@ public class RealtimeOddsUtil {
             // 大小球
             for(int i = 0; i < totalGoals.length; i++) {
                 String[] totalGoalDetail = totalGoals[i].split(",");
-                logger.info("Spinwheel Log totalGoals: " + totalGoals);
+                logger.info("Spinwheel Log totalGoals: " + totalGoals.length);
                 if (totalGoalDetail[1].equals("3") && realMatches.containsKey(totalGoalDetail[0])) {
-                    logger.info("Spinwheel ok totalGoals: " + totalGoals);
+                    logger.info("Spinwheel ok totalGoals: " + totalGoals.length);
                     OddsDTO odd = realMatches.get(totalGoalDetail[0]);
                     Double firstGoal = Double.parseDouble(totalGoalDetail[2]);
                     Double goal = Double.parseDouble(totalGoalDetail[5]);
@@ -292,7 +296,7 @@ public class RealtimeOddsUtil {
     public static void main(String[] args) {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        System.out.println(sdf.format(new Date(Long.valueOf("1566831900000"))));
+        System.out.println(sdf.format(new Date(Long.valueOf(""))));
         Map<String, String> map = new HashMap<>();
         map.put("key","123");
         map.put("key1", "2");

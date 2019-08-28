@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.example.spinwheel.SpinwheelApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.854 s - in com.example.spinwheel.SpinwheelApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.541 s - in com.example.spinwheel.SpinwheelApplicationTests
