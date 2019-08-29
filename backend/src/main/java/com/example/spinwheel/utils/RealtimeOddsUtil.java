@@ -162,6 +162,7 @@ public class RealtimeOddsUtil {
             // 中场比赛清单
             for (int i = 0; i < schedules.length; i++) {
                 String[] scheduleDetail = schedules[i].split(",");
+                logger.info("红牌："+ scheduleDetail[20] + " 红牌客队： "+ scheduleDetail[21]);
                 if (scheduleDetail[14].equals("2") && leagues.containsKey(scheduleDetail[1]) && Integer.parseInt(scheduleDetail[20]) < 1 && Integer.parseInt(scheduleDetail[21]) < 1) {
                     SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
                     OddsDTO oddsDTO = new OddsDTO();
