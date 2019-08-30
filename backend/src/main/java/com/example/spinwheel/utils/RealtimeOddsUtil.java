@@ -162,7 +162,7 @@ public class RealtimeOddsUtil {
             // 中场比赛清单
             for (int i = 0; i < schedules.length; i++) {
                 String[] scheduleDetail = schedules[i].split(",");
-                logger.info("红牌："+ scheduleDetail[20] + " 红牌客队： "+ scheduleDetail[21]);
+//                logger.info("红牌："+ scheduleDetail[20] + " 红牌客队： "+ scheduleDetail[21]);
                 if (scheduleDetail[14].equals("2") && leagues.containsKey(scheduleDetail[1]) && Integer.parseInt(scheduleDetail[20]) < 1 && Integer.parseInt(scheduleDetail[21]) < 1) {
                     SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
                     OddsDTO oddsDTO = new OddsDTO();
@@ -211,6 +211,7 @@ public class RealtimeOddsUtil {
             accessToken = jsonObject.getString("access_token");
 
             // 大小球
+            logger.info("Spinwheel Log letGoals: " + letGoals.length + " letGoal_Match: " + realMatches.size());
             logger.info("Spinwheel Log totalGoals: " + totalGoals.length);
             for(int i = 0; i < totalGoals.length; i++) {
                 String[] totalGoalDetail = totalGoals[i].split(",");
@@ -232,7 +233,7 @@ public class RealtimeOddsUtil {
                     }
                 }
             }
-
+            sendTemplate(accessToken, "目前顺利：", "张逸旻", "oY9RC5pjrq2xeW2q_RnxjGxt-Y50", "无结果", "N联赛");
             // 微信通知
 
             // 获取access_token
