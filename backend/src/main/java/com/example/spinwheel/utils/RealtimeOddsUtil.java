@@ -176,11 +176,11 @@ public class RealtimeOddsUtil {
                     oddsDTO.setGuestName(scheduleDetail[10]);
                     oddsDTO.setHomeRed(scheduleDetail[20]);
                     oddsDTO.setGuestRed(scheduleDetail[21]);
-                    if (scheduleDetail[3] == "") {
+//                    if (scheduleDetail[3] == "") {
                         oddsDTO.setStartTime("");
-                    } else {
-                        oddsDTO.setStartTime(format.format(new Date(Long.valueOf(scheduleDetail[3]))));
-                    }
+//                    } else {
+//                        oddsDTO.setStartTime(format.format(new Date(Long.valueOf(scheduleDetail[3]))));
+//                    }
                     scheduleList.add(oddsDTO);
                     matches.put(oddsDTO.getScheduleId(), oddsDTO);
                 }
@@ -211,11 +211,10 @@ public class RealtimeOddsUtil {
             accessToken = jsonObject.getString("access_token");
 
             // 大小球
+            logger.info("Spinwheel Log totalGoals: " + totalGoals.length);
             for(int i = 0; i < totalGoals.length; i++) {
                 String[] totalGoalDetail = totalGoals[i].split(",");
-                logger.info("Spinwheel Log totalGoals: " + totalGoals.length);
                 if (totalGoalDetail[1].equals("3") && realMatches.containsKey(totalGoalDetail[0])) {
-                    logger.info("Spinwheel ok totalGoals: " + totalGoals.length);
                     OddsDTO odd = realMatches.get(totalGoalDetail[0]);
                     Double firstGoal = Double.parseDouble(totalGoalDetail[2]);
                     Double goal = Double.parseDouble(totalGoalDetail[5]);
